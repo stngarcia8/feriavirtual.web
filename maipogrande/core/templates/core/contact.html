@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+  Solicitud de registro
+{% endblock %}
+
+{% block contenido %}
+  <p class="lead">
+    Para realizar su registro en la plataforma, por favor ingrese su nombre completo, 
+    dirección de correo electrónico y en el cuerpo del mensaje, especifique lo siguiente:<br>
+    <ul>
+      <li>Su Rut o Dni</li>
+      <li>Tipo de cuenta que requiere, estas pueden ser de tipo Cliente interno, Cliente externo, Productor o Transportista.</li>
+    </ul>
+    <p>
+      Tipo de cuenta:<br>
+      <ul>
+        <li><strong>Cliente externo</strong>: Corresponde a personas extranjeras que deseen comprar productos en la plataforma.</li>
+        <li><strong>Cliente interno</strong>: Persona que desea realizar compras de productos en el mercado nacional.</li>
+        <li><strong>Productor</strong>: Persona que desea vender sus productos frutales desde nuestra plataforma.</li>
+        <li><strong>Transportista</strong>: Entidad que realizará el transporte de los productos a los clientes desde nuestras bodegas.</li>
+      </ul>
+    </p>
+  </p>
+  <form class="text-justify border border-dark p-5" method="POST">
+    <div class="form-col mb-4">
+      {% csrf_token %}
+      {% if form.non.field.errors %}
+        {{ form.non.field.errors }}
+      {% endif %}
+      {{ form|bootstrap }}
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Enviar solicitud</button>
+  </form>
+  <br><br>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+  Inicio de sesión
+{% endblock %}
+
+{% block contenido %}
+  <form class="text-justify border border-light p-5" method="POST">
+    <p class="lead mb-4">
+      Ingrese sus credenciales de inisio de sesión, luego presione el botón "Entrar".
+    </p>
+    <div class="form-group col-4">
+    {% csrf_token %}
+    {% if form.non.field.errors %}
+      {{ form.non.field.errors }}
+    {% endif %}
+    {{ form|bootstrap }}
+  </div>
+    <button type="submit" class="btn btn-success mt-3">Iniciar Sesión</button>
+  </form>
+{% endblock %}

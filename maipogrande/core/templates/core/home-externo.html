@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Cliente externo
+{% endblock %}
+
+{% block contenido %}
+    <p class="lead">
+        Bienvenido a la zona de clientes externos de la plataforma, 
+        en esta podrá realizar todas sus actividades
+        de forma exclusiva, esperamos que sea de su satisfacción, en los 
+        apartados inferiores podrá realizar las acciones que usted 
+        requiera para cubrir sus necesidades.
+    </p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>datos comerciales</h3>
+            <p class="text-justify small" >
+                Usted podrá:
+                <ul>
+                    <li>Ingresar sus datos comerciales.</li>
+                    <li>Actualizar datos comerciales.</li>
+                </ul>
+            </p>
+            <p>
+                <a class="btn btn-block btn-success" 
+                    href="{% url 'verComercial' %}" role="button"> Ir &raquo;</a
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Solicitudes</h3>
+            <p class="text-justify small">
+                <ul>
+                    <li>Ingresar solicitudes de productos.</li>
+                    <li>Actualizar solicitudes.</li>
+                    <li>Visualizar el estado de sus solicitudes.</li>
+                </ul>
+            </p>
+            <p>
+                <a class="btn btn-block btn-success" href="" role="button"> Ir &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Transacciones</h3>
+            <p class="text-justify small">
+                <ul>
+                    <li>Visualizar su estado de pagos.</li>
+                    <li>Ver su historial de pedidos.</li>
+                </ul>
+            </p>
+            <p><a class="btn btn-block btn-success" href="" role="button"> Ir &raquo;</a></p>
+        </div>
+    </div>
+
+{% endblock %}

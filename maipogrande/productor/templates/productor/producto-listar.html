@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Lista de productos registrados
+{% endblock %}
+
+{% block contenido %}
+    <!-- busqueda de productos por nombre -->
+    <div class="row">
+        <div class="col col-10">
+            <form class="form-inline my-2 my-lg-0" action="" method="get" accept-charset="utf-8">
+                <label class="control-label" for="buscar">Nombre producto :</label>
+                <input name="q" class="form-control mr-sm-2" type="text" aria-label="buscar" value="">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Buscar </button>
+            </form>
+        </div>
+        <div class="col col-2">
+            <a class="btn btn-primary" href="" role="button"> Nuevo producto</a>
+        </div>
+    </div>
+    <hr class="col-12">
+    
+    <!-- Listando los productos del productor -->
+    {% if productos %}
+    {% else %}
+        <p class="lead text-justify">
+            No tiene productos registrados aún, para ingresar 
+            un nuevo producto, presione el botón "Nuevo producto", posteriormente 
+            llene el formulario de registro siguiendo las instrucciones que 
+            el sistema le provee.
+        </p>
+    {% endif %}
+
+    <!-- volver a la pagina de inicio -->
+    <br>
+    <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
+
+{% endblock %}

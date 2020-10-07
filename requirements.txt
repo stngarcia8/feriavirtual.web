@@ -1,0 +1,7 @@
+django==3.1.1
+django-bootstrap-form==3.4
+django-cors-headers==3.4.0
+django-extensions==3.0.9
+djangorestframework==3.11.1
+pillow==7.2.0
+requests==2.24.0

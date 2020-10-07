@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Problemas de conectividad
+{% endblock %}
+
+{% block contenido %}
+    <p class="lead">
+        Ocurrio un problema de conectividad, por lo tanto no fue posible realizar la 
+        acción solicitada, por favor vuelva a intentarlo nuevamente mas tarde.<br>
+        Estos problemas pueden suceder por los siguientes motivos:<br>
+        <ul>
+            <li>El servicio de internet puede estar sufriendo cortes en la conectividad.</li>
+            <li>Su conección a internet no esta estable.</li>
+            <li>El router utilizado por usted puede estar apagado o siendo reiniciado por su compañia que lo provee del servicio de internet.</li>
+            <li>Los servidores de la plataforma pueden estar presentando problemas técnicos.</li>
+            <li>Se están realizando trabajos de mentenimiento en la plataforma.</li>
+        </ul>
+        Sentimos mucho causarle inconvenientes.
+    </p>
+{% endblock %}

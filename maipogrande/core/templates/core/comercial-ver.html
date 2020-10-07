@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Datos comerciales
+{% endblock %}
+
+{% block contenido %}
+    {% if comercial %}
+        <p class lead text-justify">
+            Nuestros registros mantienen la información comercial siguiente, 
+            si desea actualizar dichos datos, tan solo debe presionar el  
+            botón "Actualizar" que se encuentra bajo su información."
+        </p>
+        <div class="table-responsive justify-content-center">
+        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+            <tbody>
+                <tr>
+                    <td>Identificación de la empresa</td>
+                    <td>
+                        {{ comercial.CompanyName }}<br>
+                        "{{ comercial.FantasyName }}<"<br>
+                        Rut/Dni: {{ comercial.ComercialDNI }}<br>
+                        Giro: {{ comercial.ComercialBusiness }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dirección comercial</td>
+                    <td>
+                        {{ comercial.Address }}<br>
+                        {{ comercial.City.CityName }}, {{ comercial.Country.CountryName }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Metodos de contacto</td>
+                    <td>
+                        Teléfono: {{ comercial.Country.CountryPrefix }} {{ comercial.PhoneNumber }}<br>
+                        Email: {{ comercial.Email }}
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+        <a class="btn btn-light" href="{% url 'editarComercial' %}" role="button"> Actualizar </a>
+        <a class="btn btn-light" href="{% url 'confirmDeleteComercial' %}" role="button"> Eliminar </a>
+    {% else %}
+        <p class "lead">
+            Hemos notado que aún no ha ingresado sus datos comerciales, 
+            esta información es relevante para que pueda realizar ventas 
+            en la plataforma, por favor, ingrese estos datos lo antes 
+            posible.<br>
+            Si desea ingresarlos en este momento, pulse el botón "Crear" para iniciar el 
+            proceso de registro.
+        </p>
+        <a class="btn btn-primary " href="{% url 'registrarComercial' %}" role="button"> Crear datos comerciales </a>
+
+    {% endif %}
+    <a class="btn btn-light" href="{% url 'dinamicHome' %}" role="button"> Volver </a>
+
+{% endblock %}

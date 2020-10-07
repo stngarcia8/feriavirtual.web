@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Datoc comerciales eliminados
+{% endblock %}
+
+{% block contenido %}
+    <p class="lead text-justify ">
+        Estimado cliente {{ request.user.first_name|capfirst }} sus datos comerciales han
+        sido eliminados de nuestros registros, recuerde la importancia que esta información 
+        tiene para el proceso dentro de la plataforma.<br>
+        En cualquier momento que usted lo requiera, puede ingresar nuevamente la información 
+        en la sección de datos comerciales.
+    </p>
+    <br>
+    <a class="btn btn-success" href="{% url 'dinamicHome' %}" role="button"> Volver a página de inicio </a>
+{% endblock %}
