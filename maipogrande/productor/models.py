@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 
@@ -14,10 +15,13 @@ class Producto(models.Model):
         max_digits=9, decimal_places=2, verbose_name='Valor del producto')
     ProductQuantity = models.DecimalField(
         max_digits=9, decimal_places=2, verbose_name='Cantidad de productos (medido en KG)')
-    User = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('id',)
+
+    def get_absolute_url(self):
+        return reverse('detalleProducto', args=[self.id])
 
     def __str(self):
         return self.ProductName

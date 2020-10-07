@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Registro de productos
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+        <p class="lead text-center ">
+            Ingrese los datos de su producto, cuando este listo, pulse el botón "Grabar".
+        </p>
+        <div class="form-row mb-4">
+            {% csrf_token %}
+            {% if form.non.field.errors %}
+                {{ form.non.field.errors }}
+            {% endif %}
+            {{ form|bootstrap }}
+        </div>
+        <button type="submit" class="btn btn-success mt-3"> Grabar producto </button>
+        <a class="btn btn-light" 
+            href="{% url 'listaDeProductos' %}" role="button"> Cancelar </a>
+    </form>
+{% endblock %}

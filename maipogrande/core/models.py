@@ -47,8 +47,8 @@ class Profile(models.Model):
 # ComercialInfo:
 # Modelo que representa los datos comerciales de los clientes
 class ComercialInfo(models.Model):
-    ClientID = models.CharField(max_length=40)
     ComercialID = models.CharField(max_length=40)
+    ClientID = models.CharField(max_length=40)
     CompanyName = models.CharField(max_length=100, verbose_name='Razón social')
     FantasyName = models.CharField(
         max_length=100, verbose_name='Nombre de fantasía',)
