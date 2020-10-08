@@ -1,17 +1,24 @@
 from rest_framework import serializers
-from .models import Vehicle
-
+from .models import Vehicle, VehicleType
 
 # TransportSerializer:
-# Serializador de los datos comerciales de los clientes.
+# Serializador de los datos de vehiculos.
 class TransportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
                   'VehicleAvailable')
 
+# VehicleTypeSerializer:
+# Serializador de los tipos de transporte.
 
-class ProductoSaveSerializer(serializers.ModelSerializer):
+class VehicleTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VehicleType
+        fields = ('VehicleTypeID', 'VehicleType')
+
+
+class TransportSaveSerializer(serializers.ModelSerializer):
     User_id = serializers.IntegerField(write_only=True)
 
 # TransportistaSaveSerializer:

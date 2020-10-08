@@ -8,14 +8,14 @@ from django.urls import reverse
 
 class VehicleType(models.Model):
     VehicleTypeID = models.AutoField(primary_key=True)
-    VehicleType = models.CharField(
+    VehicleTypeDescription = models.CharField(
         max_length=100, verbose_name='Tipo vehículo')
 
     class Meta:
         ordering = ('VehicleTypeID',)
 
     def __str__(self):
-        return self.VehicleType
+        return self.VehicleTypeDescription
 
 # Vehicle:
 # Modelo que representa los datos comerciales de los clientes

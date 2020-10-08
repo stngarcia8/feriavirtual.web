@@ -9,7 +9,7 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .forms import TransportForm
-from .models import Vehicle
+from .models import Vehicle, VehicleType
 from .serializers import TransportSerializer
 from productor.api import apifunctions
 from django.views.generic import ListView, DetailView
@@ -54,7 +54,7 @@ def ActualizarListaDeTransporte(request):
 @login_required(login_url='login')
 def RegistrarTransporte(request):
     form = TransportForm(request.POST or None)
-    template_name = loader.get_template("transporte/transporte-registrar.html")
+    template_name = loader.get_template("transportista/transporte-registrar.html")
     context_data = {'form': form, 'usuario': request.user, }
     if form.is_valid():
         # serializador = TransportSerializer(data=form.cleaned_data)
