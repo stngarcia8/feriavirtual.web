@@ -21,7 +21,19 @@ class Producto(models.Model):
         ordering = ('id',)
 
     def get_absolute_url(self):
-        return reverse('detalleProducto', args=[self.id])
+        return reverse('detalleProducto', args=[self.id])    
+
+    # Por cada uno de los objetos de producto a cada uno le genera una url
+    # Le pasamos por parametro la vista
+    def get_update_url(self):
+        return reverse('editarProducto', args=[self.id])
+
+    def get_delete_url(self):
+        return reverse('eliminarProducto', args=[self.id])    
 
     def __str(self):
         return self.ProductName
+
+    def get_confirmdelete_url(self):
+        return reverse('confirmDeleteProduct', args=[self.id])    
+

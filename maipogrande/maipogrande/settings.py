@@ -112,7 +112,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'home'
 
 # Definiendo la cantidad de registros por pagina
-RECORDS_PER_PAGE = 3
+RECORDS_PER_PAGE = 10
 
 # Definiendo propiedades de los correos
 EMAIL_HOST = 'smtp.mailtrap.io'

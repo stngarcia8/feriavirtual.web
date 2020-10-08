@@ -53,3 +53,22 @@ def CargarProductos(user):
             ProductQuantity=data.get('ProductQuantity'), User=user)
         producto.save()
     return
+
+def ActualizarProductos(user, serializador, productID):
+    resultado = False
+    jsonData = CrearProducto(serializador, user, productID)
+    url = settings.PRODUCTOR_SERVICE_URL_PUT
+    headers = {'content-type': 'application/json'}
+    response = requests.put(url, headers=headers, data=jsonData)
+    if response.status_code == 200:
+        resultado = True
+    return resultado
+
+def EliminarProducto(productID):
+    url = settings.PRODUCTOR_SERVICE_URL_DELETE
+    args = {'productID': productID}
+    response = requests.delete(url, params=args)
+    print("   ")
+    print(response)
+    print("   ")
+    return True if response.status_code == 200 else False        
