@@ -11,20 +11,17 @@ class TransportSerializer(serializers.ModelSerializer):
 
 # VehicleTypeSerializer:
 # Serializador de los tipos de transporte.
-
 class VehicleTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = VehicleType
         fields = ('VehicleTypeID', 'VehicleType')
+        depth = 1
 
-
-class TransportSaveSerializer(serializers.ModelSerializer):
-    User_id = serializers.IntegerField(write_only=True)
 
 # TransportistaSaveSerializer:
 # Serializador que permite evaluar los datos provenientes de la api
 # # para poder almacenarlosde forma correcta en el almacenamiento temporal.
-class TransportistaSaveSerializer(serializers.ModelSerializer):
+class TransportSaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',

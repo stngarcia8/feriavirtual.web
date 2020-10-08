@@ -1,8 +1,8 @@
 import json
 import requests
 from django.conf import settings
-from .models import Vehicle, VehicleType
-from serializers import VehicleTypeSerializer
+from transportista.models import Vehicle, VehicleType
+from transportista.serializers import TransportSaveSerializer
 
 
 def GrabarTransporte(user, serializador):
@@ -36,24 +36,43 @@ def GrabarTransporte(user, serializador):
 def ObtenerTipo(objeto):
     vehicleType = {}
     vehicleType['VehicleTypeID'] = objeto.VehicleTypeID
-    vehicleType['VehicleType'] = objeto.VehicleType
+    vehicleType['VehicleTypeDescription'] = objeto.VehicleTypeDescription
     return vehicleType
+
+# def CargarTransporte(user):
+#     url = settings.TRANSPORTISTA_SERVICE_URL_GET
+#     args = {'clientID': user.loginsession.ClientID}
+#     response = requests.get(url, params=args)
+#     if response.status_code != 200:
+#         return
+#     for data in response.json():
+#         transporte = Vehicle.objects.create(
+#             VehicleID=data.get('VehicleID'), ClientID=data.get('ClientID'),
+#             VehicleType=data.get('VehicleType'), VehiclePatent=data.get('VehiclePatent'),
+#             VehicleModel=data.get('VehicleModel'),
+#             VehicleCapacity=data.get('VehicleCapacity'),
+#             VehicleAvailable=data.get('VehicleAvailable'), User=user)
+#         transporte.save()
+#     return
 
 def CargarTransporte(user):
     url = settings.TRANSPORTISTA_SERVICE_URL_GET
     args = {'clientID': user.loginsession.ClientID}
     response = requests.get(url, params=args)
     if response.status_code != 200:
-        return
-    for data in response.json():
-        transporte = Vehicle.objects.create(
-            VehicleID=data.get('VehicleID'), ClientID=data.get('ClientID'),
-            VehicleType=data.get('VehicleType'), VehiclePatent=data.get('VehiclePatent'),
-            VehicleModel=data.get('VehicleModel'),
-            VehicleCapacity=data.get('VehicleCapacity'),
-            VehicleAvailable=data.get('VehicleAvailable'), User=user)
-        transporte.save()
-    return
+        return None
+    data = response.json()
+    if not data.get('ClientID'):
+        return None
+    serializador = TransportSaveSerializer(data=data)
+    serializador.is_valid()
+    serializador.save()
+    vehicleType = VehicleType.objects.get(VehicleTypeID=data['VehicleType']['VehicleTypeID'])
+    transporte = Vehicle.objects.get(ClientID=user.loginsession.ClientID)
+    transporte.VehicleType = vehicleType
+    transporte.User = user
+    transporte.save()
+    return transporte    
 
 
 def GrabarTransporteEnTemporal(serializador, user, productID):
@@ -67,31 +86,3 @@ def GrabarTransporteEnTemporal(serializador, user, productID):
         User_id=user.id)
     data.save()
     return
-
-# CargarTipoVehiculo(user):
-# Carga los datos comerciales del usuario y estos se almacenan temporalmente en la bdd
-# parametros:
-#   user: objeto que contiene los datos del usuario que inicio la sesion
-# retorna:
-#   querySet: Retorna el objeto encontrado o cargado desde la api, retorna None
-#               si no encuentra informacion.
-
-
-def CargarTipoVehiculo(user):
-    url = settings.COMERCIAL_SERVICE_URL_GET
-    args = {'clientID': user.loginsession.ClientID}
-    response = requests.get(url, params=args)
-    if response.status_code != 200:
-        return None
-    data = response.json()
-    if not data.get('ClientID'):
-        return None
-    serializador = VehicleTypeSerializer(data=data)
-    serializador.is_valid()
-    serializador.save()
-    vehicletype = VehicleType.objects.get(CityID=data['VehicleTypeDescription']['VehicleTypeID'])
-    vehicle = Vehicle.objects.get(ClientID=user.loginsession.ClientID)
-    vehicle.VehicleType = vehicletype
-    vehicle.User = user
-    vehicle.save()
-    return vehicle

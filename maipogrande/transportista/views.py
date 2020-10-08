@@ -11,7 +11,7 @@ from django.urls import reverse
 from .forms import TransportForm
 from .models import Vehicle, VehicleType
 from .serializers import TransportSerializer
-from productor.api import apifunctions
+from transportista.api import apifunctions
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
@@ -42,7 +42,7 @@ def ActualizarListaDeTransporte(request):
     datos = Vehicle.objects.filter(User_id=request.user.id)
     if datos.count() != 0:
         datos.delete()
-    #apifunctions.CargarProductos(request.user)
+    apifunctions.CargarTransporte(request.user)
     return redirect('listaDeTransporte')
 
 
