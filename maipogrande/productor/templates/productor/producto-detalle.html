@@ -35,9 +35,9 @@
     </div>
     <br>
     <a class="btn btn-light" 
-        href="" role="button"> Actualizar producto </a>
+        href="{{ producto.get_update_url }}" role="button"> Actualizar producto </a>
     <a class="btn btn-light" 
-        href="" role="button"> Eliminar producto </a>
+        href="{{ producto.get_confirmdelete_url }}" role="button"> Eliminar producto </a>
     <a class="btn btn-light" 
         href="{% url 'listaDeProductos' %}" role="button"> Volver </a>
 {% endblock %}

@@ -1,8 +1,9 @@
 import operator
+from django.views.generic.base import TemplateView
 from django.db.models import Q
 from functools import reduce
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
@@ -63,3 +64,40 @@ def RegistrarProducto(request):
         else:
             return redirect('serviceNotAvailable')
     return HttpResponse(template_name.render(context_data, request))
+
+
+def EditarProducto(request, pk):
+    producto = get_object_or_404(Producto, id=pk)
+    form = ProductoForm(instance=producto)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            serializador = ProductoSerializer(data=form.cleaned_data)
+            serializador.is_valid()
+            productID = producto.ProductID
+            resultado = apifunctions.ActualizarProductos(
+                request.user, serializador, productID)
+            if resultado:
+                form.save()
+                return redirect('listaDeProductos')
+            else:
+                return redirect('serviceNotAvailable')
+            return redirect('listaDeProductos')
+    return render(request, 'productor/producto-editar.html', {'form': form})
+
+class confirmDeleteProduct(TemplateView):
+    template_name = 'productor/producto-confirmareliminar.html'  
+
+    def get_context_data(self, **kwargs):
+        context = super(confirmDeleteProduct, self).get_context_data(**kwargs)
+        context['producto'] = Producto.objects.get(id=self.kwargs.get('pk'))
+        return context
+    
+    
+def EliminarProducto(request, pk):
+    producto = Producto.objects.get(id=pk)
+    resultado = apifunctions.EliminarProducto(producto.ProductID)
+    if resultado:
+        producto.delete()
+        return redirect('listaDeProductos')
+    return redirect('serviceNotAvailable')          
