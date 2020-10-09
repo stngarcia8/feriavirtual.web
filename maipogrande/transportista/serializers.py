@@ -15,7 +15,7 @@ class VehicleTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = VehicleType
         fields = ('VehicleTypeID', 'VehicleType')
-        depth = 1
+        
 
 
 # TransportistaSaveSerializer:
@@ -25,5 +25,5 @@ class TransportSaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
-                  'VehicleAvailable', 'User_id')
+                  'VehicleAvailable')
         depth = 1

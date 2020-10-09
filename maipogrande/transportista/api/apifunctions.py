@@ -8,74 +8,60 @@ from transportista.serializers import TransportSaveSerializer
 def GrabarTransporte(user, serializador):
     resultado = False
     jsonData = CrearTransporte(serializador, user, '')
+    print(" AQUI ")
+    print(jsonData)
+    print(" AQUI ")
     url = settings.TRANSPORTISTA_SERVICE_URL_POST
     headers = {'content-type': 'application/json'}
     response = requests.post(url, headers=headers, data=jsonData)
+    print()
+    print(url)
+    print()
     if response.status_code == 200:
         GrabarTransporteEnTemporal(serializador, user, '')
         resultado = True
     return resultado
 
-# def CrearTransporte(serializador, user, VehicleID):
-#     data = {}
-#     data['ComercialID'] = comercialID
-#     data['ClientID'] = user.loginsession.ClientID
-#     data['CompanyName'] = serializador.data.get('CompanyName')
-#     data['FantasyName'] = serializador.data.get('FantasyName')
-#     data['ComercialBusiness'] = serializador.data.get('ComercialBusiness')
-#     data['Email'] = serializador.data.get('Email')
-#     data['ComercialDNI'] = serializador.data.get('ComercialDNI')
-#     data['Address'] = serializador.data.get('Address')
-#     data['City'] = {}
-#     data['Country'] = {}
-#     data['City'] = ObtenerCiudad(serializador.data.get('City'))
-#     data['Country'] = ObtenerPais(serializador.data.get('Country'))
-#     data['PhoneNumber'] = serializador.data.get('PhoneNumber')
-#     return json.dumps(data)
+def CrearTransporte(serializador, user, vehicleID):
+    data = {}
+    data['VehicleID'] = vehicleID
+    data['ClientID'] = user.loginsession.ClientID
+    data['VehicleType'] = {}
+    data['VehicleType'] = ObtenerTipo(serializador.data.get('VehicleType'))
+    data['VehiclePatent'] = serializador.data.get('VehiclePatent')
+    data['VehicleModel'] = serializador.data.get('VehicleModel')
+    data['VehicleCapacity'] = serializador.data.get('VehicleCapacity')
+    data['VehicleAvailable'] = 1 if serializador.data.get('VehicleAvailable') else 0
+    return json.dumps(data)
 
 def ObtenerTipo(objeto):
-    vehicleType = {}
-    vehicleType['VehicleTypeID'] = objeto.VehicleTypeID
-    vehicleType['VehicleTypeDescription'] = objeto.VehicleTypeDescription
-    return vehicleType
-
-# def CargarTransporte(user):
-#     url = settings.TRANSPORTISTA_SERVICE_URL_GET
-#     args = {'clientID': user.loginsession.ClientID}
-#     response = requests.get(url, params=args)
-#     if response.status_code != 200:
-#         return
-#     for data in response.json():
-#         transporte = Vehicle.objects.create(
-#             VehicleID=data.get('VehicleID'), ClientID=data.get('ClientID'),
-#             VehicleType=data.get('VehicleType'), VehiclePatent=data.get('VehiclePatent'),
-#             VehicleModel=data.get('VehicleModel'),
-#             VehicleCapacity=data.get('VehicleCapacity'),
-#             VehicleAvailable=data.get('VehicleAvailable'), User=user)
-#         transporte.save()
-#     return
+    tipoDict = {}
+    tipoDict['VehicleTypeID'] = objeto.VehicleTypeID
+    tipoDict['VehicleTypeDescription'] = objeto.VehicleTypeDescription
+    return tipoDict
 
 def CargarTransporte(user):
     url = settings.TRANSPORTISTA_SERVICE_URL_GET
     args = {'clientID': user.loginsession.ClientID}
     response = requests.get(url, params=args)
     if response.status_code != 200:
-        return None
-    data = response.json()
-    if not data.get('ClientID'):
-        return None
-    serializador = TransportSaveSerializer(data=data)
-    serializador.is_valid()
-    serializador.save()
-    vehicleType = VehicleType.objects.get(VehicleTypeID=data['VehicleType']['VehicleTypeID'])
-    transporte = Vehicle.objects.get(ClientID=user.loginsession.ClientID)
-    transporte.VehicleType = vehicleType
-    transporte.User = user
-    transporte.save()
-    return transporte    
-
-
-def GrabarTransporteEnTemporal(serializador, user, productID):
+        return
+    for data in response.json():
+        transporte = Vehicle.objects.create(
+            VehicleID=data.get('VehicleID'), ClientID=data.get('ClientID'),
+            VehiclePatent=data.get('VehiclePatent'),
+            VehicleModel=data.get('VehicleModel'),
+            VehicleCapacity=data.get('VehicleCapacity'),
+            VehicleAvailable=data.get('VehicleAvailable'))
+        transporte.save()
+        vehicletype = VehicleType.objects.get(VehicleTypeID=data['VehicleType']['VehicleTypeID'])
+        transporte.VehicleType = vehicletype
+        transporte.User = user
+        transporte.save()
+    return
+    
+ 
+def GrabarTransporteEnTemporal(serializador, user, vehicleID):
     data = Vehicle.objects.create(
         VehicleID=vehicleID, ClientID=user.loginsession.ClientID,
         VehicleType=serializador.data.get('VehicleType'),
@@ -86,3 +72,23 @@ def GrabarTransporteEnTemporal(serializador, user, productID):
         User_id=user.id)
     data.save()
     return
+
+def ActualizarTransporte(user, serializador, vehicleID):
+    resultado = False
+    jsonData = CrearTransporte(serializador, user, vehicleID)
+    url = settings.TRANSPORTISTA_SERVICE_URL_PUT
+    headers = {'content-type': 'application/json'}
+    response = requests.put(url, headers=headers, data=jsonData)
+    if response.status_code == 200:
+        resultado = True
+    return resultado
+
+
+def EliminarTransporte(vehicleID):
+    url = settings.TRANSPORTISTA_SERVICE_URL_DELETE
+    args = {'vehicleID': vehicleID}
+    response = requests.delete(url, params=args)
+    print("   ")
+    print(response)
+    print("   ")
+    return True if response.status_code == 200 else False    

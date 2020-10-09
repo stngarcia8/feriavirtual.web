@@ -1,4 +1,5 @@
 from core.models import Profile, Country, City
+from transportista.models import VehicleType
 from django.core.management.base import BaseCommand
 
 
@@ -9,6 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.CrearPerfil()
+        self.CrearTiposDeTransportes()
         self.CrearPaisCiudad()
         print('Base de datos poblada para pruebas!')
 
@@ -29,6 +31,16 @@ class Command(BaseCommand):
         profile = Profile(ProfileID=6, ProfileName='Transportista')
         profile.save()
         return
+
+    def CrearTiposDeTransportes(self):
+        print('Creando tipos de medios de transportes')
+        vehicleType = VehicleType(VehicleTypeID=1, VehicleTypeDescription='Aereo')
+        vehicleType.save()
+        vehicleType = VehicleType(VehicleTypeID=2, VehicleTypeDescription='Terrestre')
+        vehicleType.save()
+        vehicleType = VehicleType(VehicleTypeID=3, VehicleTypeDescription='Maritimo')
+        vehicleType.save()
+        return 
 
     # CrearPaisCiudad()
     # Metodo para crear los paises y las ciudades necesarias para los usuarios.

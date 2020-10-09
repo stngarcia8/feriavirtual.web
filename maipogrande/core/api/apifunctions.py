@@ -15,6 +15,9 @@ from core.serializers import ComercialSaveSerializer
 def GrabarDatoComercial(user, serializador):
     resultado = False
     jsonData = CrearDatoComercial(serializador, user, '')
+    print(" AQUI ")
+    print(jsonData)
+    print(" AQUI ")
     url = settings.COMERCIAL_SERVICE_URL_POST
     headers = {'content-type': 'application/json'}
     response = requests.post(url, headers=headers, data=jsonData)

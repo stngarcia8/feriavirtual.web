@@ -4,7 +4,7 @@ from .models import Vehicle, VehicleType
 
 # TransportForm()
 # Formulario de mantenimiento de los datos comerciales de los usuarios
-class TransportForm(ModelForm):
+class TransporteForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',

@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Detalle de transporte
+{% endblock %}
+
+{% block contenido %}
+    <p class lead text-justify">
+        El detalle del transporte se muestra en la tabla siguiente, cabe señalar que 
+        los valores indicados son aplicados según las medidas 
+        estandares del pais del productor, por lo tanto, 
+        el peso está expresado en kilogramos (KG).
+    </p>
+    <div class="table-responsive justify-content-center">
+        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+            <tbody>
+                <tr>
+                    <td>Vehículo</td>
+                    <td>{{ vehicle.VehicleType.VehicleTypeDescription }}</td>
+                </tr>
+                <tr>
+                    <td>Patente del vehículo</td>
+                    <td>{{ vehicle.VehiclePatent }}</td>
+                </tr>
+                <tr>
+                    <td>Modelo del vehículo</td>
+                    <td>{{ vehicle.VehicleModel }}</td>
+                </tr>
+                <tr>
+                    <td>Capacidad del vehículo</td>
+                    <td>{{ vehicle.VehicleCapacity }}</td>
+                </tr>
+                <tr>
+                    <td>Disponibilidad del vehículo</td>
+                    <td>{{ vehicle.VehicleAvailable }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <a class="btn btn-light" 
+        href="{{ vehicle.get_update_url }}" role="button"> Actualizar transporte </a>
+    <a class="btn btn-light" 
+        href="{{ vehicle.get_confirmdelete_url }}" role="button"> Eliminar transporte </a>
+    <a class="btn btn-light" 
+        href="{% url 'listaDeTransporte'%}" role="button"> Volver </a>
+{% endblock %}

@@ -60,7 +60,7 @@ def RegistrarProducto(request):
         resultado = apifunctions.GrabarProducto(
             request.user, serializador)
         if resultado:
-            return redirect('listaDeProductos')
+            return redirect('actualizarListaDeProductos')
         else:
             return redirect('serviceNotAvailable')
     return HttpResponse(template_name.render(context_data, request))

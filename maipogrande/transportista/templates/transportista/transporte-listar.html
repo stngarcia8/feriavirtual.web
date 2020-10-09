@@ -1,14 +1,14 @@
 {% extends 'core/base.html' %}
 
 {% block titulo %}
-Lista de vehiculos registrados
+Lista de transportes registrados
 {% endblock %}
 
 {% block contenido %}
 <!-- busqueda de productos por nombre -->
 <div class="row">
     <div class="col col-6">
-        <form class="form-inline my-2 my-lg-0" action="" method="get"
+        <form class="form-inline my-2 my-lg-0" action="{% url 'listaDeTransporte' %}" method="get"
             accept-charset="utf-8">
             <label class="control-label" for="buscar">Patente Transporte :</label>
             <input name="q" class="form-control mr-sm-2" type="text" aria-label="buscar" value="">
@@ -27,7 +27,7 @@ Lista de vehiculos registrados
 <hr class="col-12">
 
 <!-- Listando los vehiculos del transportista -->
-{% if transporte_list %}
+{% if vehicle_list %}
 <table class="table table-responsive table-hover table-striped">
     <thead>
         <tr>
@@ -40,16 +40,16 @@ Lista de vehiculos registrados
         </tr>
     </thead>
     <tbody>
-        {% for transporte in transporte_list %}
+        {% for vehicle in vehicle_list %}
         <tr>
         <tr>
-            <td>{{ transporte.VehicleType }}</td>
-            <td>{{ transporte.VehiclePatent }}</td>
-            <td>{{ transporte.VehicleModel }}</td>
-            <td>{{ transporte.VehicleCapacity }}</td>
-            <td>{{ transporte.VehicleAvailable }}</td>
+            <td>{{ vehicle.VehicleType.VehicleTypeDescription }}</td>
+            <td>{{ vehicle.VehiclePatent }}</td>
+            <td>{{ vehicle.VehicleModel }}</td>
+            <td>{{ vehicle.VehicleCapacity }}</td>
+            <td>{{ vehicle.VehicleAvailable }}</td>
             <td>
-                <a class="btn btn-light" href="" role="button"> Ver detalles </a>
+                <a class="btn btn-light" href="{{ vehicle.get_absolute_url}}" role="button"> Ver detalles </a>
             </td>
         </tr>
         {% endfor %}
@@ -85,8 +85,8 @@ Lista de vehiculos registrados
 <!-- Aqui parte la seccion cuando no hay nada ingresado -->
 {% else %}
 <p class="lead text-justify">
-    No tiene productos registrados aún, para ingresar
-    un nuevo producto, presione el botón "Nuevo producto", posteriormente
+    No tiene transportes registrados aún, para ingresar
+    un nuevo transporte, presione el botón "Nuevo transporte", posteriormente
     llene el formulario de registro siguiendo las instrucciones que
     el sistema le provee.
 </p>
