@@ -3,7 +3,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/'
+SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -115,28 +115,29 @@ LOGIN_REDIRECT_URL = 'home'
 RECORDS_PER_PAGE = 10
 
 # Definiendo propiedades de los correos
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '4f6dbc1693a95c'
-EMAIL_HOST_PASSWORD = 'b4103afb73d3cb'
-EMAIL_PORT = '2525'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'maipogrande.fv@gmail.com'
+EMAIL_HOST_PASSWORD = 'avaras08'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
 
 # URl de servicios
-LOGIN_SERVICE_URL = SERVER_API_URL + '/login/post'
+LOGIN_SERVICE_URL = SERVER_API_URL + '/login/autenticate'
 
 # url de datos comerciales
-COMERCIAL_SERVICE_URL_POST = SERVER_API_URL + 'ComercialData/post'
-COMERCIAL_SERVICE_URL_GET = SERVER_API_URL + 'ComercialData/get'
-COMERCIAL_SERVICE_URL_PUT = SERVER_API_URL + 'ComercialData/put'
-COMERCIAL_SERVICE_URL_DELETE = SERVER_API_URL + 'ComercialData/delete'
+COMERCIAL_SERVICE_URL_POST = SERVER_API_URL + 'commercial/'
+COMERCIAL_SERVICE_URL_GET = SERVER_API_URL + 'commercial/get'
+COMERCIAL_SERVICE_URL_PUT = SERVER_API_URL + 'commercial/'
+COMERCIAL_SERVICE_URL_DELETE = SERVER_API_URL + 'commercial/delete'
 
 # url de productos
-PRODUCTOR_SERVICE_URL_POST = SERVER_API_URL + 'Product/post'
-PRODUCTOR_SERVICE_URL_GET = SERVER_API_URL + 'Product/get'
-PRODUCTOR_SERVICE_URL_PUT = SERVER_API_URL + 'Product/put'
-PRODUCTOR_SERVICE_URL_DELETE = SERVER_API_URL + 'Product/delete'
+PRODUCTOR_SERVICE_URL_POST = SERVER_API_URL + 'products/'
+PRODUCTOR_SERVICE_URL_GET = SERVER_API_URL + 'products/get'
+PRODUCTOR_SERVICE_URL_PUT = SERVER_API_URL + 'products/'
+PRODUCTOR_SERVICE_URL_DELETE = SERVER_API_URL + 'products/delete'
 
 # url de transportista
-TRANSPORTISTA_SERVICE_URL_POST = SERVER_API_URL + 'Vehicle/post'
-TRANSPORTISTA_SERVICE_URL_GET = SERVER_API_URL + 'Vehicle/get'
-TRANSPORTISTA_SERVICE_URL_PUT = SERVER_API_URL + 'Vehicle/put'
-TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'Vehicle/delete'
+TRANSPORTISTA_SERVICE_URL_POST = SERVER_API_URL + 'vehicles/'
+TRANSPORTISTA_SERVICE_URL_GET = SERVER_API_URL + 'vehicles/get'
+TRANSPORTISTA_SERVICE_URL_PUT = SERVER_API_URL + 'vehicles/'
+TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'vehicles/delete'
