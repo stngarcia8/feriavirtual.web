@@ -94,5 +94,5 @@ def ProductosLoadView(request):
     data = Producto.objects.filter(User_id=request.user.id)
     if data.count() != 0:
         data.delete()
-        GetFromApi(request.user)
+    GetFromApi(request.user)
     return redirect('listarProductos')
