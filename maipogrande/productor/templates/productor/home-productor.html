@@ -4,12 +4,21 @@
     Productor
 {% endblock %}
 
+{% block menu %}
+    <a class="enlace" href="#">Datos comerciales</a>
+    <br><br>
+    <p class="text-justify"><b>Productos</b></p>
+    <a class="enlace" href="{% url 'actualizarListaProductos' %}">Lista de productos</a>
+    <a class="enlace" href="{% url 'registrarProducto' %}">Agregar producto</a>
+
+{% endblock %}
+
 {% block contenido %}
     <p class="lead">
         Bienvenido a la zona de productores de la plataforma, 
         en esta podrá realizar todas sus actividades
-        de forma exclusiva, esperamos que sea de su satisfacción, en los 
-        apartados inferiores podrá realizar las acciones que usted 
+        de forma exclusiva, esperamos que sea de su satisfacción, en el 
+        apartado izquierdo, podrá realizar las acciones que usted 
         requiera para cubrir sus necesidades.
     </p>
     <div class="row">
@@ -22,10 +31,6 @@
                     <li>Actualizar datos comerciales.</li>
                 </ul>
             </p>
-            <p>
-                <a class="btn btn-block btn-success" 
-                    href="{% url 'verComercial' %}" role="button"> Ir &raquo;</a
-            </p>
         </div>
         <div class="col-md-4">
             <h3>Productos</h3>
@@ -36,10 +41,6 @@
                     <li>Visualizar el estado de sus productos.</li>
                 </ul>
             </p>
-            <p>
-                <a class="btn btn-block btn-success" 
-                    href="{% url 'actualizarListaDeProductos' %}" role="button"> Ir &raquo;</a>
-            </p>
         </div>
         <div class="col-md-4">
             <h3>Transacciones</h3>
@@ -49,8 +50,6 @@
                     <li>Ver su historial de ventas.</li>
                 </ul>
             </p>
-            <p><a class="btn btn-block btn-success" href="" role="button"> Ir &raquo;</a></p>
         </div>
     </div>
-
 {% endblock %}

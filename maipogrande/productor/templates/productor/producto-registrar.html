@@ -1,4 +1,4 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base-inicial.html' %}
 {% load static %}
 {% load bootstrap %}
 
@@ -11,15 +11,14 @@
         <p class="lead text-center ">
             Ingrese los datos de su producto, cuando este listo, pulse el botón "Grabar".
         </p>
-        <div class="form-row mb-4">
-            {% csrf_token %}
-            {% if form.non.field.errors %}
-                {{ form.non.field.errors }}
-            {% endif %}
-            {{ form|bootstrap }}
-        </div>
+        {% csrf_token %}
+        {% if form.non.field.errors %}
+            {{ form.non.field.errors }}
+        {% endif %}
+        <table class="tabla table-responsive">
+            {{ form }}
+        </table>
         <button type="submit" class="btn btn-success mt-3"> Grabar producto </button>
-        <a class="btn btn-light" 
-            href="{% url 'listaDeProductos' %}" role="button"> Cancelar </a>
+        <a class="btn btn-light" href="{% url 'listarProductos' %}" role="button"> Cancelar </a>
     </form>
 {% endblock %}

@@ -17,9 +17,14 @@ from login.models import LoginSession
 def CargarLogin(username, password):
     json = None
     url = settings.LOGIN_SERVICE_URL
+    url = 'http://maipogrande-fv.duckdns.org:8080/api/v1/login/autenticate'
     payload = {'username': username, 'password': EncriptPassword(password)}
-    headers = {"Content-Type": "application/json", }
+    headers = {"content-type": "application/json; charset=utf-8", }
     response = requests.post(url, json=payload, headers=headers)
+    print()
+    print(url)
+    print(response)
+    print()
     if response.status_code == 200:
         json = response.json()
     return (json)

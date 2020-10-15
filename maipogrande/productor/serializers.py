@@ -3,17 +3,19 @@ from.models import Producto
 
 
 class ProductoSerializer(serializers.ModelSerializer):
+    "Serializador de productos."
     class Meta:
         model = Producto
-        fields = ('ProductName', 'Observation',
-                  'ProductValue', 'ProductQuantity')
+        fields = '__all__'
+
+    def create(self, data):
+        "Permite recibir parámetros en el evento save()"
+        prod = Producto.objects.create(**data)
+        return prod
 
 
-class ProductoSaveSerializer(serializers.ModelSerializer):
-    User_id = serializers.IntegerField(write_only=True)
-
+class ProductoApiSerializer(serializers.ModelSerializer):
+    "Almacena los datos para enviarlos a la api feria virtual"
     class Meta:
         model = Producto
-        depth = 1
-        fields = ('ProductName', 'Observation',
-                  'ProductValue', 'ProductQuantity', 'User_id')
+        exclude = ('id', 'User',)

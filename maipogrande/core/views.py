@@ -107,7 +107,7 @@ def DinamicHome(request):
     if request.user.loginsession.ProfileID == 4:
         pagina = "core/home-interno.html"
     if request.user.loginsession.ProfileID == 5:
-        pagina = "core/home-productor.html"
+        pagina = "productor/home-productor.html"
     if request.user.loginsession.ProfileID == 6:
         pagina = "core/home-transportista.html"
     miPlantilla = loader.get_template(pagina)

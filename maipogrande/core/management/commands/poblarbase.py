@@ -32,6 +32,8 @@ class Command(BaseCommand):
         profile.save()
         return
 
+    # CrearTiposDeTransportes:
+    # Crea los tipos de medios de transportes para el sistema.
     def CrearTiposDeTransportes(self):
         print('Creando tipos de medios de transportes')
         vehicleType = VehicleType(VehicleTypeID=1, VehicleTypeDescription='Aereo')

@@ -15,8 +15,7 @@ from .serializers import LoginSerializer
 def iniciarSesion(request):
     form = LoginForm(request.POST or None)
     template = loader.get_template("login/login.html")
-    title = "Inicio de Sesión"
-    context = {'title': title, 'form': form, 'usuario': request.user, }
+    context = {'form': form, 'usuario': request.user, }
     if form.is_valid():
         data = form.cleaned_data
         json = functions.CargarLogin(

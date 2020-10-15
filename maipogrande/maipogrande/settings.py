@@ -3,7 +3,6 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -120,8 +119,12 @@ EMAIL_HOST_USER = '4f6dbc1693a95c'
 EMAIL_HOST_PASSWORD = 'b4103afb73d3cb'
 EMAIL_PORT = '2525'
 
+# Datos de conexion al servidor
+SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'
+SERVER_HEADERS = {"content-type": "application/json; charset=utf-8", }
+
 # URl de servicios
-LOGIN_SERVICE_URL = SERVER_API_URL + '/login/post'
+LOGIN_SERVICE_URL = SERVER_API_URL + 'login/autenticate/post'
 
 # url de datos comerciales
 COMERCIAL_SERVICE_URL_POST = SERVER_API_URL + 'ComercialData/post'
@@ -130,13 +133,13 @@ COMERCIAL_SERVICE_URL_PUT = SERVER_API_URL + 'ComercialData/put'
 COMERCIAL_SERVICE_URL_DELETE = SERVER_API_URL + 'ComercialData/delete'
 
 # url de productos
-PRODUCTOR_SERVICE_URL_POST = SERVER_API_URL + 'Product/post'
-PRODUCTOR_SERVICE_URL_GET = SERVER_API_URL + 'Product/get'
-PRODUCTOR_SERVICE_URL_PUT = SERVER_API_URL + 'Product/put'
-PRODUCTOR_SERVICE_URL_DELETE = SERVER_API_URL + 'Product/delete'
+PRODUCTOR_SERVICE_URL_POST = SERVER_API_URL + 'products'
+PRODUCTOR_SERVICE_URL_GET_ALL = SERVER_API_URL + 'products/all/get/'
+PRODUCTOR_SERVICE_URL_PUT = SERVER_API_URL + 'products'
+PRODUCTOR_SERVICE_URL_DELETE = SERVER_API_URL + 'products/delete'
 
 # url de transportista
-TRANSPORTISTA_SERVICE_URL_POST = SERVER_API_URL + 'Vehicle/post'
-TRANSPORTISTA_SERVICE_URL_GET = SERVER_API_URL + 'Vehicle/get'
-TRANSPORTISTA_SERVICE_URL_PUT = SERVER_API_URL + 'Vehicle/put'
-TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'Vehicle/delete'
+TRANSPORTISTA_SERVICE_URL_POST = SERVER_API_URL + 'vehicles/post'
+TRANSPORTISTA_SERVICE_URL_GET = SERVER_API_URL + 'vehicles/get'
+TRANSPORTISTA_SERVICE_URL_PUT = SERVER_API_URL + 'vehicles/put'
+TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'vehicles/delete'

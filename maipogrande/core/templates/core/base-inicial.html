@@ -13,7 +13,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/font-awesome/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/bootstrap/css/sticky-footer-navbar.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/menu.css' %}">
 
     {% block jsHead %}
     {% endblock %}
@@ -81,23 +80,9 @@
     <!-- contenido principal -->
     <main role="main">
       <div class="container-fluid  text-justify">
-        <div class="row row-4 p-0">
-
-          <!-- menu lateral -->
-          <div class="col col-sm-2 py-0 px-2 text-left">
-            <div class="lateral container-fluid">
-			      <p class="text-center">Menú</p>
-			      <div class="line"></div>
-			      {% block menu %}
-            {% endblock %}
-          </div>
-		      </div>
-
-          <!-- contenido -->
-          <div class="col col-sm-10 py-2 px-4">
-            {% block contenido %}
-            {% endblock %}
-          </div>
+        <div class="col col-sm-10 py-2 px-4">
+          {% block contenido %}
+          {% endblock %}
         </div>
       </div>
     </main>
