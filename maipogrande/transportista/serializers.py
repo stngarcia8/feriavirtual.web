@@ -1,29 +1,43 @@
 from rest_framework import serializers
 from .models import Vehicle, VehicleType
 
-# TransportSerializer:
-# Serializador de los datos de vehiculos.
-class TransportSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vehicle
-        fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
-                  'VehicleAvailable')
 
-# VehicleTypeSerializer:
-# Serializador de los tipos de transporte.
 class VehicleTypeSerializer(serializers.ModelSerializer):
+    "Serializador para los tipos de transportes"
     class Meta:
         model = VehicleType
-        fields = ('VehicleTypeID', 'VehicleType')
-        
+        fields = ('VehicleTypeID', 'VehicleTypeDescription')
 
-
-# TransportistaSaveSerializer:
-# Serializador que permite evaluar los datos provenientes de la api
-# # para poder almacenarlosde forma correcta en el almacenamiento temporal.
-class TransportSaveSerializer(serializers.ModelSerializer):
+ 
+class VehiculoSerializer(serializers.ModelSerializer):
+    "Serializador de los vehiculos."
+    VehicleType = VehicleTypeSerializer()
     class Meta:
         model = Vehicle
-        fields = ('VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
-                  'VehicleAvailable')
+        fields = ('VehicleID', 'ClientID', 'VehicleType', 
+            'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 
+            'VehicleAvailable', 'User', )
+        depth = 1
+
+    def create(self, data):
+        "Permite recibir parámetros en el evento save()"
+        id = data['VehicleType']['VehicleTypeID']
+        vehicle_type = VehicleType.objects.get(VehicleTypeID=id)
+        veh = Vehicle.objects.create(
+            VehicleID=data['VehicleID'], ClientID=data['ClientID'],
+            VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
+            VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
+            VehicleAvailable=data['VehicleAvailable'], User=data['User'])
+        return veh
+
+
+class VehiculoApiSerializer(serializers.ModelSerializer):
+    "Almacena los datos para enviarlos a la api feria virtual"
+    VehicleType = VehicleTypeSerializer()
+    class Meta:
+        model = Vehicle
+        #exclude = ('id', 'User',)
+        fields = ('VehicleID', 'ClientID','VehicleType',
+            'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 
+            'VehicleAvailable',  )
         depth = 1

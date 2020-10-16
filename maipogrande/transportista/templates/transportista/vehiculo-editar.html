@@ -1,0 +1,24 @@
+{% extends 'core/base-inicial.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Actualización de vehículos
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id=vehicleForm>
+        <p class="lead text-center">
+            Actualice la información de su vehículo, cuando este listo, pulse el botón "Actualizar vehículo".
+        </p>
+        {% csrf_token %}
+        {% if form.non.field.errors %}
+            {{ form.non.field.errors }}
+        {% endif %}
+        <table class="tabla table-responsive">
+            {{ form }}
+        </table>
+        <button type="submit" class="btn btn-success mt-3">Actualizar vehículo</button>
+        <a class="btn btn-light" href="{% url 'listarVehiculos' %}" role="button"> Cancelar </a>
+    </form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Eliminar vehículo
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+        <p class="lead text-justify ">
+            ¿Esta seguro de eliminar el vehículo con patente 
+            {{ vehicle.VehiclePatent }}, modelo {{ vehicle.VehicleModel }}
+            con capacidad {{ vehicle.VehicleCapacity }}(KG)?<br>
+        </p>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3"> Eliminar vehiculo </button>
+        <a class="btn btn-success" href="{% url 'listarVehiculos' %}" role="button"> Cancelar </a>
+    </form>
+{% endblock %}

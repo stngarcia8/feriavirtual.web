@@ -15,8 +15,6 @@ urlpatterns = [
         name='homeExternalCustomer'),
     url(r'^internalcustomer/$', views.HomeInternalCustomer.as_view(),
         name='homeInternalCustomer'),
-    url(r'^carrier/$', views.HomeCarrier.as_view(),
-        name='homeCarrier'),
     url(r'^dhome/$', views.DinamicHome,
         name='dinamicHome'),
 

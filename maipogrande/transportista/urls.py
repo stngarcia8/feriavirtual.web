@@ -1,19 +1,21 @@
 from django.conf.urls import url
 from . import views
 
-# Rutas de la aplicacion
+
 urlpatterns = [
-    url(r'^transporte/$', views.ActualizarListaDeTransporte,
-        name='actualizarListaDeTransporte'),
-    url(r'^transporte/all/$', views.ListaDeTransporte.as_view(), name='listaDeTransporte'),
-    url(r'^transporte/detalle/(?P<pk>\d+)$',
-        views.DetalleTransporte.as_view(), name='detalleTransporte'),
-    url(r'^transporte/registrar$', views.RegistrarTransporte, name='registrarTransporte'),
-    url(r'^transporte/editar/(?P<pk>\d+)$', views.EditarTransporte, name='editarTransporte'),
-    url(r'^transporte/confirmar/(?P<pk>\d+)$', views.confirmDeleteTransport.as_view(),
-        name='confirmDeleteTransport'),
-    url(r'^transporte/eliminar/(?P<pk>\d+)$',
-        views.EliminarTransporte, name='eliminarTransporte'),    
+    # Ruta para la pagina de inicio del transportista
+    url(r'^vehiculo/$', views.HomeCarrier.as_view(),
+        name='homeCarrier'),
+    url(r'^vehiculos/cargar$', views.VehiculosLoadView,
+        name='actualizarListaVehiculos'),
+    url(r'^vehiculos/listar/$', views.VehiculoListView.as_view(),
+        name='listarVehiculos'),
+    url(r'^vehiculos/detalle/(?P<pk>\d+)$',
+        views.VehiculoDetailView.as_view(), name='detalleVehiculo'),
+    url(r'^vehiculos/crear/$', views.VehiculoCreateView.as_view(),
+        name='registrarVehiculo'),
+    url(r'^vehiculo/actualizar/(?P<pk>\d+)$',
+        views.VehiculoUpdateView.as_view(), name='editarVehiculo'),
+    url(r'^vehiculo/eliminar/(?P<pk>\d+)$',
+        views.VehiculoDeleteView.as_view(), name='eliminarVehiculo'),
 ]
-
-

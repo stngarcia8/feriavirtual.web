@@ -30,18 +30,6 @@ class HomeInternalCustomer(TemplateView):
     template_name = 'core/home-interno.html'
 
 
-# HomeProducer:
-# Vista que redirecciona a pagina de inicio de los productores
-class HomeProducer(TemplateView):
-    template_name = 'core/home-productor.html'
-
-
-# HomeCarrier:
-# Vista que redirecciona a pagina de inicio de los productores
-class HomeCarrier(TemplateView):
-    template_name = 'core/home-transportista.html'
-
-
 # About:
 # Vista que redirecciona a pagina acerca de feria virtual
 class About(TemplateView):
@@ -109,7 +97,7 @@ def DinamicHome(request):
     if request.user.loginsession.ProfileID == 5:
         pagina = "productor/home-productor.html"
     if request.user.loginsession.ProfileID == 6:
-        pagina = "core/home-transportista.html"
+        pagina = "transportista/home-transportista.html"
     miPlantilla = loader.get_template(pagina)
     return HttpResponse(miPlantilla.render({}, request))
 

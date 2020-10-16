@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Transportista
+{% endblock %}
+
+{% block menu %}
+    <a class="enlace" href="#">Datos comerciales</a>
+    <br><br>
+    <p class="text-justify"><b>Vehiculos</b></p>
+    <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
+    <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
+{% endblock %}
+
+{% block contenido %}
+
+  <!-- Header -->
+  <header class="bg-danger py-5 mb-5">
+    <div class="container-fluid h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-lg-12">
+          <h1 class="display-4 text-white mt-5 mb-2">Zona de transportistas</h1>
+          <p class="lead mb-5 text-light">
+            Bienvenido a la zona de transportistas de la plataforma, 
+            en esta podrá realizar todas sus actividades
+            de forma exclusiva, esperamos que sea de su satisfacción, en el 
+            apartado izquierdo, podrá realizar las acciones que usted 
+            requiera para cubrir sus necesidades.
+            </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-8 mb-5">
+        <h2>Participe activamente</h2>
+        <hr>
+        <p class="small text-justify text-black">
+            Periodicamente  se realizan subastas para que 
+            los pedidos de nuestros clientes sean entregados,
+            en estassubasta de transporte,  todos los participantes pueden
+            adjudicarse un pedido el cual deberán entregar a 
+            nuestros clientes, según los tiempos establecidos.
+        </p>
+        <p>
+            Cuando se realice una subasta, los transportistas serán notificados por medio de correo electrónico 
+            a la cuenta registrada en su perfil, si desea participar, tan solo debe 
+            aceptar la solicitud y validarla en la plataforma, mediante la 
+            opción de participar en subasta.
+        </p>
+      </div>
+      <div class="col-md-4 mb-5">
+        <h2>Contactenos</h2>
+        <hr>
+        <address>
+          <strong>Maipo Grande</strong>
+          <br>Hernest Bugenhagen 666
+          <br>Valdivia, Chile.
+          <br>
+        </address>
+        <address>
+          <abbr title="Phone">P:</abbr>
+          (563) 68 23 15144
+          <br>
+          <abbr title="Email">E:</abbr>
+          <a href="mailto:#">maipogrande-fv@gmail.com</a>
+        </address>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-md-4 mb-5">
+        <div class="card h-100">
+          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <div class="card-body">
+            <h4 class="card-title">datos comerciales</h4>
+            <p class="card-text">
+              Usted podrá:
+              <ul>
+                  <li>Ingresar sus datos comerciales.</li>
+                  <li>Actualizar datos comerciales.</li>
+              </ul>              
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-5">
+        <div class="card h-100">
+          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <div class="card-body">
+            <h4 class="card-title">Transportes</h4>
+            <p class="card-text">
+              <ul>
+                <li>Ingresar nuevos transportes.</li>
+                <li>Actualizar información de sus transportes.</li>
+                <li>Visualizar el estado de sus transportes.</li>
+            </ul>              
+          </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-5">
+        <div class="card h-100">
+          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <div class="card-body">
+            <h4 class="card-title">Transacciones</h4>
+            <p class="card-text">
+              <ul>
+                <li>Visualizar su estado de transportes.</li>
+                <li>Ver su historial de trabajos.</li>
+                <li>Postular a subastas de transportes de pedidos.</li>
+            </ul>
+            </p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Ver mas...</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  
+
+
+
+
+
+{% endblock %}
