@@ -1,20 +1,20 @@
-from django import forms
 from django.forms import ModelForm, TextInput, NumberInput, EmailInput, Select, HiddenInput
 from .models import Comercial, City
 
+
 class CreateComercialForm(ModelForm):
     "Formulario para datos comerciales"
-    
+
     class Meta:
         model = Comercial
         fields = (
-            'ComercialID', 'ClientID','CompanyName', 'FantasyName', 'ComercialBusiness', 'Email',
+            'ComercialID', 'ClientID', 'CompanyName', 'FantasyName', 'ComercialBusiness', 'Email',
             'ComercialDNI', 'Address', 'Country', 'City', 'PhoneNumber'
         )
         widgets = {
             'ComercialID': HiddenInput(),
             'ClientID': HiddenInput(),
-            'CompanyName': TextInput(attrs={'size': '15'}),
+            'CompanyName': TextInput(attrs={'size': '15', 'autofocus': ''}),
             'FantasyName': TextInput(attrs={'size': '15'}),
             'ComercialBusiness': TextInput(attrs={'size': '15'}),
             'Email': EmailInput(),

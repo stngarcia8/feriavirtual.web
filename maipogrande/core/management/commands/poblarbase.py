@@ -1,5 +1,6 @@
 from dcomercial.models import Profile, Country, City
 from transportista.models import VehicleType
+from productor.models import Category
 from django.core.management.base import BaseCommand
 
 
@@ -9,14 +10,23 @@ class Command(BaseCommand):
     help = 'Ingresa valores de prueba para feria virtual.'
 
     def handle(self, *args, **kwargs):
+        self.CrearCategorias()
         self.CrearPerfil()
         self.CrearTiposDeTransportes()
         self.CrearPaisCiudad()
         print('Base de datos poblada para pruebas!')
 
-    # crearPerfil()
-    # Metodo para crear los perfiles necesarios para los usuarios.
+    def CrearCategorias(self):
+        "Crea las categorías de los productos."
+        print('Creando categorías de productos.')
+        category = Category(CategoryID=1, CategoryName='Exportación')
+        category.save()
+        category = Category(CategoryID=2, CategoryName='Venta nacional')
+        category.save()
+        return
+
     def CrearPerfil(self):
+        "Crea los perfiles para los usuarios del sistema."
         print('Creando roles de usuario.')
         profile = Profile(ProfileID=1, ProfileName='Administrador')
         profile.save()
@@ -32,9 +42,8 @@ class Command(BaseCommand):
         profile.save()
         return
 
-    # CrearTiposDeTransportes:
-    # Crea los tipos de medios de transportes para el sistema.
     def CrearTiposDeTransportes(self):
+        "Crea los tipos de medios de transportes para los vehículos."
         print('Creando tipos de medios de transportes')
         vehicleType = VehicleType(VehicleTypeID=1, VehicleTypeDescription='Aereo')
         vehicleType.save()
@@ -42,11 +51,10 @@ class Command(BaseCommand):
         vehicleType.save()
         vehicleType = VehicleType(VehicleTypeID=3, VehicleTypeDescription='Maritimo')
         vehicleType.save()
-        return 
+        return
 
-    # CrearPaisCiudad()
-    # Metodo para crear los paises y las ciudades necesarias para los usuarios.
     def CrearPaisCiudad(self):
+        "Crea los paises y ciudades necesarios para los datos comerciales de los clientes."
         print('Creando paises y ciudades.')
         country = Country(CountryID=1, CountryName='Alemania',
                           CountryPrefix='+54')

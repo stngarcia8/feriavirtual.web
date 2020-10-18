@@ -30,8 +30,6 @@ INSTALLED_APPS = [
     'login',
     'productor',
     'transportista',
-    'cinterno',
-    'cexterno',
     'dcomercial',
 ]
 

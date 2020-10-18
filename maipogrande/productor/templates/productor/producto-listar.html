@@ -33,6 +33,7 @@
             <thead>
                 <tr>
                     <th>Producto</th>
+                    <th>Categoría</th>
                     <th>Valor por KG.</th>
                     <th>Cantidad total (KG)</th>
                     <th></th>
@@ -42,6 +43,7 @@
                 {% for producto in producto_list %}
                 <tr>
                     <td class="py-0">{{ producto.ProductName }}</td>
+                    <td class="py-0">{{ producto.Category.CategoryName }}</td>
                     <td class="text-right py-0">${{ producto.ProductValue }}</td>
                     <td class="text-right py-0">{{ producto.ProductQuantity }} (KG)</td>
                     <td class="py-0">

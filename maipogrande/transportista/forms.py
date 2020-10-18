@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, TextInput, NumberInput, HiddenInput, Select, RadioSelect
-from .models import Vehicle, VehicleType
+from .models import Vehicle
 
 
 class CreateVehiculoForm(ModelForm):
@@ -7,9 +7,7 @@ class CreateVehiculoForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = (
-            'VehicleID', 'ClientID','VehicleType', 
-            'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
-        )
+            'VehicleID', 'ClientID', 'VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 'Observation', )
         widgets = {
             'VehicleID': HiddenInput(),
             'ClientID': HiddenInput(),
@@ -17,7 +15,8 @@ class CreateVehiculoForm(ModelForm):
             'VehiclePatent': TextInput(attrs={'size': '15'}),
             'VehicleModel': TextInput(attrs={'size': '15'}),
             'VehicleCapacity': NumberInput(),
-        }    
+            'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
+        }
 
 
 class UpdateVehiculoForm(ModelForm):
@@ -25,9 +24,9 @@ class UpdateVehiculoForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = (
-            'VehicleID', 'ClientID','VehicleType', 
+            'VehicleID', 'ClientID', 'VehicleType',
             'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
-            'VehicleAvailable',
+            'VehicleAvailable', 'Observation',
         )
         widgets = {
             'VehicleID': HiddenInput(),
@@ -36,5 +35,6 @@ class UpdateVehiculoForm(ModelForm):
             'VehiclePatent': TextInput(attrs={'size': '15'}),
             'VehicleModel': TextInput(attrs={'size': '15'}),
             'VehicleCapacity': NumberInput(),
-            'VehicleAvailable': RadioSelect(), 
-        }    
+            'VehicleAvailable': RadioSelect(),
+            'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
+        }

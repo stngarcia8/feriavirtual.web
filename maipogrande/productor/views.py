@@ -9,7 +9,7 @@ from .models import Producto
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
-from .serializers import ProductoSerializer, ProductoApiSerializer
+from .serializers import ProductoSerializer
 
 
 class HomeProducer(TemplateView):

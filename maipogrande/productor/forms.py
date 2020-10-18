@@ -1,5 +1,5 @@
-from django.forms import ModelForm, Textarea, TextInput, NumberInput, HiddenInput
-from .models import Producto
+from django.forms import ModelForm, Textarea, TextInput, NumberInput, HiddenInput, Select
+from .models import Producto, Category
 
 
 class ProductoForm(ModelForm):
@@ -9,13 +9,14 @@ class ProductoForm(ModelForm):
         model = Producto
         fields = (
             'ProductID', 'ClientID', 'ProductName',
-            'Observation', 'ProductValue', 'ProductQuantity',
-        )
+            'Category', 'ProductValue', 'ProductQuantity',
+            'Observation', )
         widgets = {
             'ProductID': HiddenInput(),
             'ClientID': HiddenInput(),
-            'ProductName': TextInput(attrs={'size': '32'}),
-            'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
+            'ProductName': TextInput(attrs={'size': '32', 'autofocus': ''}),
+            'Category': Select(),
             'ProductValue': NumberInput(),
             'ProductQuantity': NumberInput(),
+            'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
         }

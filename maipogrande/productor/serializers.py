@@ -1,21 +1,41 @@
 from rest_framework import serializers
-from.models import Producto
+from.models import Producto, Category
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    "Serializador de las categorías de productos."
+    class Meta:
+        model = Category
+        fields = ('CategoryID', 'CategoryName')
 
 
 class ProductoSerializer(serializers.ModelSerializer):
     "Serializador de productos."
+    Category = CategorySerializer()
+
     class Meta:
         model = Producto
-        fields = '__all__'
+        fields = ('ProductID', 'ClientID', 'ProductName', 'Category', 'ProductValue', 'ProductQuantity', 'Observation', 'User')
+        depth = 1
 
     def create(self, data):
         "Permite recibir parámetros en el evento save()"
-        prod = Producto.objects.create(**data)
+        id = data['Category']['CategoryID']
+        category = Category.objects.get(id=id)
+        prod = Producto.objects.create(
+            ProductID=data['ProductID'], ClientID=data['ClientID'],
+            ProductName=data['ProductName'], Category=category,
+            ProductValue=data['ProductValue'], ProductQuantity=data['ProductQuantity'],
+            Observation=data['Observation']
+        )
         return prod
 
 
 class ProductoApiSerializer(serializers.ModelSerializer):
     "Almacena los datos para enviarlos a la api feria virtual"
+    Category = CategorySerializer()
+
     class Meta:
         model = Producto
-        exclude = ('id', 'User',)
+        fields = ('ProductID', 'ClientID', 'ProductName', 'Category', 'ProductValue', 'ProductQuantity', 'Observation')
+        depth = 1

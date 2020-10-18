@@ -8,15 +8,16 @@ class VehicleTypeSerializer(serializers.ModelSerializer):
         model = VehicleType
         fields = ('VehicleTypeID', 'VehicleTypeDescription')
 
- 
+
 class VehiculoSerializer(serializers.ModelSerializer):
     "Serializador de los vehiculos."
     VehicleType = VehicleTypeSerializer()
+
     class Meta:
         model = Vehicle
-        fields = ('VehicleID', 'ClientID', 'VehicleType', 
-            'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 
-            'VehicleAvailable', 'User', )
+        fields = ('VehicleID', 'ClientID', 'VehicleType',
+                  'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
+                  'VehicleAvailable', 'Observation', 'User', )
         depth = 1
 
     def create(self, data):
@@ -27,17 +28,19 @@ class VehiculoSerializer(serializers.ModelSerializer):
             VehicleID=data['VehicleID'], ClientID=data['ClientID'],
             VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
             VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
-            VehicleAvailable=data['VehicleAvailable'], User=data['User'])
+            VehicleAvailable=data['VehicleAvailable'],
+            Observation=data['Observation'], User=data['User'])
         return veh
 
 
 class VehiculoApiSerializer(serializers.ModelSerializer):
     "Almacena los datos para enviarlos a la api feria virtual"
     VehicleType = VehicleTypeSerializer()
+
     class Meta:
         model = Vehicle
         #exclude = ('id', 'User',)
-        fields = ('VehicleID', 'ClientID','VehicleType',
-            'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 
-            'VehicleAvailable',  )
+        fields = ('VehicleID', 'ClientID', 'VehicleType',
+                  'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
+                  'VehicleAvailable', 'Observation', )
         depth = 1
