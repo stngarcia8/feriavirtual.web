@@ -1,4 +1,4 @@
-from core.models import Profile, Country, City
+from dcomercial.models import Profile, Country, City
 from transportista.models import VehicleType
 from django.core.management.base import BaseCommand
 

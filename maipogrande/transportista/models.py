@@ -23,7 +23,7 @@ class Vehicle(models.Model):
     )
 
 
-    VehicleID = models.CharField(max_length=40, default=uuid.uuid4())
+    VehicleID = models.UUIDField(default=uuid.uuid4, unique=True)
     ClientID = models.CharField(max_length=40, blank=True, null=True)
     VehicleType = models.ForeignKey(VehicleType, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione tipo de transporte')
     VehiclePatent = models.CharField(

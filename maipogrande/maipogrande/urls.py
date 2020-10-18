@@ -10,6 +10,8 @@ urlpatterns = [
     path('login/', include('login.urls')),
     path('productor/', include('productor.urls')),
     path('transportista/', include('transportista.urls')),
+    path('dcomercial/', include('dcomercial.urls')),
+
 ]
 
 

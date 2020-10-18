@@ -6,10 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.defaults import page_not_found
 from django.urls import reverse
 from django.core.mail import EmailMessage
-from .forms import ContactForm, ComercialForm
-from .models import ComercialInfo, City
-from .serializers import ComercialSerializer
-from .api import apifunctions
 
 
 # Home:
@@ -100,90 +96,3 @@ def DinamicHome(request):
         pagina = "transportista/home-transportista.html"
     miPlantilla = loader.get_template(pagina)
     return HttpResponse(miPlantilla.render({}, request))
-
-
-# VerComercial(request):
-# Visualiza los datos comerciales de el usuario logeado.
-@login_required(login_url='login')
-def VerComercial(request):
-    datos = ComercialInfo.objects.filter(User_id=request.user.id)
-    if datos.count() == 0:
-        datos = apifunctions.CargarDatosComerciales(request.user)
-    else:
-        datos = ComercialInfo.objects.get(User_id=request.user.id)
-    template_name = loader.get_template('core/comercial-ver.html')
-    context_data = {'comercial': datos}
-    return HttpResponse(template_name.render(context_data, request))
-
-
-# RegistrarComercial(request)
-# Vista que permite el ingreso de datos comerciales del cliente.
-def RegistrarComercial(request):
-    form = ComercialForm(request.POST or None)
-    template_name = loader.get_template("core/comercial-registrar.html")
-    context_data = {'form': form, 'usuario': request.user, }
-    if form.is_valid():
-        serializador = ComercialSerializer(data=form.cleaned_data)
-        serializador.is_valid()
-        resultado = apifunctions.GrabarDatoComercial(
-            request.user, serializador)
-        if resultado:
-            return redirect('dinamicHome')
-        else:
-            return redirect('serviceNotAvailable')
-    return HttpResponse(template_name.render(context_data, request))
-
-
-# EditarComercial(request)
-# Vista que permite la modificacion de datos comerciales por parte del usuario.
-def EditarComercial(request):
-    comercial = get_object_or_404(ComercialInfo, User_id=request.user.id)
-    form = ComercialForm(instance=comercial)
-    if request.method == 'POST':
-        form = ComercialForm(request.POST, instance=comercial)
-        if form.is_valid():
-            serializador = ComercialSerializer(data=form.cleaned_data)
-            serializador.is_valid()
-            comercialID = comercial.ComercialID
-            resultado = apifunctions.ActualizarDatoComercial(
-                request.user, serializador, comercialID)
-            if resultado:
-                form.save()
-                return redirect('verComercial')
-            else:
-                return redirect('serviceNotAvailable')
-            return redirect('verComercial')
-    return render(request, 'core/comercial-editar.html', {'form': form})
-
-
-# confirmDeleteComercial:
-# Vista que consulta al usuario si desea realmente eliminar los datos comerciales
-class confirmDeleteComercial(TemplateView):
-    template_name = 'core/comercial-confirmareliminar.html'
-
-
-# EliminarComercial(request)
-# Elimina los datos comerciales de la base de datos permanentemente
-def EliminarComercial(request):
-    comercial = ComercialInfo.objects.get(User_id=request.user.id)
-    resultado = apifunctions.EliminarDatosComerciales(comercial.ComercialID)
-    if resultado:
-        comercial.delete()
-        return redirect('comercialWasDelete')
-    return redirect('serviceNotAvailable')
-
-
-# ComercialHasBeenDeleted:
-# Vista que informa al usuario que sus datos comerciales fueron eliminados
-class ComercialWasDelete(TemplateView):
-    template_name = 'core/comercial-eliminado.html'
-
-
-# CargarCiudades(request():
-# Vista que permite refrescar el campo de ciudades dependiendo del pais seleccionado.
-# retorna:
-#   Vista renderizada de las ciudades.
-def CargarCiudades(request):
-    country_id = request.GET.get('country_id')
-    cities = City.objects.filter(Country_id=country_id).all()
-    return render(request, 'core/ciudades.html', {'cities': cities})

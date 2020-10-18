@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'transportista',
     'cinterno',
     'cexterno',
+    'dcomercial',
 ]
 
 # Definiendo los middleware a utilizar.
@@ -127,10 +128,10 @@ SERVER_HEADERS = {"content-type": "application/json; charset=utf-8", }
 LOGIN_SERVICE_URL = SERVER_API_URL + 'login/autenticate/post'
 
 # url de datos comerciales
-COMERCIAL_SERVICE_URL_POST = SERVER_API_URL + 'ComercialData/post'
-COMERCIAL_SERVICE_URL_GET = SERVER_API_URL + 'ComercialData/get'
-COMERCIAL_SERVICE_URL_PUT = SERVER_API_URL + 'ComercialData/put'
-COMERCIAL_SERVICE_URL_DELETE = SERVER_API_URL + 'ComercialData/delete'
+COMERCIAL_SERVICE_URL_POST = SERVER_API_URL + 'commercial'
+COMERCIAL_SERVICE_URL_GET = SERVER_API_URL + 'commercial/get'
+COMERCIAL_SERVICE_URL_PUT = SERVER_API_URL + 'commercial'
+COMERCIAL_SERVICE_URL_DELETE = SERVER_API_URL + 'commercial/delete'
 
 # url de productos
 PRODUCTOR_SERVICE_URL_POST = SERVER_API_URL + 'products'

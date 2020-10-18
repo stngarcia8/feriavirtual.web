@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Producto(models.Model):
     "Modelo que representa un producto en el sistema"
-    ProductID = models.CharField(max_length=40, default=uuid.uuid4())
+    ProductID = models.UUIDField(default=uuid.uuid4, unique=True)
     ClientID = models.CharField(max_length=40, blank=True, null=True)
     ProductName = models.CharField(
         max_length=50, verbose_name='Nombre producto')

@@ -1,0 +1,18 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Datos comerciales
+{% endblock %}
+
+{% block contenido %}
+    <p class="lead">
+        Hemos notado que aún no ha ingresado sus datos comerciales, 
+        esta información es relevante para que pueda realizar ventas 
+        en la plataforma, por favor, ingrese estos datos lo antes 
+        posible.<br>
+        Si desea ingresarlos en este momento, pulse el botón "Crear" para iniciar el 
+        proceso de registro.
+    </p>
+    <a class="btn btn-primary " href="{% url 'registrarComercial' %}" role="button"> Crear datos comerciales </a>
+    <a class="btn btn-light" href="{% url 'dinamicHome' %}" role="button"> Volver </a>
+{% endblock %}

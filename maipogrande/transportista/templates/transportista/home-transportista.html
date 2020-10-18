@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-    <a class="enlace" href="#">Datos comerciales</a>
+    <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
     <br><br>
     <p class="text-justify"><b>Vehiculos</b></p>
     <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>

@@ -25,19 +25,4 @@ urlpatterns = [
         name='emailFail'),
     url(r'^contactok/$', views.EmailOk.as_view(),
         name='emailOk'),
-
-    # Rutas para los datos comerciales
-    path('ver/ciudad/', views.CargarCiudades, name='cargarCiudades'),
-    url(r'^comercial/ver/$',
-        views.VerComercial, name='verComercial'),
-    url(r'^comercial/registrar/$',
-        views.RegistrarComercial, name='registrarComercial'),
-    url(r'^comercial/editar/$',
-        views.EditarComercial, name='editarComercial'),
-    url(r'^comercial/confirmar/eliminar/$', views.confirmDeleteComercial.as_view(),
-        name='confirmDeleteComercial'),
-    url(r'^comercial/eliminar/$',
-        views.EliminarComercial, name='eliminarComercial'),
-    url(r'^comercial/eliminado/$', views.ComercialWasDelete.as_view(),
-        name='comercialWasDelete'),
 ]
