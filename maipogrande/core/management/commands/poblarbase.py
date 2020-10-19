@@ -1,6 +1,7 @@
 from dcomercial.models import Profile, Country, City
 from transportista.models import VehicleType
 from productor.models import Category
+from cexterno.models import PaymentCondition
 from django.core.management.base import BaseCommand
 
 
@@ -11,9 +12,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.CrearCategorias()
+        self.CrearCondicionesDePago()
+        self.CrearPaisCiudad()
         self.CrearPerfil()
         self.CrearTiposDeTransportes()
-        self.CrearPaisCiudad()
         print('Base de datos poblada para pruebas!')
 
     def CrearCategorias(self):
@@ -23,6 +25,21 @@ class Command(BaseCommand):
         category.save()
         category = Category(CategoryID=2, CategoryName='Venta nacional')
         category.save()
+        return
+
+    def CrearCondicionesDePago(self):
+        "Crea las condiciones de pago para las ordenes de venta."
+        print('Creando Creando condiciones de pago.')
+        condicion = PaymentCondition(ConditionID=1, ConditionDescription='Contado')
+        condicion.save()
+        condicion= PaymentCondition(ConditionID=2, ConditionDescription='30 días')
+        condicion.save()
+        condicion = PaymentCondition(ConditionID=3, ConditionDescription='60 días')
+        condicion.save()
+        condicion = PaymentCondition(ConditionID=4, ConditionDescription='90 días')
+        condicion.save()
+        condicion = PaymentCondition(ConditionID=5, ConditionDescription='120 días')
+        condicion.save()
         return
 
     def CrearPerfil(self):

@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     # Ruta para la pagina de inicio del transportista
-    url(r'^vehiculo/$', views.HomeCarrier.as_view(),
+    url(r'^home/$', views.HomeCarrier.as_view(),
         name='homeCarrier'),
     url(r'^vehiculos/cargar$', views.VehiculosLoadView,
         name='actualizarListaVehiculos'),

@@ -5,7 +5,7 @@ from . import views
 # Rutas de la aplicacion
 urlpatterns = [
     # Ruta para la pagina de inicio del productor
-    url(r'^productos/$', views.HomeProducer.as_view(),
+    url(r'^home/$', views.HomeProducer.as_view(),
         name='homeProducer'),
     url(r'^productos/cargar$', views.ProductosLoadView,
         name='actualizarListaProductos'),

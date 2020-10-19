@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'productor',
     'transportista',
     'dcomercial',
+    'cexterno',
 ]
 
 # Definiendo los middleware a utilizar.

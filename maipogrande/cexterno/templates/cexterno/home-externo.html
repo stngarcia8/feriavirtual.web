@@ -4,15 +4,24 @@
     Cliente externo
 {% endblock %}
 
+{% block menu %}
+<a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
+    <br><br>
+    <p class="text-justify"><b>Ordenes de compra</b></p>
+    <a class="enlace" href="{% url 'listarOrdenes' %}">Lista de ordenes</a>
+    <br>
+    <a class="enlace" href="{% url 'registrarOrden' %}">Nueva orden de compra</a>
+
+{% endblock %}
+
 {% block contenido %}
     <p class="lead">
         Bienvenido a la zona de clientes externos de la plataforma, 
         en esta podrá realizar todas sus actividades
-        de forma exclusiva, esperamos que sea de su satisfacción, en los 
-        apartados inferiores podrá realizar las acciones que usted 
+        de forma exclusiva, esperamos que sea de su satisfacción, en el 
+        apartado izquierdo, podrá realizar las acciones que usted 
         requiera para cubrir sus necesidades.
     </p>
-
     <div class="row">
         <div class="col-md-4">
             <h3>datos comerciales</h3>
@@ -23,22 +32,16 @@
                     <li>Actualizar datos comerciales.</li>
                 </ul>
             </p>
-            <p>
-                <a class="btn btn-block btn-success" 
-                    href="{% url 'verComercial' %}" role="button"> Ir &raquo;</a
-            </p>
         </div>
         <div class="col-md-4">
-            <h3>Solicitudes</h3>
+            <h3>Ordenes de compra</h3>
             <p class="text-justify small">
                 <ul>
-                    <li>Ingresar solicitudes de productos.</li>
-                    <li>Actualizar solicitudes.</li>
-                    <li>Visualizar el estado de sus solicitudes.</li>
+                    <li>Generar nuevas ordenes de compra.</li>
+                    <li>Visualizar el estado de sus ordenes.</li>
+                    <li>Dar seguimiento a sus ordenes.</li>
+                    <li>Aceptar/finalizar las propuestas de productos.</li>
                 </ul>
-            </p>
-            <p>
-                <a class="btn btn-block btn-success" href="" role="button"> Ir &raquo;</a>
             </p>
         </div>
         <div class="col-md-4">
@@ -46,11 +49,9 @@
             <p class="text-justify small">
                 <ul>
                     <li>Visualizar su estado de pagos.</li>
-                    <li>Ver su historial de pedidos.</li>
+                    <li>Ver su historial de compras.</li>
                 </ul>
             </p>
-            <p><a class="btn btn-block btn-success" href="" role="button"> Ir &raquo;</a></p>
         </div>
     </div>
-
 {% endblock %}

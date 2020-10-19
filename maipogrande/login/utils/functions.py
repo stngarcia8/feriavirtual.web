@@ -21,34 +21,18 @@ def CargarLogin(username, password):
     payload = {'username': username, 'password': EncriptPassword(password)}
     headers = {"content-type": "application/json; charset=utf-8", }
     response = requests.post(url, json=payload, headers=headers)
-    print()
-    print(url)
-    print(response)
-    print()
     if response.status_code == 200:
         json = response.json()
     return (json)
 
 
-# EncriptarPassword(password):
-# Encripta una contraseña ingresada para el inicio de sesion.
-# parametros:
-#   password: contraseña a encriptar.
-# retorna:
-#   encriptedPassword: contraseña encriptada con shas1
 def EncriptPassword(password):
+    "Encripta una constraseña con shas1."
     return hashlib.sha1(str.encode(password)).hexdigest().strip()
 
 
-# CrearUsuario(request, loginSerializer, password)
-# Crea un usuario en el sistema para su autentificacion.
-# parametros:
-#   request: objeto request de la sesion en ejecucion.
-#   json: json que contiene los datos cargados desde la api
-# password: contraseña de usuario que se logea en el sistema, esta clave no esta encriptada ya que sera encriptada al grabar el usuario.
-# retorna:
-#   user: Objeto de tipo User con el usuario creado.
 def CrearUsuario(request, loginSerializer, password):
+    "Crea un usuario en la base de datos temporal."
     logout(request)
     EliminarUsuario(loginSerializer.data.get('Username'))
     user = User.objects.create_user(
@@ -62,11 +46,8 @@ def CrearUsuario(request, loginSerializer, password):
     return authenticate(username=user.username, password=password)
 
 
-# EliminarUsuario(userName)
-# Elimina un usuario de la base de datos del sistema.
-# parametros:
-#   username: nombre de usuario que sera eliminado.
 def EliminarUsuario(userName):
+    "elimina un usuario de la base de datos temporal."
     try:
         u = User.objects.get(username=userName)
         u.delete()
@@ -75,12 +56,8 @@ def EliminarUsuario(userName):
         return
 
 
-# CrearSesion(serializador, user)
-# Crea la sesion de usuario
-# parametros:
-#   serializador: serializer que contiene los datos cargados desde la api
-#   user: objeto user que contiene los datos del usuario autentificado en el sistema local
 def CrearSesion(serializador, user):
+    "Crea una sesion de usuario en el sistema."
     sesion = LoginSession()
     sesion.UserId = serializador.data.get('UserId')
     sesion.ClientID = serializador.data.get('ClientID')
@@ -94,18 +71,13 @@ def CrearSesion(serializador, user):
     return
 
 
-# RedireccionarInicio(user):
-# Redirecciona a los diferentes inicios de sesion segun el tipo de usuario.
-# parametros:
-#   user: objeto de usuario que contiene la informacion de inicio de sesion
-# retorna:
-#   pagina: corresponde a la vista que sera redirigido el usuario segun su perfil.
 def RedireccionarInicio(user):
+    "redirecciona a los usuarios a sus páginas de inicio según su perfil."
     pagina = 'home'
     if user.loginsession.ProfileID == 3:
-        pagina = 'homeExternalCustomer'
+        pagina = 'homeExterno'
     if user.loginsession.ProfileID == 4:
-        pagina = 'homeInternalCustomer'
+        pagina = 'homeInterno'
     if user.loginsession.ProfileID == 5:
         pagina = 'homeProducer'
     if user.loginsession.ProfileID == 6:

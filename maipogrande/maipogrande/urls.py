@@ -5,12 +5,13 @@ from django.conf import settings
 
 # Definicion de las rutas a las urls de las aplicaciones.
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('login/', include('login.urls')),
     path('productor/', include('productor.urls')),
     path('transportista/', include('transportista.urls')),
     path('dcomercial/', include('dcomercial.urls')),
+    path('externo/', include('cexterno.urls')),
 
 ]
 
