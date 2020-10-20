@@ -6,9 +6,19 @@ from .models import Comercial, City
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, TemplateView
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import ComercialApiSerializer, ComercialSerializer
+from login.utils.functions import RedireccionarInicio
+
+
+def CargarDatoComercial(request):
+    "Redirecciona a los usuarios a su página de inicio al cargar los datos comerciales cuando se carga por ajax."
+    datos = Comercial.objects.filter(User_id=request.user.id)
+    if datos.count() == 0:
+        resultado = GetFromApi(request.user)
+    return render(request, RedireccionarInicio(request.user))
 
 
 def IniciarDatoComercial(request):
+    "Carga los datos comerciales desde el enlace de datos comerciales."
     datos = Comercial.objects.filter(User_id=request.user.id)
     if datos.count() == 0:
         resultado = GetFromApi(request.user)

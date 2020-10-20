@@ -9,6 +9,8 @@ urlpatterns = [
     path('ver/ciudad/', views.CargarCiudades, name='cargarCiudades'),
     url(r'^comercial/$',
         views.IniciarDatoComercial, name='iniciarComercial'),
+    url(r'^comercial/cargar$',
+        views.CargarDatoComercial, name='cargarComercial'),
     url(r'^comercial/ver/(?P<pk>\d+)$',
         views.ComercialDetailView.as_view(), name='verComercial'),
     url(r'^comercial/sindato/$',

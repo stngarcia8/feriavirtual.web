@@ -47,7 +47,7 @@
                     <td class="text-right py-0">${{ order.OrderDiscount }}%</td>
                     <td class="py-0">
                         <a class="btn btn-light" 
-                            href="#" role="button"> Ver detalles </a>
+                            href="{{ order.get_absolute_url }}" role="button"> Ver detalles </a>
                     </td>
                 </tr>
                 {% endfor %}
