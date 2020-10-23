@@ -20,10 +20,10 @@
 
   <body class="text-dark bg-light text-justify" style="background-color: silver;">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-sm p-0 navbar-light bg-success">
+    <nav class="navbar navbar-expand-sm p-0 navbar-light" style="background-color: darkslategray;">
       <div class="container">
-        <img src="{% static 'core/img/maipogrande.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;">
-        <h1 class="navbar-brand js-scroll-trigger"> Maipo Grande</h1>
+        <!-- <img src="{% static 'core/img/maipogrande.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;"> -->
+        <h1 class="navbar-brand js-scroll-trigger" style="color: white;"> Maipo Grande</h1>
         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -33,36 +33,36 @@
             {% if not request.user.is_authenticated %}
               <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/' %}active{% endif %}">
                 <a class="nav-link py-0 px-1 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'home' %}">Inicio</a>
+                  href="{% url 'home' %}" style="color: white;">Inicio</a>
                 </li>
             {% else %}
               <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/' %}active{% endif %}">
                 <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'dinamicHome' %}">Inicio</a>
+                  href="{% url 'dinamicHome' %}" style="color: white;">Inicio</a>
                 </li>
             {% endif %}
             <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/about/' %}active{% endif %}">
               <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                href="{% url 'about' %}">Acerca de</a>
+                href="{% url 'about' %}" style="color: white;">Acerca de</a>
             </li>
             {% if not request.user.is_authenticated %}
             <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/contact/' %}active{% endif %}">
                 <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'contact' %}">Registro</a>
+                  href="{% url 'contact' %}" style="color: white;">Registro</a>
               </li>
               <li class="nav-item mx-0 mx-lg-1">
                 <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'login' %}">Iniciar sesión</a>
+                  href="{% url 'login' %}" style="color: white;">Iniciar sesión</a>
               </li>
             {% else %}
               <li class="nav-item mx-0 mx-lg-1">
                 <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'logout' %}">Cerrar sesión</a>
+                  href="{% url 'logout' %}" style="color: white;">Cerrar sesión</a>
               </li>
               <li class="nav-item mx-0 mx-lg-1">
-                <p class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small">
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small" style="color: white;">
                   {{ request.user.first_name }}
-              </p>
+              </a>
               </li>
             {% endif %}
           </ul>
@@ -70,8 +70,8 @@
       </div>
     </nav>
 
-    <header class="text-center text-black bg-success p-2">
-      <h1>
+    <header class="text-center text-black p-2" style="background-color: darkslategray;">
+      <h1 style="color: white;">
         {% block titulo %}
         {% endblock %}
       </h1>
@@ -88,18 +88,16 @@
     </main>
 
     <!-- Copyright Section-->
-    <div class="copyright py-4 text-center text-muted bg-light" style="background-color: silver;">
-      <div class="divider-custom">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-line"></div>
-    </div>
-    <div class="container">
-      <small>
-        Feria virtual - Maipo Grande fue desarrollado por:<br>
-         Claudio Arenas, Matías Avalos, Daniel García, Lucas Repetto<br>
-         Copyright © 2020
-    </small>
-  </div>
+    <footer>
+      <div class="copyright py-4 text-center text-muted bg-light">
+        <div class="container">
+          <small>
+            Feria virtual - Maipo Grande fue desarrollado por:<br>
+            Claudio Arenas, Matías Avalos, Daniel García, Lucas Repetto<br>
+            Copyright © 2020
+          </small>
+        </div>
+    </footer>
 
 
     <!-- carga de script -->

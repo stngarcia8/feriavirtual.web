@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.defaults import page_not_found
 from django.urls import reverse
 from django.core.mail import EmailMessage
+from .forms import ContactForm
 
 
 class Home(TemplateView):

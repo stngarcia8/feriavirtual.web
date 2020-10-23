@@ -8,7 +8,7 @@
     <meta name="author" content="Daniel García Asathor">
     <title>Feria virtual - Maipo Grande</title> 
     <link rel="icon" href="{% static 'core/img/favicon.ico' %}">
-  
+
     <!-- Cargando css -->
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/font-awesome/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}">
@@ -22,10 +22,10 @@
 
   <body class="container-fluid text-dark bg-light text-justify">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-sm p-3 navbar-light bg-success">
+    <nav class="navbar navbar-expand-sm p-3 navbar-light" style="background-color: darkslategray;">
       <div class="container-fluid">
-        <img src="{% static 'core/img/maipogrande.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;">
-        <h1 class="navbar-brand js-scroll-trigger"> Maipo Grande</h1>
+        <!-- <img src="{% static 'core/img/maipogrande.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;"> -->
+        <h1 class="navbar-brand js-scroll-trigger p-2" style="color: white;"> Maipo Grande</h1>
         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -34,37 +34,37 @@
           <ul class="navbar-nav ml-auto">
             {% if not request.user.is_authenticated %}
               <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/' %}active{% endif %}">
-                <a class="nav-link py-0 px-1 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'home' %}">Inicio</a>
+                <a class="nav-link py-0 px-1 px-lg-3 rounded js-scroll-trigger"
+                  href="{% url 'home' %}" style="color: white;">Inicio</a>
                 </li>
             {% else %}
               <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/' %}active{% endif %}">
-                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'dinamicHome' %}">Inicio</a>
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger"
+                  href="{% url 'dinamicHome' %}" style="color: white;">Inicio</a>
                 </li>
             {% endif %}
             <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/about/' %}active{% endif %}">
-              <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                href="{% url 'about' %}">Acerca de</a>
+              <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger"
+                href="{% url 'about' %}" style="color: white;">Acerca de</a>
             </li>
             {% if not request.user.is_authenticated %}
             <li class="nav-item mx-0 mx-lg-1 {% if request.path == '/contact/' %}active{% endif %}">
-                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'contact' %}">Registro</a>
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger"
+                  href="{% url 'contact' %}" style="color: white;">Registro</a>
               </li>
               <li class="nav-item mx-0 mx-lg-1">
-                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'login' %}">Iniciar sesión</a>
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger"
+                  href="{% url 'login' %}" style="color: white;">Iniciar sesión</a>
               </li>
             {% else %}
               <li class="nav-item mx-0 mx-lg-1">
-                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger" 
-                  href="{% url 'logout' %}">Cerrar sesión</a>
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger"
+                  href="{% url 'logout' %}" style="color: white;">Cerrar sesión</a>
               </li>
               <li class="nav-item mx-0 mx-lg-1">
-                <p class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small">
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small" style="color: white;">
                   {{ request.user.first_name }}
-              </p>
+              </a>
               </li>
             {% endif %}
           </ul>
@@ -72,8 +72,8 @@
       </div>
     </nav>
 
-    <header class="text-center text-black bg-success p-2">
-      <h1>
+    <header class="text-center text-black p-2" style="background-color: darkslategray;">
+      <h1 style="color: white;">
         {% block titulo %}
         {% endblock %}
       </h1>
@@ -85,9 +85,9 @@
         <div class="row row-4 p-0">
 
           <!-- menu lateral -->
-          <div class="col col-sm-2 py-0 px-2 text-left">
-            <div class="lateral container-fluid">
-			      <p class="text-center">Menú</p>
+          <div class="col col-sm-2 py-0 px-2 text-left" style="color: white;">
+            <div class="lateral container-fluid" style="background-color: darkslategray;">
+			      <p class="text-center" style="color: white;">Menú</p>
 			      <div class="line"></div>
 			      {% block menu %}
             {% endblock %}
@@ -95,7 +95,7 @@
 		      </div>
 
           <!-- contenido -->
-          <div class="col col-sm-10 py-2 px-4">
+          <div class="col col-sm-10 py-2 px-4" >
             {% block contenido %}
             {% endblock %}
           </div>
@@ -104,19 +104,18 @@
     </main>
 
     <!-- Copyright Section-->
-    <div class="copyright py-4 text-center text-muted bg-light" style="background-color: silver;">
+    <div class="copyright py-4 text-center text-muted bg-light">
       <div class="divider-custom">
         <div class="divider-custom-line"></div>
         <div class="divider-custom-line"></div>
     </div>
     <div class="container">
       <small>
-        Feria virtual - Maipo Grande fue desarrollado por:<br>
+         Feria virtual - Maipo Grande fue desarrollado por:<br>
          Claudio Arenas, Matías Avalos, Daniel García, Lucas Repetto<br>
          Copyright © 2020
     </small>
   </div>
-
 
     <!-- carga de script -->
     <script type="text/javascript" src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
