@@ -18,4 +18,5 @@ urlpatterns = [
         views.VehiculoUpdateView.as_view(), name='editarVehiculo'),
     url(r'^vehiculo/eliminar/(?P<pk>\d+)$',
         views.VehiculoDeleteView.as_view(), name='eliminarVehiculo'),
+
 ]

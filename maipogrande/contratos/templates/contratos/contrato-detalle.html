@@ -1,0 +1,90 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Detalle de contrato
+{% endblock %}
+
+{% block contenido %}
+    <p class lead text-justify">
+        El detalle del contrato se muestra en la tabla siguiente, usted puede aceptar o 
+        rechazar el contrato, si tiene dudas o consultas que realizar, puede contactarnos 
+        por los medios de comunicación oficiales, un ejecutivo lo atenderá 
+        y resolverá sus consultas.<br>
+        Al aceptar el contrato, usted podrá solicitar una copia de este 
+        a su ejecutivo, este será enviado mediante correo electrónico (<b>{{ contract.CustomerEmail }}</b>), 
+        la cual usted puede guardar para su respaldo.
+    </p>
+    <div class="table-responsive justify-content-center">
+        <table class="table table-striped table-hover col-sm-2 border border-light text-justify text-black">
+            <tbody>
+                <tr>
+                    <td class="py-0">Contrato extendido a</td>
+                    <td class="py-0">
+                        <b>
+                            {{ contract.Customername }}<br>
+                            Rut número : {{ contract.CustomerDNI}}
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-0">Identificador del contrato</td>
+                    <td class="py-0"><b>{{ contract.ContractID }}</b></td>
+                </tr>
+                <tr>
+                    <td class="py-0">Descripción del contrato</td>
+                    <td class="py-0">{{ contract.ContractDescription }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Vigencia</td>
+                    <td class="py-0"><b>
+                        {{ contract.ValidDescription }}<br>
+                        Inicio: {{ contract.StartDate }}<br>
+                        Término : {{ contract.EndDate }}
+                    </b></td>
+                </tr>
+                <tr>
+                    <td class="py-0">Porcentajes asignados<br>al total de la venta</td>
+                    <td class="py-0">
+                        Comisión Maipo Grande : {{ contract.CommisionValue }}%<br>
+                        Porcentaje adicional : {{ contract.AdditionalValue }}%<br>
+                        Porcentaje multa : {{ contract.FineValue }}%<br>
+                        <p class="text-justify small">
+                            El porcentaje de multa, es aplicado solamente 
+                            si no cumple con las entregas y condiciones<br>
+                            establecidas según lo acordado. 
+                        </p>
+                    </td>
+                </tr>
+                {% if contract.ContractObservation %}
+                    <tr>
+                        <td class="py-0">Observación del contrato</td>
+                        <td class="py-0">{{ contract.ContractObservation }}</td>
+                    </tr>
+                {% endif %}
+                {% if contract.CustomerObservation %}
+                    <tr>
+                        <td class="py-0">Observaciones de {{ contract.Customername }}</td>
+                        <td class="py-0">{{ contract.CustomerObservation }}</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    {% if contract.Status == 0 %}
+        <a class="btn btn-primary" 
+            href="{{ contract.get_accept_contract_url }}" role="button"> Aceptar contrato </a>
+        <a class="btn btn-danger" 
+            href="{{ contract.get_refuse_contract_url }}" role="button"> Rechazar contrato </a>
+    {% endif %}
+    {% if contract.Status == 1 %}
+        <a class="btn btn-danger" 
+            href="{{ contract.get_refuse_contract_url }}" role="button"> Rechazar contrato </a>
+    {% endif %}
+    {% if contract.Status == 2 %}
+        <a class="btn btn-primary" 
+            href="{{ contract.get_accept_contract_url }}" role="button"> Aceptar contrato </a>
+    {% endif %}
+            <a class="btn btn-success"
+        href="{% url 'listarContratos' %}" role="button"> Volver </a>
+{% endblock %}

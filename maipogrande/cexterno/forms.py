@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from django.forms.models import modelformset_factory, inlineformset_factory
+from django.forms.models import inlineformset_factory
 from .models import Order, OrderDetail
 
 
@@ -8,7 +8,7 @@ class OrderForm(ModelForm):
 
     class Meta:
         model = Order
-        fields = ('PaymentCondition','OrderDate', 'OrderDiscount', 'Observation', )
+        fields = ('PaymentCondition', 'OrderDate', 'OrderDiscount', 'Observation', )
 
 
 class OrderDetailForm(ModelForm):
@@ -20,6 +20,6 @@ class OrderDetailForm(ModelForm):
 
 
 OrderDetailFormSet = inlineformset_factory(
-    Order, OrderDetail, 
-    form=OrderDetailForm, 
+    Order, OrderDetail,
+    form=OrderDetailForm,
     extra=4, fields=('Product', 'Quantity', ))

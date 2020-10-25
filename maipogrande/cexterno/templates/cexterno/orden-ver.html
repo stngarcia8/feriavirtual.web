@@ -13,4 +13,14 @@
         posibles problemas que puedan sucitarse con sus ordenes de compras.
     </p>
 
+    <h1> Aqui colocar el detalle de la orden </h1>>
+
+    <br><br>
+    <a class="btn btn-primary" 
+        href="{{ order.get_update_url }}" role="button"> Actualizar orden de compra </a>
+    <a class="btn btn-danger" 
+        href="{{ order.get_delete_url }}" role="button"> Eliminar orden de compra </a>
+    <a class="btn btn-success"
+        href="{% url 'listarOrdenes' %}" role="button"> Volver </a>
+
 {% endblock %}

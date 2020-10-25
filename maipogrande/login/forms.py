@@ -5,6 +5,6 @@ from django import forms
 # Formulario de inicio de sesion.
 class LoginForm(forms.Form):
     username = forms.CharField(
-        widget=forms.TextInput(), label="Nombre de Usuario")
+        widget=forms.TextInput(attrs={'autofocus': ''}), label="Nombre de Usuario")
     password = forms.CharField(
         widget=forms.PasswordInput(), label="Contraseña")

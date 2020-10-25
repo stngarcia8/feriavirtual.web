@@ -10,7 +10,10 @@
     <p class="text-justify"><b>Vehiculos</b></p>
     <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
     <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
-{% endblock %}
+    <p class="text-justify"><b>Contratos</b></p>
+    <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
+
+    {% endblock %}
 
 {% block contenido %}
 
@@ -130,10 +133,21 @@
   </div>
   <!-- /.container -->
 
-  
+{% endblock %}
 
-
-
-
-
+{% block jsBody %}
+    <script>
+        $( document ).ready(function() {
+            // cargar contratos del transportista 
+            $.ajax({url: "{% url 'cargarContratos' %}",
+                success: function () { 
+                console.log('Contratos cargados...!!');}
+            });
+            // Cargar datos comerciales
+            $.ajax({url: "{% url 'cargarComercial' %}",
+                success: function () { 
+                console.log('Datos comerciales cargados!!');}
+            });
+        });
+    </script>
 {% endblock %}

@@ -44,3 +44,5 @@ class VehiculoApiSerializer(serializers.ModelSerializer):
                   'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
                   'VehicleAvailable', 'Observation', )
         depth = 1
+
+

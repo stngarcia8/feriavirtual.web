@@ -15,4 +15,8 @@ urlpatterns = [
         views.OrderDetailView.as_view(), name='verOrden'),
     url(r'^ordenes/crear/$', views.OrderCreateView.as_view(),
         name='registrarOrden'),
+    url(r'^ordenes/editar/(?P<pk>\d+)$',
+        views.OrderUpdateView.as_view(), name='editarOrden'),
+    url(r'^ordenes/eliminar/(?P<pk>\d+)$',
+        views.OrderDeleteView.as_view(), name='eliminarOrden'),
 ]

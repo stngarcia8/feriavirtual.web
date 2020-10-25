@@ -97,3 +97,4 @@ def VehiculosLoadView(request):
         data.delete()
     GetFromApi(request.user)
     return redirect('listarVehiculos')
+

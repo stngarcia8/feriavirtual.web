@@ -4,7 +4,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
-from productor.models import Producto
 
 
 class ExportProduct(models.Model):
@@ -59,9 +58,15 @@ class Order(models.Model):
 
     def get_absolute_url(self):
         "Define la ruta absoluta de las ordenes de compra."
-        return reverse('verOrden', args=[self.id])        
+        return reverse('verOrden', args=[self.id])
 
+    def get_update_url(self):
+        "Define la ruta de actualizacion de las ordenes de compra."
+        return reverse('editarOrden', args=[self.id])
 
+    def get_delete_url(self):
+        "Define la ruta de eliminación de las ordenes de compra."
+        return reverse('eliminarOrden', args=[self.id])
 
     def __str__(self):
         return self.OrderID

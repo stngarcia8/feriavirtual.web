@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'transportista',
     'dcomercial',
     'cexterno',
+    'contratos',
 ]
 
 # Definiendo los middleware a utilizar.
@@ -144,3 +145,8 @@ TRANSPORTISTA_SERVICE_URL_POST = SERVER_API_URL + 'vehicles'
 TRANSPORTISTA_SERVICE_URL_GET_ALL = SERVER_API_URL + 'vehicles/all/get'
 TRANSPORTISTA_SERVICE_URL_PUT = SERVER_API_URL + 'vehicles'
 TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'vehicles/delete'
+
+# url de contratos
+CONTRATO_SERVICE_URL_GET = SERVER_API_URL + 'contracts'
+CONTRATO_SERVICE_URL_PATCCH_ACCEPT = SERVER_API_URL + 'contracts/accept'
+CONTRATO_SERVICE_URL_PATCCH_REFUSE = SERVER_API_URL + 'contracts/refuse'

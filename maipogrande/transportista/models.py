@@ -54,3 +54,5 @@ class Vehicle(models.Model):
     def get_delete_url(self):
         "Define la ruta de eliminación del vehiculo."
         return reverse('eliminarVehiculo', args=[self.id])
+
+

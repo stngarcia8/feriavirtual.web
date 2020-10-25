@@ -1,0 +1,16 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Eliminar orden de compra
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+        <p class="lead text-justify ">
+            ¿Esta seguro de eliminar  la orden de compra?
+        </p>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3"> Eliminar orden de compra </button>
+        <a class="btn btn-success" href="{% url 'listarOrdenes' %}" role="button"> Cancelar </a>
+    </form>
+{% endblock %}
