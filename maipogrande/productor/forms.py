@@ -17,6 +17,7 @@ class ProductoForm(ModelForm):
             'ProductName': TextInput(attrs={'size': '32', 'autofocus': ''}),
             'Category': Select(),
             'ProductValue': NumberInput(),
-            'ProductQuantity': NumberInput(),
+            'ProductQuantity': NumberInput(attrs={'min': 0.1, 'max': 999999999, 'onkeypress':"return event.charCode >= 46", 'title': "jajajja", 
+                'oninvalid':"setCustomValidity('Ingrese un número válido')"}),
             'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
         }
