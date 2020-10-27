@@ -47,7 +47,7 @@ class Comercial(models.Model):
     ClientID = models.CharField(max_length=40, blank=True, null=True)
     CompanyName = models.CharField(max_length=100, verbose_name='Razón social')
     FantasyName = models.CharField(
-        max_length=100, verbose_name='Nombre de fantasía',)
+        max_length=100, verbose_name='Nombre de fantasía')
     ComercialBusiness = models.CharField(
         max_length=100, verbose_name='Giro comercial',)
     Email = models.EmailField(verbose_name='Email comercial', validators=[
@@ -60,7 +60,7 @@ class Comercial(models.Model):
         City, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione ciudad')
     Country = models.ForeignKey(
         Country, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione país')
-    PhoneNumber = models.CharField(max_length=30, verbose_name='Teléfono')
+    PhoneNumber = models.CharField(max_length=15, verbose_name='Teléfono')
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class meta:
