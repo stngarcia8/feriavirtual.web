@@ -12,9 +12,13 @@ class CreateVehiculoForm(ModelForm):
             'VehicleID': HiddenInput(),
             'ClientID': HiddenInput(),
             'VehicleType': Select(attrs={'autofocus': ''}),
-            'VehiclePatent': TextInput(attrs={'size': '15'}),
-            'VehicleModel': TextInput(attrs={'size': '15'}),
-            'VehicleCapacity': NumberInput(),
+            'VehiclePatent': TextInput(attrs={'size': '15', 'pattern': "[ÑA-Zña-z0-9]+$", 'minlength': 4, 
+                'oninvalid':"setCustomValidity('Ingrese una patente válida')", 'oninput':"setCustomValidity('')"}),
+            'VehicleModel': TextInput(attrs={'size': '15', 'minlength': 5, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ]+$",
+                'oninvalid':"setCustomValidity('Ingrese un modelo válido')", 'oninput':"setCustomValidity('')"}),
+            'VehicleCapacity': NumberInput(attrs={'min': 1, 'pattern': "^[0-9]+$",
+                'oninvalid':"setCustomValidity('Ingrese una capacidad válida')", 'oninput':"setCustomValidity('')",
+                'onkeypress':"return event.charCode >=46"}),
             'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
         }
 

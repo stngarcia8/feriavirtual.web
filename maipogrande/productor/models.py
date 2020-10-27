@@ -22,7 +22,7 @@ class Producto(models.Model):
     ProductID = models.UUIDField(default=uuid.uuid4, unique=True)
     ClientID = models.CharField(max_length=40, blank=True, null=True)
     ProductName = models.CharField(
-        max_length=50, verbose_name='Nombre producto')
+        max_length=50,verbose_name='Nombre producto')
     Category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione categoría de producto')
     ProductValue = models.FloatField(
         default=0, verbose_name='Valor del producto')

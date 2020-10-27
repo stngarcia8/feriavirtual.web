@@ -44,7 +44,7 @@
                 {% for vehiculo in vehicle_list %}
                 <tr>
                     <td class="py-0">{{ vehiculo.VehiclePatent }}</td>
-                    <td class="py-0">${{ vehiculo.VehicleModel }}</td>
+                    <td class="py-0">{{ vehiculo.VehicleModel }}</td>
                     <td class="py-0">{{ vehiculo.VehicleType.VehicleTypeDescription }}</td>
                     <td class="text-right py-0">{{ vehiculo.VehicleCapacity }} (KG)</td>
                     {% if vehiculo.VehicleAvailable %}
