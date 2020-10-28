@@ -6,15 +6,27 @@ from functools import reduce
 from django.conf import settings
 from .forms import CreateVehiculoForm, UpdateVehiculoForm
 from .models import Vehicle
+from dcomercial.models import Comercial
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import VehiculoApiSerializer, VehiculoSerializer
+from dcomercial.views import CargarDatoComercial
 
 
 class HomeCarrier(TemplateView):
     "Carga la vista de transportista"
     template_name = 'transportista/home-transportista.html'
+
+    def get_context_data(self, **kwargs):
+        data = super(HomeCarrier, self).get_context_data(**kwargs)
+        CargarDatoComercial(self.request)
+        try:
+            comercial = Comercial.objects.get(User_id=self.request.user.id)
+        except Exception:
+            comercial = None
+        data['comercial'] = comercial
+        return data       
 
 
 class VehiculoListView(ListView):

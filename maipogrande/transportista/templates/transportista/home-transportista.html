@@ -6,16 +6,16 @@
 
 {% block menu %}
     <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
-    <br>
-    <p class="text-justify text-center"><b>Vehiculos</b></p>
-    <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
-    <br>
-    <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
-    <br>
-    <p class="text-justify text-center"><b>Contratos</b></p>
-    <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
-    <br>
-
+    {% if comercial %}
+      <p class="text-justify text-center"><b>Vehiculos</b></p>
+      <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
+      <br>
+      <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
+      <br>
+      <p class="text-justify text-center"><b>Contratos</b></p>
+      <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
+      <br>
+    {% endif %}
     {% endblock %}
 
 {% block contenido %}
