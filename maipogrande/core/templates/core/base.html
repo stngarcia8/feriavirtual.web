@@ -7,7 +7,7 @@
     <meta name="description" content="Feria virtual - Maipo Grande.">
     <meta name="author" content="Daniel García Asathor">
     <title>Feria virtual - Maipo Grande</title> 
-    <link rel="icon" href="{% static 'core/img/favicon.ico' %}">
+    <link rel="icon" href="{% static 'core/img/mg-favicon.png' %}">
 
     <!-- Cargando css -->
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/font-awesome/css/all.css' %}">
@@ -20,11 +20,11 @@
     {% endblock %}
   </head>
 
-  <body class="container-fluid text-dark bg-light text-justify">
+  <body class="text-dark bg-light text-justify">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-sm p-3 navbar-light" style="background-color: darkslategray;">
       <div class="container-fluid">
-        <!-- <img src="{% static 'core/img/maipogrande.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;"> -->
+        <img src="{% static 'core/img/mg-favicon.png' %}" alt="Maipo Grande - Feria virtual" style="width: 50px; height:50px;">
         <h1 class="navbar-brand js-scroll-trigger p-2" style="color: white;"> Maipo Grande</h1>
         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
@@ -82,12 +82,12 @@
     <!-- contenido principal -->
     <main role="main">
       <div class="container-fluid  text-justify">
-        <div class="row row-4 p-0">
+        <div class="row row-4 p-1">
 
           <!-- menu lateral -->
-          <div class="col col-sm-2 py-0 px-2 text-left" style="color: white;">
+          <div class="col col-sm-2 py-1 px-1 text-center" style="color: white;">
             <div class="lateral container-fluid" style="background-color: darkslategray;">
-			      <p class="text-center" style="color: white;">Menú</p>
+			      <p class="text-center font-weight-bold" style="color: white;">Menú</p>
 			      <div class="line"></div>
 			      {% block menu %}
             {% endblock %}
@@ -95,7 +95,7 @@
 		      </div>
 
           <!-- contenido -->
-          <div class="col col-sm-10 py-2 px-4" >
+          <div class="col col-sm-10 py-0 px-4" >
             {% block contenido %}
             {% endblock %}
           </div>

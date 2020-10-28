@@ -14,15 +14,20 @@ class CreateComercialForm(ModelForm):
         widgets = {
             'ComercialID': HiddenInput(),
             'ClientID': HiddenInput(),
-            'CompanyName': TextInput(attrs={'size': '15', 'autofocus': ''}),
-            'FantasyName': TextInput(attrs={'size': '15'}),
-            'ComercialBusiness': TextInput(attrs={'size': '15'}),
+            'CompanyName': TextInput(attrs={'size': '15', 'minlength': 3, 'autofocus': '', 
+                                            'pattern': '[ña-zÑA-Z\s\.]+$',
+                                            'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
+            'FantasyName': TextInput(attrs={'size': '15', 'minlength': 3, 'pattern': '[ña-zÑA-Z\s\.]+$',
+                                            'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
+            'ComercialBusiness': TextInput(attrs={'size': '15', 'minlength': 5, 'pattern': '[ña-zÑA-Z\s\.]+$',
+                                                  'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
             'Email': EmailInput(),
             'ComercialDNI': NumberInput(),
-            'Address': TextInput(attrs={'size': '15'}),
+            'Address': TextInput(attrs={'size': '15', 'pattern': '^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$', 
+                                        'oninvalid': "setCustomValidity('Ingrese una dirección válida')", 'oninput': "setCustomValidity('')"}),
             'Country': Select(attrs={'autofocus': ''}),
             'City': Select(attrs={'autofocus': ''}),
-            'PhoneNumber': NumberInput(),
+            'PhoneNumber': NumberInput(attrs={'minlength': 7}),
         }
 
     def __init__(self, *args, **kwargs):

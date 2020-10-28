@@ -76,6 +76,7 @@
                 </div>
                 <br><br>
 
+<<<<<<< HEAD
                 <!-- formulario de detalle de orden de compra -->
                 <h4>Detalle de orden de compra</h4>
                 {{ order_detail.management_form }}
@@ -98,6 +99,30 @@
                             {{ field.errors.as_ul }}
                             {{ field }}
                         </td>
+=======
+                        <!-- formulario de detalle de orden de compra -->
+                        <h4>Detalle de orden de compra</h4>
+                        {{ order_detail.management_form }}
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>Producto</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Cantidad</label>
+                            </div>
+                        </div>
+                        {% for detalle in order_detail %}
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        {{ detalle.Product }}
+                                    </div>
+                                    <div class="col-lg-4">
+                                        {{ detalle.Quantity }}
+                                    </div>
+                                </div>
+                            </div>
+>>>>>>> ui-design
                         {% endfor %}
                     </tr>
                     {% endfor %}

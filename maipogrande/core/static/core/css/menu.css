@@ -4,13 +4,12 @@
 
 
 .enlace:link{
-  text-decoration: none;
-  color: black;
+  color: white;
+  width: 15px;
 }
 
 .enlace:hover {
-  padding: 1px 5px 1px 5px;
-  background-color: red;
+  background-color: #000066;
   color: white;
   text-decoration: none;
 }
