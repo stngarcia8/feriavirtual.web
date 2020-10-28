@@ -11,7 +11,7 @@
     <p class="lead mb-4 px-5">
       Ingrese sus credenciales de inicio de sesión, luego presione el botón "Entrar".
     </p>
-    <div class="form-group col-4 text-center" style="self">
+    <div class="form-group col-4 text-center">
     {% csrf_token %}
     {% if form.non.field.errors %}
       {{ form.non.field.errors }}
