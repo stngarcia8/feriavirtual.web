@@ -6,22 +6,25 @@
 
 {% block menu %}
     <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
-    <br><br>
-    <p class="text-justify"><b>Vehiculos</b></p>
+    <br>
+    <p class="text-justify text-center"><b>Vehiculos</b></p>
     <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
+    <br>
     <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
-    <p class="text-justify"><b>Contratos</b></p>
+    <br>
+    <p class="text-justify text-center"><b>Contratos</b></p>
     <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
+    <br>
 
     {% endblock %}
 
 {% block contenido %}
 
   <!-- Header -->
-  <header class="bg-light py-5 mb-5">
+  <header class="bg-light mb-5">
     <div class="container-fluid h-100">
       <div class="row h-100 align-items-center">
-        <div class="col-lg-12">
+        <div class="col-lg-10">
           <h1 class="display-4 text-black mt-5 mb-2">Zona de transportistas</h1>
           <p class="lead mb-5 text-black">
             Bienvenido a la zona de transportistas de la plataforma, 
@@ -39,7 +42,6 @@
 
   <!-- Page Content -->
   <div class="container">
-
     <div class="row">
       <div class="col-md-8 mb-5">
         <h2>Participe activamente</h2>

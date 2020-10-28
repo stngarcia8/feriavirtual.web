@@ -7,7 +7,7 @@
     <meta name="description" content="Feria virtual - Maipo Grande.">
     <meta name="author" content="Daniel García Asathor">
     <title>Feria virtual - Maipo Grande</title> 
-    <link rel="icon" href="{% static 'core/img/favicon.ico' %}">
+    <link rel="icon" href="{% static 'core/img/mg-favicon.png' %}">
   
     <!-- Cargando css -->
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendor/font-awesome/css/all.css' %}">
@@ -80,7 +80,7 @@
     <!-- contenido principal -->
     <main role="main">
       <div class="container-fluid  text-justify">
-        <div class="col col-sm-10 py-2 px-4">
+        <div class="col col-sm-12 py-4 px-5 text-center" style="list-style-position: inside;">
           {% block contenido %}
           {% endblock %}
         </div>
@@ -89,10 +89,10 @@
 
     <!-- Copyright Section-->
     <footer>
-      <div class="copyright py-4 text-center text-muted bg-light">
+      <div class="copyright py-5 text-center text-muted bg-light">
         <div class="container">
           <small>
-            Feria virtual - Maipo Grande fue desarrollado por:<br>
+            Feria virtual - Maipo Grande desarrollado por:<br>
             Claudio Arenas, Matías Avalos, Daniel García, Lucas Repetto<br>
             Copyright © 2020
           </small>
