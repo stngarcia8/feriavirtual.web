@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.db import transaction
 from django.shortcuts import render
@@ -122,3 +123,14 @@ class OrderDeleteView(DeleteView):
         if DeleteToApi(self.object.OrderID):
             self.object.delete()
         return redirect('listarOrdenes')
+
+
+def CargarOrdenesSinProcesar(request):
+    "Carga las ordenes de compras no procesadas desde la base de feria virtual."
+    criterio_user = Q(User_id=request.user.id)
+    criterio_status = Q(Status=1)
+    ordenes = Order.objects.filter(criterio_user & criterio_status)
+    if ordenes.count() > 0:
+        ordenes.delete()
+    # aqui voy, cargando las ordenes desde la bdd.
+    return render(request, 'cexterno/home-externo.html')

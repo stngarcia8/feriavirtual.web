@@ -77,3 +77,4 @@ def DeleteToApi(order_id):
         url=settings.ORDER_SERVICE_URL_DELETE,
         params={'orderID': order_id})
     return True if response.status_code == 200 else False
+

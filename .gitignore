@@ -21,6 +21,10 @@ media
 *.py[cod]
 *$py.class
 
+# quitando migraciones
+000*.py
+
+
 # C extensions
 *.so
 
@@ -152,5 +156,8 @@ dmypy.json
 
 # visual studio code folder
 .vscode/
+
+# Pycharm configuration folder.
+.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/django

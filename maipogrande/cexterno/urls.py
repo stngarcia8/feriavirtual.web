@@ -7,8 +7,6 @@ urlpatterns = [
     # Ruta para la pagina de inicio del cliente externo
     url(r'^home/$', views.HomeExternalCustomer.as_view(),
         name='homeExterno'),
-    url(r'^ordenes/cargar/$', views.CargarProductosExportacion,
-        name='cargarProductosExportacion'),
     url(r'^ordenes/listar/$', views.OrderListView.as_view(),
         name='listarOrdenes'),
     url(r'^ordenes/ver/(?P<pk>\d+)$',
@@ -19,4 +17,10 @@ urlpatterns = [
         views.OrderUpdateView.as_view(), name='editarOrden'),
     url(r'^ordenes/eliminar/(?P<pk>\d+)$',
         views.OrderDeleteView.as_view(), name='eliminarOrden'),
+
+    # Carga de datos al iniciar sesion
+    url(r'^ordenes/cargar/$', views.CargarProductosExportacion,
+        name='cargarProductosExportacion'),
+    url(r'^ordenes/cargar/sinprocesar/$', views.CargarOrdenesSinProcesar,
+        name='cargarOrdenesSinProcesar'),
 ]

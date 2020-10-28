@@ -51,6 +51,7 @@ class Order(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(10)])
     Observation = models.CharField(
         max_length=100, null=True, blank=True, verbose_name='Observación')
+    Status = models.IntegerField(default=1)
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def save(self):
