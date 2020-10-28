@@ -150,3 +150,8 @@ TRANSPORTISTA_SERVICE_URL_DELETE = SERVER_API_URL + 'vehicles/delete'
 CONTRATO_SERVICE_URL_GET = SERVER_API_URL + 'contracts'
 CONTRATO_SERVICE_URL_PATCCH_ACCEPT = SERVER_API_URL + 'contracts/accept'
 CONTRATO_SERVICE_URL_PATCCH_REFUSE = SERVER_API_URL + 'contracts/refuse'
+
+# Rutas para las ordenes de compra
+ORDER_SERVICE_URL_POST = SERVER_API_URL + 'customers/external/orders/add'
+ORDER_SERVICE_URL_PUT = SERVER_API_URL + 'customers/external/orders/edit'
+ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/external/orders/delete'

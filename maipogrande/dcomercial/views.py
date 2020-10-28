@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import ComercialApiSerializer, ComercialSerializer
 from login.utils.functions import RedireccionarInicio
+from core.views import DinamicHomePage
 
 
 def CargarDatoComercial(request):
@@ -14,7 +15,7 @@ def CargarDatoComercial(request):
     datos = Comercial.objects.filter(User_id=request.user.id)
     if datos.count() == 0:
         resultado = GetFromApi(request.user)
-    return render(request, RedireccionarInicio(request.user))
+    return render(request, DinamicHomePage(request))
 
 
 def IniciarDatoComercial(request):
