@@ -1,7 +1,7 @@
 from dcomercial.models import Profile, Country, City
 from transportista.models import VehicleType
 from productor.models import Category
-from cexterno.models import PaymentCondition
+from ordenes.models import PaymentCondition
 from django.core.management.base import BaseCommand
 
 

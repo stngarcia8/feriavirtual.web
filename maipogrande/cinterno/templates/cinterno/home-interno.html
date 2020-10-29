@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+{% block titulo %}
+    Cliente interno
+{% endblock %}
+
+{% block menu %}
+<a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
+    <br><br>
+    <p class="text-justify"><b>Ordenes de compra</b></p>
+    <a class="enlace" href="{% url 'listarOrdenes' %}">Lista de ordenes</a>
+    <br>
+    <a class="enlace" href="{% url 'registrarOrden' %}"> Nueva orden </a>
+    <br>
+    <a class="enlace" href="#"> Confirmar orden </a>
+
+{% endblock %}
+
+{% block contenido %}
+    <p class="lead">
+        Bienvenido a la zona de clientes externos de la plataforma, 
+        en esta podrá realizar todas sus actividades
+        de forma exclusiva, esperamos que sea de su satisfacción, en el 
+        apartado izquierdo, podrá realizar las acciones que usted 
+        requiera para cubrir sus necesidades.
+    </p>
+    {% if product_list %}
+        <p class="lead">
+            Tenemos mas de {{ product_list.count }} para ofrecer a usted.
+        </p>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Datos comerciales</h3>
+            <p class="text-justify small" >
+                Usted podrá:
+                <ul>
+                    <li>Ingresar sus datos comerciales.</li>
+                    <li>Actualizar datos comerciales.</li>
+                </ul>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Ordenes de compra</h3>
+            <p class="text-justify small">
+                <ul>
+                    <li>Generar nuevas ordenes de compra.</li>
+                    <li>Visualizar el estado de sus ordenes.</li>
+                    <li>Dar seguimiento a sus ordenes.</li>
+                    <li>Aceptar/finalizar las propuestas de productos.</li>
+                </ul>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h3>Transacciones</h3>
+            <p class="text-justify small">
+                <ul>
+                    <li>Visualizar su estado de pagos.</li>
+                    <li>Ver su historial de compras.</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jsBody %}
+    <script>
+        $( document ).ready(function() {
+            // cargar productos de exportacion
+            $.ajax({url: "{% url 'cargarProductosExportacion' %}",
+                success: function () { 
+                console.log('productos de exportación cargados...!!');}
+            });
+            // Cargar datos comerciales
+            $.ajax({url: "{% url 'cargarComercial' %}",
+                success: function () { 
+                console.log('Pase por aqui!!');}
+            });
+        });
+    </script>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-class ExportProduct(models.Model):
+class ExportInternalProduct(models.Model):
     "Representa los datos mínimos que un cliente puede seleccionar para una orden de compra."
     ProductName = models.CharField(
         max_length=50, verbose_name='Producto')
@@ -32,7 +32,7 @@ class PaymentCondition(models.Model):
         return self.ConditionDescription
 
 
-class Order(models.Model):
+class InternalOrder(models.Model):
     "Representa la orden de compra de productos"
     OrderID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
     ClientID = models.CharField(
@@ -57,7 +57,7 @@ class Order(models.Model):
     def save(self):
         self.ConditionID = self.PaymentCondition.ConditionID
         self.ConditionDescription = self.PaymentCondition.ConditionDescription
-        super(Order, self).save()
+        super(InternalOrder, self).save()
 
     class Meta:
         verbose_name = 'Orden de compra'
@@ -83,9 +83,9 @@ class Order(models.Model):
 class OrderDetail(models.Model):
     "Clase que define el detalle de la orden de compra."
     OrderDetailID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
-    Order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
+    Order = models.ForeignKey(InternalOrder, null=True, on_delete=models.CASCADE)
     OrderID = models.CharField(max_length=40, blank=True, null=True)
-    Product = models.ForeignKey(ExportProduct, null=True, on_delete=models.SET_NULL)
+    Product = models.ForeignKey(ExportInternalProduct, null=True, on_delete=models.SET_NULL)
     ProductName = models.CharField(max_length=50, blank=True)
     Quantity = models.FloatField(default=0, verbose_name='Cantidad de productos (medido en KG)',
                                  validators=[MinValueValidator(1), MaxValueValidator(99999)])
@@ -105,5 +105,5 @@ class OrderDetail(models.Model):
 
 
 class OrderModel(models.Model):
-    Order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
+    Order = models.ForeignKey(InternalOrder, null=True, on_delete=models.CASCADE)
     OrderDetail = models.ForeignKey(OrderDetail, null=True, on_delete=models.SET_NULL)

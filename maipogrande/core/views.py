@@ -14,12 +14,6 @@ class Home(TemplateView):
     template_name = 'core/home.html'
 
 
-# HomeInternalCustomer:
-# Vista que redirecciona a pagina de inicio de los clientes internos
-class HomeInternalCustomer(TemplateView):
-    template_name = 'core/home-interno.html'
-
-
 class About(TemplateView):
     "Muestra la página acerca de feria virtual."
     template_name = 'core/about.html'
@@ -76,7 +70,7 @@ def DinamicHome(request):
     if request.user.loginsession.ProfileID == 3:
         pagina = "cexterno/home-externo.html"
     if request.user.loginsession.ProfileID == 4:
-        pagina = "core/home-interno.html"
+        pagina = "cinterno/home-interno.html"
     if request.user.loginsession.ProfileID == 5:
         pagina = "productor/home-productor.html"
     if request.user.loginsession.ProfileID == 6:
@@ -91,7 +85,7 @@ def DinamicHomePage(request):
     if request.user.loginsession.ProfileID == 3:
         pagina = "cexterno/home-externo.html"
     if request.user.loginsession.ProfileID == 4:
-        pagina = "core/home-interno.html"
+        pagina = "cinterno/home-interno.html"
     if request.user.loginsession.ProfileID == 5:
         pagina = "productor/home-productor.html"
     if request.user.loginsession.ProfileID == 6:

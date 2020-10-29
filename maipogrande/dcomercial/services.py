@@ -76,7 +76,11 @@ def GetFromApi(user):
         params={'clientID': user.loginsession.ClientID})
     if response.status_code != 200:
         return False  
-    serializador = ComercialSerializer(data=response.json(), many=False)
+    print()
+    print("serializador")
+    print(response.json())
+    print()
+    serializador = ComercialSerializer(data=response.json())
     serializador.is_valid()
     serializador.save(User=user)
     return True        

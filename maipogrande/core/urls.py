@@ -10,8 +10,6 @@ urlpatterns = [
     url(r'^contact/$', views.Contact, name='contact'),
 
     # Rutas de las paginas de inicio de cada tipo de cliente
-    url(r'^internalcustomer/$', views.HomeInternalCustomer.as_view(),
-        name='homeInternalCustomer'),
     url(r'^dhome/$', views.DinamicHome,
         name='dinamicHome'),
 

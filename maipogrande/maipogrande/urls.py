@@ -12,7 +12,7 @@ urlpatterns = [
     path('dcomercial/', include('dcomercial.urls')),
     path('externo/', include('cexterno.urls')),
     path('contratos/', include('contratos.urls')),
-
+    path('ordenes/', include('ordenes.urls')),
 ]
 
 
