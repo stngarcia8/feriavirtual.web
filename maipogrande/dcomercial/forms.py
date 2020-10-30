@@ -22,7 +22,7 @@ class CreateComercialForm(ModelForm):
             'ComercialBusiness': TextInput(attrs={'size': '15', 'minlength': 5, 'pattern': '[ña-zÑA-Z\s\.]+$',
                                                   'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
             'Email': EmailInput(),
-            'ComercialDNI': NumberInput(),
+            'ComercialDNI': TextInput(),
             'Address': TextInput(attrs={'size': '15', 'pattern': '^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$', 
                                         'oninvalid': "setCustomValidity('Ingrese una dirección válida')", 'oninput': "setCustomValidity('')"}),
             'Country': Select(attrs={'autofocus': ''}),

@@ -6,11 +6,13 @@
 
 {% block contenido %}
     <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
-        <p class="lead text-justify ">
+        <p class="lead text-justify text-center">
             ¿Esta seguro de eliminar sus datos comerciales?<br>
         </p>
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger mt-3"> Eliminar datos comerciales </button>
-        <a class="btn btn-success" href="{% url 'verComercial' request.user.id %}" role="button"> Cancelar </a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger mt-3"> Eliminar datos comerciales </button>
+            <a class="btn btn-success mt-3" href="{% url 'verComercial' request.user.id %}" role="button"> Cancelar </a>
+        </div>
     </form>
 {% endblock %}

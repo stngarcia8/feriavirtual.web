@@ -11,15 +11,17 @@
         <p class="lead text-center ">
             Actualice sus datos comerciales, cuando este listo, pulse el botón "Grabar".
         </p>
-        <div class="form-row mb-4">
+        <div class="text-center mb-4 mx-auto" style="width: 300px;">
             {% csrf_token %}
             {% if form.non.field.errors %}
                 {{ form.non.field.errors }}
             {% endif %}
             {{ form|bootstrap }}
         </div>
-        <button type="submit" class="btn btn-success mt-3">Grabar</button>
-        <a class="btn btn-light" href="{% url 'dinamicHome' %}" role="button"> Cancelar </a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success mt-3">Grabar</button>
+            <a class="btn btn-light mt-3" href="{% url 'dinamicHome' %}" role="button"> Cancelar </a>
+        </div>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
