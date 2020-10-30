@@ -53,7 +53,7 @@ class Comercial(models.Model):
     Email = models.EmailField(verbose_name='Email comercial', validators=[
                               RegexValidator(r'^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')])
     ComercialDNI = models.CharField(
-        max_length=20, help_text='(ej: 12345678-9)', verbose_name='DNI comercial',)
+        max_length=20, help_text='(ej: 12345678-K)', verbose_name='DNI comercial',)
     Address = models.CharField(
         max_length=100, verbose_name='Dirección comercial')
     City = models.ForeignKey(

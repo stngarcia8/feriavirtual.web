@@ -8,16 +8,18 @@
 
 {% block contenido %}
   <form class="text-justify border border-light p-5" method="POST">
-    <p class="lead mb-4 px-5">
+    <p class="lead mb-4 px-5 text-center">
       Ingrese sus credenciales de inicio de sesión, luego presione el botón "Entrar".
     </p>
-    <div class="form-group col-4 text-center">
+    <div class="form-group col-4 text-center mx-auto" style="width: 400px;">
     {% csrf_token %}
     {% if form.non.field.errors %}
       {{ form.non.field.errors }}
     {% endif %}
     {{ form|bootstrap }}
   </div>
+  <div class="text-center">
     <button type="submit" class="btn btn-success mt-3">Iniciar Sesión</button>
+  </div>
   </form>
 {% endblock %}

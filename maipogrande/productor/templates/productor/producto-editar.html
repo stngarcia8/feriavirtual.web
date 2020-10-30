@@ -15,10 +15,12 @@
         {% if form.non.field.errors %}
             {{ form.non.field.errors }}
         {% endif %}
-        <table class="tabla table-responsive">
+        <table class="tabla table-responsive mx-auto" style="width: 600px;">
             {{ form }}
         </table>
-        <button type="submit" class="btn btn-success mt-3">Actualizar producto</button>
-        <a class="btn btn-light" href="{% url 'listarProductos' %}" role="button"> Cancelar </a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success mt-3">Actualizar producto</button>
+            <a class="btn btn-light mt-3" href="{% url 'listarProductos' %}" role="button"> Cancelar </a>
+        </div>
     </form>
 {% endblock %}

@@ -18,10 +18,13 @@ def GetFromApi(user):
         url=settings.CONTRATO_SERVICE_URL_GET,
         params={'profileID': user.loginsession.ProfileID, 'clientID': user.loginsession.ClientID})
     if response.status_code != 200:
-        return False
+        return False    
     serializador = ContratoSerializer(data=response.json(), many=True)
     serializador.is_valid()
     serializador.save(User=user, ProfileID=user.loginsession.ProfileID)
+    print()
+    print(serializador.data)
+    print()
     return True
 
 
