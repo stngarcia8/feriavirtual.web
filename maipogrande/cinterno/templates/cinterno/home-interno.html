@@ -18,7 +18,7 @@
 
 {% block contenido %}
     <p class="lead">
-        Bienvenido a la zona de clientes externos de la plataforma, 
+        Bienvenido a la zona de clientes internos de la plataforma, 
         en esta podrá realizar todas sus actividades
         de forma exclusiva, esperamos que sea de su satisfacción, en el 
         apartado izquierdo, podrá realizar las acciones que usted 
@@ -67,7 +67,7 @@
     <script>
         $( document ).ready(function() {
             // cargar productos de exportacion
-            $.ajax({url: "{% url 'cargarProductosExportacion' %}",
+            $.ajax({url: "{% url 'cargarProductosInternosExportacion' %}",
                 success: function () { 
                 console.log('productos de exportación cargados...!!');}
             });

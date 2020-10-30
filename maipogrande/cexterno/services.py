@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from .serializers import ExportProductSerializer
+from ordenes.serializers import ExportProductSerializer
 
 
 def GetExportProductFromApi(user):

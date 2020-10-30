@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from .serializers import ExportInternalProductSerializer
+from ordenes.serializers import ExportProductSerializer
 
 
 def GetExportInternalProductFromApi(user):
@@ -15,10 +15,15 @@ def GetExportInternalProductFromApi(user):
             - False: En caso de problemas de conectividad.
     """
     response = requests.get(
-        url=settings.PRODUCTOR_SERVICE_URL_GET_EXPORTPRODUCT_ALL)
+        url=settings.PRODUCTOR_SERVICE_URL_GET_IMPORTPRODUCT_ALL)
     if response.status_code != 200:
         return False
-    serializador = ExportInternalProductSerializer(data=response.json(), many=True)
+    print()
+    print(response)
+    print(settings.PRODUCTOR_SERVICE_URL_GET_IMPORTPRODUCT_ALL)
+    print(response.json())
+    print()
+    serializador = ExportProductSerializer(data=response.json(), many=True)
     serializador.is_valid()
     serializador.save(User=user)
     return True

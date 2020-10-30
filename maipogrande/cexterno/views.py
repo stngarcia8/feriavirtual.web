@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from .models import ExportProduct
+from ordenes.models import ExportProduct
 from .services import GetExportProductFromApi
 
 
