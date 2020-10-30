@@ -11,6 +11,7 @@ urlpatterns = [
     path('transportista/', include('transportista.urls')),
     path('dcomercial/', include('dcomercial.urls')),
     path('externo/', include('cexterno.urls')),
+    path('interno/', include('cinterno.urls')),
     path('contratos/', include('contratos.urls')),
     path('ordenes/', include('ordenes.urls')),
 ]
