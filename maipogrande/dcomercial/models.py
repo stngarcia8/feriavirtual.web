@@ -63,6 +63,13 @@ class Comercial(models.Model):
     PhoneNumber = models.CharField(max_length=15, verbose_name='Teléfono')
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        self.CompanyName = self.CompanyName.upper()
+        self.FantasyName = self.FantasyName.upper()
+        self.ComercialBusiness = self.ComercialBusiness.upper()
+        self.Address = self.Address.upper()
+        super(Comercial, self).save(*args, **kwargs)
+
     class meta:
         ordering = ('id',)
 

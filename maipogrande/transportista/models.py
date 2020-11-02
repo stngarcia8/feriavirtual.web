@@ -37,6 +37,12 @@ class Vehicle(models.Model):
         max_length=100, null=True, blank=True, verbose_name='Observación')
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        self.VehiclePatent = self.VehiclePatent.upper()
+        self.VehicleModel = self.VehicleModel.upper()
+        self.Observation = self.Observation.upper()
+        super(Vehicle, self).save(*args, **kwargs)
+
     class meta:
         ordering = ('id',)
 

@@ -23,7 +23,7 @@ def GetFromApi(user):
     serializador.is_valid()
     serializador.save(User=user, ProfileID=user.loginsession.ProfileID)
     print()
-    print(serializador.data)
+    print(serializador.errors)
     print()
     return True
 

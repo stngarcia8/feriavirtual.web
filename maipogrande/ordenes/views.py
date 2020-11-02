@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .forms import OrderForm, OrderDetailFormSet
-from .models import Order
+from .models import Order, OrderDetail
 from dcomercial.models import Comercial
 from .services import PostToApi, DeleteToApi, PutToApi
 from dcomercial.views import CargarDatoComercial
@@ -18,6 +18,12 @@ class OrderListView(ListView):
     slug_url_kwarg = 'User_id'
     template_name = 'ordenes/orden-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_context_data(self,**kwargs):
+        context = super(OrderListView,self).get_context_data(**kwargs)
+        orders = Order.objects.filter(User_id=self.request.user.id)
+        context['order_list'] = orders
+        return context
 
     def get_queryset(self):
         result = super(OrderListView, self).get_queryset()
@@ -33,6 +39,12 @@ class OrderListView(ListView):
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'ordenes/orden-ver.html'
+    
+    def get_context_data(self, **kwargs):
+        data = super(OrderDetailView, self).get_context_data(**kwargs)
+        detalles = OrderDetail.objects.filter(Order_id=self.object.id)
+        data['order_detail'] = detalles
+        return data
 
 
 class OrderCreateView(CreateView):
@@ -76,7 +88,6 @@ class OrderUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         data = super(OrderUpdateView, self).get_context_data(**kwargs)
-        data['comercial'] = Comercial.objects.get(User_id=self.request.user.id)
         if self.request.POST:
             data['order_detail'] = OrderDetailFormSet(
                 self.request.POST, instance=self.object)
@@ -84,11 +95,22 @@ class OrderUpdateView(UpdateView):
             data['order_detail'] = OrderDetailFormSet(instance=self.object)
         return data
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print()
+        print("Aqui estoy weando!")
+        print(self.object.id)
+        print()
+        return super().post(request, *args, **kwargs)
+
+
+
     def form_valid(self, form):
         context = self.get_context_data()
         details = context['order_detail']
         with transaction.atomic():
-            form.instance.created_by = self.request.user
+            form.instance.ClientID = self.request.user.loginsession.ClientID
+            form.instance.User = self.request.user
             self.object = form.save()
             if details.is_valid():
                 details.instance = self.object

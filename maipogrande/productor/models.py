@@ -32,6 +32,11 @@ class Producto(models.Model):
         max_length=100, null=True, blank=True, verbose_name='Observación')
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        self.ProductName = self.ProductName.upper()
+        self.Observation = self.Observation.upper()
+        super(Producto, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'producto'
         verbose_name_plural = 'productos'

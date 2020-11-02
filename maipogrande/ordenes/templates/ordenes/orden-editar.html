@@ -6,7 +6,7 @@
 
 {% block contenido %}
     <p class="small">
-        actualice su orden de compra, una vez que este listo, pulse
+        Actualice su orden de compra, una vez que este listo, pulse
         el botón "Actualizar orden".<br>
         Recuerde que una vez procesada su orden de compra, 
         esta ya no podrá ser actualizada.
@@ -16,41 +16,6 @@
         <div class="panel-body">
             <form id="form-container" method="post" action="">
                 {% csrf_token %}
-                <!-- Datos comerciales -->
-                <div class="row">
-                    <div class="col-lg-4">
-                        Empresa: {{ comercial.CompanyName}}
-                    </div>
-                    <div class="col-lg-4">
-                        Nombre de fantasía: {{ comercial.FantasyName}}
-                    </div>
-                    <div class="col-lg-4">
-                        Giro comercial: {{ comercial.ComercialBusiness}}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        DNI: {{ comercial.ComercialDNI }}
-                    </div>
-                    <div class="col-lg-4">
-                        Email: {{ comercial.Email }}
-                    </div>
-                    <div class="col-lg-4">
-                        Teléfono: {{ comercial.PhoneNumber }}
-                    </div>
-                </div>
-                <div class="row py-1, px-2">
-                    <div class="col-lg-4">
-                        Dirección: {{ comercial.Address }}
-                    </div>
-                    <div class="col-lg-4">
-                        Ciudad: {{ comercial.City.CityName }}
-                    </div>
-                    <div class="col-lg-4">
-                        País: {{ comercial.Country.CountryName }}
-                    </div>
-                </div>
-
                 <!-- Datos del formulario de orden de compra -->
                 <div class="row">
                     <div class="col-lg-4">
