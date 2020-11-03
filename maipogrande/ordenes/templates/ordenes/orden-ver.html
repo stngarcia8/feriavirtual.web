@@ -28,15 +28,13 @@
                     <td>Condición de pago</td>
                     <td>{{ order.PaymentCondition.ConditionDescription }}</td>
                 </tr>
-
                 <tr>
-                    <td>Datos de la orden de compra</td>
-                    <td>
-                        Fecha: {{ order.OrderDate }}<br>
-                        Condición de pago: {{ order.PaymentCondition.ConditionDescription }}<br>
-                        Descuento: {{ order.OrderDiscount }} %<br>
-                        Observación: {{ order.Observation }}<br> 
-                    </td>
+                    <td>Descuento</td>
+                    <td>{{ order.OrderDiscount }} %</td>
+                </tr>
+                <tr>
+                    <td>Observación</td>
+                    <td>{{ order.Observation }}</td>
                 </tr>
             </tbody>
         </table>
