@@ -6,9 +6,16 @@ from .models import Contract
 from .services import GetFromApi, PatchAcceptToApi, PatchRefuseToApi
 from .forms import ContractForm
 from .serializers import ContractApiserializer
+from core.permission import LoginRequired
+
+class UserRequired(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.loginsession.ProfileID == 5 or request.user.loginsession.ProfileID == 6:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('restrictedaccess')
 
 
-class ContratoListView(ListView):
+class ContratoListView(LoginRequired, UserRequired, ListView):
     "Muestra la lista de contratos"
     model = Contract
     slug_field = 'User_id'
@@ -27,7 +34,7 @@ class ContratoListView(ListView):
         return result
 
 
-class ContratoDetailView(DetailView):
+class ContratoDetailView(LoginRequired, UserRequired, DetailView):
     "Muestra el detalle del contrato."
     model = Contract
     template_name = 'contratos/contrato-detalle.html'
@@ -42,7 +49,7 @@ def ContratosLoadView(request):
     return redirect('listarContratos')
 
 
-class ContratoAcceptUpdateView(UpdateView):
+class ContratoAcceptUpdateView(LoginRequired, UserRequired, UpdateView):
     "Acepta un contrato"
     model = Contract
     form_class = ContractForm
@@ -60,7 +67,7 @@ class ContratoAcceptUpdateView(UpdateView):
         return super(ContratoAcceptUpdateView, self).form_valid(form)
 
 
-class ContratoRefuseUpdateView(UpdateView):
+class ContratoRefuseUpdateView(LoginRequired, UserRequired, UpdateView):
     "Rechaza un contrato"
     model = Contract
     form_class = ContractForm

@@ -10,14 +10,21 @@ from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import ProductoSerializer
+from core.permission import LoginRequired
+
+class ProducerRequired(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.loginsession.ProfileID == 5:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('restrictedaccess')
 
 
-class HomeProducer(TemplateView):
+class HomeProducer(LoginRequired, ProducerRequired, TemplateView):
     "Carga la vista de productor"
     template_name = 'productor/home-productor.html'
 
 
-class ProductoListView(ListView):
+class ProductoListView(LoginRequired, ProducerRequired, ListView):
     "Muestra la lista de productos"
     model = Producto
     slug_field = 'User_id'
@@ -38,13 +45,13 @@ class ProductoListView(ListView):
         return result
 
 
-class ProductoDetailView(DetailView):
+class ProductoDetailView(LoginRequired, ProducerRequired, DetailView):
     "Muestra el detalle del producto."
     model = Producto
     template_name = 'productor/producto-detalle.html'
 
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(LoginRequired, ProducerRequired, CreateView):
     "Crea un nuevo producto."
     model = Producto
     template_name = 'productor/producto-registrar.html'
@@ -61,7 +68,7 @@ class ProductoCreateView(CreateView):
         return super(ProductoCreateView, self).form_valid(form)
 
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(LoginRequired, ProducerRequired, UpdateView):
     "Actualiza la información de un producto."
     model = Producto
     form_class = ProductoForm
@@ -76,7 +83,7 @@ class ProductoUpdateView(UpdateView):
         return super(ProductoUpdateView, self).form_valid(form)
 
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(LoginRequired, ProducerRequired, DeleteView):
     "Permite eliminar un producto de la lista de productos disponibles de un productor."
     model = Producto
     template_name = 'productor/producto-eliminar.html'

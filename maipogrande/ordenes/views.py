@@ -10,8 +10,16 @@ from .models import Order, OrderDetail
 from dcomercial.models import Comercial
 from .services import PostToApi, DeleteToApi, PutToApi
 from dcomercial.views import CargarDatoComercial
+from core.permission import LoginRequired
 
-class OrderListView(ListView):
+class ClientRequired(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.loginsession.ProfileID == 3 or request.user.loginsession.ProfileID == 4:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('restrictedaccess')
+
+
+class OrderListView(LoginRequired, ClientRequired, ListView):
     "Muestra la lista de ordenes de compra"
     model = Order
     slug_field = 'User_id'
@@ -36,7 +44,7 @@ class OrderListView(ListView):
         return result
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequired, ClientRequired, DetailView):
     model = Order
     template_name = 'ordenes/orden-ver.html'
     
@@ -47,7 +55,7 @@ class OrderDetailView(DetailView):
         return data
 
 
-class OrderCreateView(CreateView):
+class OrderCreateView(LoginRequired, ClientRequired, CreateView):
     "Crea una nueva orden de compra."
     model = Order
     slug_field = 'User_id'
@@ -81,7 +89,7 @@ class OrderCreateView(CreateView):
         return reverse_lazy('listarOrdenes')
 
 
-class OrderUpdateView(UpdateView):
+class OrderUpdateView(LoginRequired, ClientRequired, UpdateView):
     model = Order
     form_class = OrderForm
     template_name = 'ordenes/orden-editar.html'
@@ -119,7 +127,7 @@ class OrderUpdateView(UpdateView):
         return super(OrderUpdateView, self).form_valid(form)
 
 
-class OrderDeleteView(DeleteView):
+class OrderDeleteView(LoginRequired, ClientRequired, DeleteView):
     model = Order
     template_name = 'ordenes/orden-eliminar.html'
     success_url = reverse_lazy('listarOrdenes')

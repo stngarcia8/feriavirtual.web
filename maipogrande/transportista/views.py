@@ -12,9 +12,15 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import VehiculoApiSerializer, VehiculoSerializer
 from dcomercial.views import CargarDatoComercial
+from core.permission import LoginRequired
 
+class CarrierRequired(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.loginsession.ProfileID == 6:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('restrictedaccess')  
 
-class HomeCarrier(TemplateView):
+class HomeCarrier(LoginRequired, CarrierRequired, TemplateView):
     "Carga la vista de transportista"
     template_name = 'transportista/home-transportista.html'
 
@@ -29,7 +35,7 @@ class HomeCarrier(TemplateView):
         return data       
 
 
-class VehiculoListView(ListView):
+class VehiculoListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de vehiculos"
     model = Vehicle
     slug_field = 'User_id'
@@ -50,13 +56,13 @@ class VehiculoListView(ListView):
         return result
 
 
-class VehiculoDetailView(DetailView):
+class VehiculoDetailView(LoginRequired, CarrierRequired, DetailView):
     "Muestra el detalle del vehiculo."
     model = Vehicle
     template_name = 'transportista/vehiculo-detalle.html'
 
 
-class VehiculoCreateView(CreateView):
+class VehiculoCreateView(LoginRequired, CarrierRequired, CreateView):
     "Crea un nuevo vehiculo."
     model = Vehicle
     template_name = 'transportista/vehiculo-registrar.html'
@@ -73,7 +79,7 @@ class VehiculoCreateView(CreateView):
         return super(VehiculoCreateView, self).form_valid(form)
 
 
-class VehiculoUpdateView(UpdateView):
+class VehiculoUpdateView(LoginRequired, CarrierRequired, UpdateView):
     "Actualiza la información de un vehiculo."
     model = Vehicle
     form_class = UpdateVehiculoForm
@@ -88,7 +94,7 @@ class VehiculoUpdateView(UpdateView):
         return super(VehiculoUpdateView, self).form_valid(form)
 
 
-class VehiculoDeleteView(DeleteView):
+class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
     "Permite eliminar un vehiculo de la lista de productos disponibles de un productor."
     model = Vehicle
     template_name = 'transportista/vehiculo-eliminar.html'
