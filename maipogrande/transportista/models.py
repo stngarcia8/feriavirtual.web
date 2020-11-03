@@ -40,7 +40,7 @@ class Vehicle(models.Model):
     def save(self, *args, **kwargs):
         self.VehiclePatent = self.VehiclePatent.upper()
         self.VehicleModel = self.VehicleModel.upper()
-        self.Observation = self.Observation.upper()
+        self.Observation = self.Observation.upper() if self.Observation else ''
         super(Vehicle, self).save(*args, **kwargs)
 
     class meta:

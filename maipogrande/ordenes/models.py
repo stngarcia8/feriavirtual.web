@@ -57,7 +57,7 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         self.ConditionID = self.PaymentCondition.ConditionID
         self.ConditionDescription = self.PaymentCondition.ConditionDescription
-        self.Observation = self.Observation.upper()
+        self.Observation = self.Observation.upper() if self.Observation else ''
         super(Order, self).save(*args, **kwargs)
 
     class Meta:
