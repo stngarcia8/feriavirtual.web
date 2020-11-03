@@ -30,15 +30,15 @@ class Command(BaseCommand):
     def CrearCondicionesDePago(self):
         "Crea las condiciones de pago para las ordenes de venta."
         print('Creando Creando condiciones de pago.')
-        condicion = PaymentCondition(ConditionID=1, ConditionDescription='Contado')
+        condicion = PaymentCondition(ConditionID=1, ConditionDescription='CONTADO')
         condicion.save()
-        condicion= PaymentCondition(ConditionID=2, ConditionDescription='30 días')
+        condicion= PaymentCondition(ConditionID=2, ConditionDescription='1 MES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=3, ConditionDescription='60 días')
+        condicion = PaymentCondition(ConditionID=3, ConditionDescription='2 MESES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=4, ConditionDescription='90 días')
+        condicion = PaymentCondition(ConditionID=4, ConditionDescription='3 MESES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=5, ConditionDescription='120 días')
+        condicion = PaymentCondition(ConditionID=5, ConditionDescription='4 MESES')
         condicion.save()
         return
 

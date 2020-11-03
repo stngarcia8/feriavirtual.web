@@ -103,22 +103,14 @@ class OrderUpdateView(LoginRequired, ClientRequired, UpdateView):
             data['order_detail'] = OrderDetailFormSet(instance=self.object)
         return data
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        print()
-        print("Aqui estoy weando!")
-        print(self.object.id)
-        print()
-        return super().post(request, *args, **kwargs)
-
-
-
     def form_valid(self, form):
         context = self.get_context_data()
         details = context['order_detail']
+        print()
+        print("forrmset")
+        print(details.errors)
+        print()
         with transaction.atomic():
-            form.instance.ClientID = self.request.user.loginsession.ClientID
-            form.instance.User = self.request.user
             self.object = form.save()
             if details.is_valid():
                 details.instance = self.object
