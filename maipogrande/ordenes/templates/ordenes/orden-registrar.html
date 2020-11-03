@@ -21,21 +21,21 @@
                 <!-- Datos del formulario de orden de compra -->
                 <div class="row">
                     <div class="col-4">
-                        <label>Fecha</label>
+                        <label class="font-weight-bold">Fecha</label>
                         {{ form.OrderDate }}
                     </div>
                     <div class="col-4" style="height: 50px;">
-                        <label>Condición de pago</label>
+                        <label class="font-weight-bold">Condición de pago</label>
                         {{ form.PaymentCondition }}
                     </div>
                     <div class="col-4">
-                        <label>Descuento</label>
+                        <label class="font-weight-bold">Descuento</label>
                         {{ form.OrderDiscount }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <label>Observación :</label>
+                        <label class="font-weight-bold">Observación</label>
                         {{ form.Observation }}
                     </div>
                 </div>
@@ -80,8 +80,8 @@
 <script src='{% static "core/vendor/jquery/jquery.formset.js" %}'></script>
 <script type="text/javascript">
     $('.formset_row-{{ order_detail.prefix }}').formset({
-        addText: 'agregar producto',
-        deleteText: 'quitar',
+        addText: 'Agregar producto',
+        deleteText: 'Quitar',
         prefix: '{{ order_detail.prefix }}',
     });
 </script>
