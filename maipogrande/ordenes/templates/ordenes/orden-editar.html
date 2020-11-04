@@ -18,22 +18,22 @@
                 {% csrf_token %}
                 <!-- Datos del formulario de orden de compra -->
                 <div class="row">
-                    <div class="col-lg-4">
-                        <label>Fecha</label>
+                    <div class="col-4">
+                        <label class="font-weight-bold">Fecha</label>
                         {{ form.OrderDate }}
                     </div>
-                    <div class="col-lg-4">
-                        <label>Condición de pago</label>
+                    <div class="col-4" style="height: 50px;">
+                        <label class="font-weight-bold">Condición de pago</label>
                         {{ form.PaymentCondition }}
                     </div>
-                    <div class="col-lg-4">
-                        <label>Descuento</label>
+                    <div class="col-4">
+                        <label class="font-weight-bold">Descuento</label>
                         {{ form.OrderDiscount }}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
-                        <label>Observación :</label>
+                    <div class="col-12">
+                        <label class="font-weight-bold">Observación</label>
                         {{ form.Observation }}
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                 <!-- formulario de detalle de orden de compra -->
                 <h4>Detalle de orden de compra</h4>
                 {{ order_detail.management_form }}
-                <table class="col-md-7 table-responsive">
+                <table class="col-md-7 table-responsive mx-auto" style="width: 500px;">
                     <thead>
                         <th>Producto</th>
                         <th>Cantidad</th>
@@ -66,7 +66,7 @@
                     {% endfor %}
                 </table>
                 <br><br><br>
-                <button class="btn btn-lg btn-success" type="submit"> Actualizar orden </button>
+                <button class="btn btn-m btn-success" type="submit"> Actualizar orden </button>
                 <a class="btn btn-light" href="{% url 'listarOrdenes' %}" role="button"> Cancelar </a>
             </form>
         </div>
