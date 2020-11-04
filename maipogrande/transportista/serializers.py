@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vehicle, VehicleType
+from .models import Vehicle, VehicleType, AuctionProduct, Auction, BidModel
 
 
 class VehicleTypeSerializer(serializers.ModelSerializer):
@@ -46,3 +46,43 @@ class VehiculoApiSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class AuctionProductSerializer(serializers.ModelSerializer):
+    "Serializador para los productos de las subastas"
+    class Meta:
+        model = AuctionProduct
+        fields = ('Product', 'UnitValue', 'Quantity', 'TotalValue', )
+
+
+class AuctionSerializer(serializers.ModelSerializer):
+    "Serializador para las subastas."
+    Products = AuctionProductSerializer(many=True)
+
+    class Meta:
+        model = Auction
+        fields = ('AuctionID', 'AuctionDate', 'Percent', 'Value',
+                  'Weight', 'LimitDate', 'Observation', 'Status', 'Products', )
+        depth = 1
+
+    def create(self, data):
+        auc = Auction.objects.create(
+            AuctionID=data['AuctionID'], AuctionDate=data['AuctionDate'],
+            Percent=data['Percent'], Value=data['Value'], Weight= data['Weight'],
+            LimitDate=data['LimitDate'], Observation=data['Observation'],
+            Status=data['Status']
+        )
+        Products = AuctionProductSerializer(data=data['Products'], many=True)
+        Products.is_valid()
+        Products.save(Auction=auc)
+        return auc
+
+
+class AuctionParticipateSerializer(serializers.ModelSerializer):
+    "Serializador para participar en subastas"
+    class Meta:
+        model = BidModel
+        fields = ('ValueID', 'AuctionID', 'ClientID', 'Value', )
+        depth = 1
+
+    def create(self, data):
+        bid = BidModel.objects.create(*data)
+        return bid    

@@ -18,5 +18,16 @@ urlpatterns = [
         views.VehiculoUpdateView.as_view(), name='editarVehiculo'),
     url(r'^vehiculo/eliminar/(?P<pk>\d+)$',
         views.VehiculoDeleteView.as_view(), name='eliminarVehiculo'),
+    url(r'^subastas/listar/$', views.AuctionListView.as_view(),
+        name='listarSubastas'),
+    url(r'^subastas/cargar$', views.AuctionsLoadView,
+        name='actualizarListaSubastas'),
+    url(r'^subasta/participar/(?P<pk>\d+)$',
+        views.AuctionParticipateView, name='participarSubasta'),            
+    url(r'^subasta/pujar/(?P<pk>\d+)$',
+        views.MostrarPujasView, name='mostrarPujaSubasta'),
+    url(r'^subasta/puja/actualizar/(?P<pk>\d+)$',
+        views.ActualizarPujasView, name='actualizarPujaSubasta'),                
+                    
 
 ]

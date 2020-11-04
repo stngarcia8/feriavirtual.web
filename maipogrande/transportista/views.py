@@ -1,16 +1,20 @@
 import operator
+from django.shortcuts import render, reverse
+import uuid
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db.models import Q
 from functools import reduce
+from django.http import HttpResponse
 from django.conf import settings
-from .forms import CreateVehiculoForm, UpdateVehiculoForm
-from .models import Vehicle
+from django.template import loader
+from .forms import CreateVehiculoForm, UpdateVehiculoForm, AuctionParticipateForm
+from .models import Vehicle, Auction, BidModel, AuctionProduct
 from dcomercial.models import Comercial
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
-from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
-from .serializers import VehiculoApiSerializer, VehiculoSerializer
+from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi
+from .serializers import VehiculoApiSerializer, VehiculoSerializer, AuctionParticipateSerializer
 from dcomercial.views import CargarDatoComercial
 from core.permission import LoginRequired
 
@@ -116,3 +120,63 @@ def VehiculosLoadView(request):
     GetFromApi(request.user)
     return redirect('listarVehiculos')
 
+
+class AuctionListView(ListView):
+    "Muestra la lista de subastas disponibles"
+    model = Auction
+    template_name = 'transportista/subasta/subasta-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(AuctionListView, self).get_queryset()
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        if not query2:
+            query2 = query1
+        if query1:
+            result = result.filter(OrderDate__range=(query1, query2))
+        return result    
+
+def AuctionsLoadView(request):
+    "Carga la lista de subastas desde la base de datos de feria virtual."
+    auction = Auction.objects.all().delete()
+    GetAuctionsFromApi(request.user)
+    return redirect('listarSubastas')
+
+
+def AuctionParticipateView(request, pk):
+    form = AuctionParticipateForm(request.POST or None)
+    template = loader.get_template("transportista/subasta/subasta-pujar.html")
+    auction = Auction.objects.get(id=pk)
+    auction_product = AuctionProduct.objects.filter(Auction=auction)
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
+
+    # if form.is_valid():
+    #     form.instance.ValueID = uuid.uuid4()
+    #     form.instance.AuctionID = auction.AuctionID
+    #     form.instance.ClientID = request.user.loginsession.ClientID
+    #     data = form.cleaned_data
+    #     form.save()
+    #     # serializador = AuctionParticipateSerializer(data=response.json(), many=True)
+    #     # serializador.is_valid()
+    #     # serializador.save(Client_id=request.loginsession.id, Auction_id=auction.AuctionID)
+    return HttpResponse(template.render(context, request))
+
+
+
+def MostrarPujasView(request, pk):
+    "Muestra los valores de las pujas realizadas."
+    valor = request.GET.get('value')
+    auction = Auction.objects.get(id=pk)
+    bid = BidModel(AuctionID=auction.AuctionID, ClientID=request.user.loginsession.ClientID,
+        Value=valor)
+    bid.save()
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
+
+def ActualizarPujasView(request, pk):
+    "Actualiza la vista de las pujas automaticamente."
+    auction = Auction.objects.get(id=pk)
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})

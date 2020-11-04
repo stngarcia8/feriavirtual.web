@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, TextInput, NumberInput, HiddenInput, Select, RadioSelect
-from .models import Vehicle
+from .models import Vehicle, Auction, BidModel
 
 
 class CreateVehiculoForm(ModelForm):
@@ -46,3 +46,21 @@ class UpdateVehiculoForm(ModelForm):
             'VehicleAvailable': RadioSelect(),
             'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
         }
+
+
+class AuctionParticipateForm(ModelForm):
+    "Formulario para participar en subasta"
+    class Meta:
+        model = BidModel
+        fields = (
+            'ValueID', 'AuctionID', 'ClientID', 'Value',
+        )
+        widgets = {
+            'ValueID': HiddenInput(),
+            'AuctionID': HiddenInput(),
+            'ClientID': HiddenInput(),
+            'Hour':HiddenInput(),
+            'Value': NumberInput(attrs={'min': 1, 'pattern': "^[1-9]+$",'max': 'subasta.Value',
+            'oninvalid':"setCustomValidity('Ingrese una puja válida')", 'oninput':"setCustomValidity('')",
+            'onkeypress':"return event.charCode >=46"}),
+        }        

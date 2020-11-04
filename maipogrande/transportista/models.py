@@ -1,7 +1,9 @@
 import uuid
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 
 
 class VehicleType(models.Model):
@@ -62,3 +64,55 @@ class Vehicle(models.Model):
         return reverse('eliminarVehiculo', args=[self.id])
 
 
+class Auction(models.Model):
+    "Clase que representa una subasta."
+    AuctionID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionDate = models.DateField(default=datetime.date.today)
+    Percent = models.FloatField(default=0)
+    Value = models.FloatField(default=0)
+    Weight = models.FloatField(default=0)
+    LimitDate = models.DateField(default=datetime.date.today)
+    Observation = models.CharField(max_length=100, blank=True, null=True)
+    Status = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('-AuctionDate', )
+
+    def __str__(self):
+        return self.AuctionDate
+
+    def get_participar_url(self):
+        "Define la ruta de participación de la subasta."
+        return reverse('participarSubasta', args=[self.id])    
+
+
+class AuctionProduct(models.Model):
+    "Representa un producto dentro de la subasta."
+    Product = models.CharField(blank=True, max_length=50, null=True)
+    UnitValue = models.FloatField(default=0)
+    Quantity = models.FloatField(default=0)
+    TotalValue = models.FloatField(default=0)
+    Auction = models.ForeignKey(Auction, null=True, on_delete=models.CASCADE)
+    
+    class meta:
+        ordering = ('Product',)
+    
+    def __str__(self):
+        return self.Product
+
+def get_default_my_hour():
+      hour = timezone.now()
+      formatedHour = hour.strftime("%H:%M:%S")
+      return formatedHour
+
+class BidModel(models.Model):
+    "Clase que representa la puja en una subasta."
+    ValueID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionID = models.CharField(max_length=40, blank=True, null=True)
+    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    Value = models.IntegerField(default=0, verbose_name='Puja')
+    Hour = models.CharField(max_length=50, default=get_default_my_hour, null=True)
+    Date = models.DateField(default=datetime.date.today)
+
+    class Meta:
+        ordering = ('Value', )
