@@ -20,6 +20,7 @@ def GetFromApi(user):
     if response.status_code != 200:
         return False    
     serializador = ContratoSerializer(data=response.json(), many=True)
+<<<<<<< HEAD
     if serializador.is_valid():
         serializador.save(User=user, ProfileID=user.loginsession.ProfileID)
         print()
@@ -29,6 +30,13 @@ def GetFromApi(user):
         print()
         print(serializador.errors)
         print()
+=======
+    serializador.is_valid()
+    serializador.save(User=user, ProfileID=user.loginsession.ProfileID)
+    print()
+    print(serializador.errors)
+    print()
+>>>>>>> fc1274fd2bb1f70a8b7c4d612067bf00c837504c
     return True
 
 

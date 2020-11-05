@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from .serializers import VehiculoApiSerializer, VehiculoSerializer
+from .serializers import VehiculoApiSerializer, VehiculoSerializer, AuctionSerializer
 
 
 def PostToApi(serializador):
@@ -78,3 +78,26 @@ def GetFromApi(user):
     serializador.is_valid()
     serializador.save(User=user)
     return True
+
+def GetAuctionsFromApi(user):
+    """ Carga la lista de subastas
+
+        Carga los subastas almacenados en la base de datos de feria virtual
+        parámetros:
+            - user: objeto que contiene la información del usuario actual.
+        retorna:
+            - True: Si cargo los datos
+            - False: En caso de problemas de conectividad. 
+    """
+    response = requests.get(
+        url=settings.AUCTION_SERVICE_URL_GET_ALL,
+        params={'clientID': user.loginsession.ClientID})     
+    if response.status_code != 200:
+        return False     
+    serializador = AuctionSerializer(data=response.json(), many=True)
+    serializador.is_valid()
+    serializador.save(User=user)
+    print()
+    print(serializador.errors)
+    print()
+    return True    

@@ -6,11 +6,12 @@
 
 {% block menu %}
     <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
-    <br><br>
+    <br>
     <p class="text-justify text-center font-weight-bold" style="color: white;">Productos</p>
     <a class="enlace" href="{% url 'actualizarListaProductos' %}">Lista de productos</a>
     <br>
     <a class="enlace" href="{% url 'registrarProducto' %}">Agregar producto</a>
+    <br>
     <p class="text-justify text-center font-weight-bold" style="color: white;">Contratos</p>
     <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
 {% endblock %}
@@ -25,7 +26,7 @@
     </p>
     <div class="row">
         <div class="col-md-4">
-            <h3>datos comerciales</h3>
+            <h3>Datos comerciales</h3>
             <p class="text-justify small" >
                 Usted podrá:
                 <ul>

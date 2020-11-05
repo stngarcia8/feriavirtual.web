@@ -48,17 +48,17 @@ class Order(models.Model):
         verbose_name='Fecha orden de compra')
     OrderDiscount = models.FloatField(
         default=0, verbose_name='¿Tiene descuento?',
-        validators=[MinValueValidator(0), MaxValueValidator(10)])
+        validators=[MinValueValidator(0), MaxValueValidator(5)])
     Observation = models.CharField(
-        max_length=100, null=True, blank=True, verbose_name='Observación')
+        max_length=100, null=True, blank=True, help_text='(ej: 12345678-K)',verbose_name='Observación')
     Status = models.IntegerField(default=1)
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.ConditionID = self.PaymentCondition.ConditionID
         self.ConditionDescription = self.PaymentCondition.ConditionDescription
-        self.Observation = self.Observation.upper()
-        super(Order, self).save()
+        self.Observation = self.Observation.upper() if self.Observation else ''
+        super(Order, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Orden de compra'
@@ -87,9 +87,9 @@ class OrderDetail(models.Model):
     Order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
     OrderID = models.CharField(max_length=40, blank=True, null=True)
     Product = models.ForeignKey(ExportProduct, null=True, on_delete=models.SET_NULL)
-    ProductName = models.CharField(max_length=50, blank=True)
+    ProductName = models.CharField(max_length=50, blank=True, null=True)
     Quantity = models.FloatField(default=0, verbose_name='Cantidad de productos (medido en KG)',
-                                 validators=[MinValueValidator(1), MaxValueValidator(99999)])
+                                 validators=[MinValueValidator(1), MaxValueValidator(9999)])
 
     def save(self):
         self.OrderID = self.Order.OrderID

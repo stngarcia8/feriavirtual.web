@@ -1,13 +1,13 @@
 {% extends 'core/base-inicial.html' %}
 
 {% block titulo %}
-    Lista de ordenes de compra
+    Lista de subastas
 {% endblock %}
 
 {% block contenido %}
     <div class="row">
         <div class="col col-6">
-            <form class="form-inline my-2 my-lg-0" action="{% url 'listarOrdenes' %}" method="get" accept-charset="utf-8">
+            <form class="form-inline my-2 my-lg-0" action="#" method="get" accept-charset="utf-8">
                 <label class="control-label" for="buscar">Fecha desde:</label>
                 <input name="q1" class="form-control mr-sm-2" type="date" aria-label="buscar" value="">
                 <label class="control-label" for="buscar">Hasta:</label>
@@ -18,7 +18,7 @@
         <div class="col col-1"></div>
         <div class="col col-2">
             <a class="btn btn-secondary" 
-                href="{% url 'cargarOrdenesSinProcesar' %}" role="button"> Actualizar lista</a>
+                href="{% url 'actualizarListaSubastas' %}" role="button"> Actualizar lista</a>
         </div>
         <div class="col col-1"></div>
         <!-- <div class="col col-2">
@@ -29,27 +29,30 @@
     <hr class="col-12">
     
     <!-- Listando las ordenes de compra -->
-    {% if order_list %}
-        <table class="table table-responsive table-hover table-striped mx-auto" style="width: 750px;">
+    {% if auction_list %}
+        <table class="table table-hover table-striped mx-auto" style="width: 750px;">
             <thead>
                 <tr>
-                    <th>Orden Nro.</th>
-                    <th>Fecha solicitud</th>
-                    <th>Condición de pago</th>
-                    <th>Descuento</th>
-                    <th></th>
+                    <th>Subasta Nro.</th>
+                    <th>Fecha de inicio</th>
+                    <th>Valor propuesto</th>
+                    <th>Peso de la carga</th>
+                    <th>Fecha de término</th>
+                    <th>Observación</th>
                 </tr>
             </thead>
             <tbody class="py-0">
-                {% for order in order_list %}
+                {% for auction in auction_list %}
                 <tr>
-                    <td class="text-right py-0">{{ order.id }}</td>
-                    <td class="py-0">{{ order.OrderDate }}</td>
-                    <td class="py-0">{{ order.PaymentCondition.ConditionDescription }}</td>
-                    <td class="text-right py-0">${{ order.OrderDiscount }}%</td>
+                    <td class="text-right py-0">{{ auction.id }}</td>
+                    <td class="py-0">{{ auction.AuctionDate }}</td>
+                    <td class="py-0">{{ auction.Value }}</td>
+                    <td class="py-0">{{ auction.Weight }} kg</td>
+                    <td class="py-0">{{ auction.LimitDate }}</td>
+                    <td class="text-right py-0">{{ auction.Observation }}</td>
                     <td class="py-0">
                         <a class="btn btn-light" 
-                            href="{{ order.get_absolute_url }}" role="button"> Ver detalles </a>
+                            href="{{ auction.get_participar_url }}" role="button"> Participar </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -83,7 +86,7 @@
     <!-- Aqui parte la seccion cuando no hay nada ingresado -->
     {% else %}
         <p class="lead text-justify">
-            No hay ordenes de compras registradas o 
+            No hay subastas disponibles o 
             la busqueda no produjo ningún resultado.<br>
         </p>
     {% endif %}
@@ -91,7 +94,7 @@
     <!-- volver a la pagina de inicio -->
     <br>
     <div class="text-center">
-    <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
+    <a class="btn btn-secondary" href="#" role="button"> Volver página de inicio </a>
     </div>
 
 {% endblock %}

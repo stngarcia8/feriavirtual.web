@@ -25,12 +25,17 @@ class Producto(models.Model):
         max_length=50,verbose_name='Nombre producto')
     Category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione categoría de producto')
     ProductValue = models.FloatField(
-        default=0, verbose_name='Valor del producto')
+        default=0, verbose_name='Valor del producto (por KG)')
     ProductQuantity = models.FloatField(
         default=0, verbose_name='Cantidad de productos (medido en KG)')
     Observation = models.CharField(
         max_length=100, null=True, blank=True, verbose_name='Observación')
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.ProductName = self.ProductName.upper()
+        self.Observation = self.Observation.upper() if self.Observation else ''
+        super(Producto, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'producto'
