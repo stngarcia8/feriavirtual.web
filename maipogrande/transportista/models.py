@@ -73,10 +73,13 @@ class Auction(models.Model):
     Weight = models.FloatField(default=0)
     LimitDate = models.DateField(default=datetime.date.today)
     Observation = models.CharField(max_length=100, blank=True, null=True)
+    CompanyName = models.CharField(max_length=100, blank=True, null=True)
+    Destination = models.CharField(max_length=200, blank=True, null=True)
+    PhoneNumber = models.CharField(max_length=50, blank=True, null=True)
     Status = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('-AuctionDate', )
+        ordering = ('AuctionDate', )
 
     def __str__(self):
         return self.AuctionDate
@@ -113,6 +116,7 @@ class BidModel(models.Model):
     Value = models.IntegerField(default=0, verbose_name='Puja')
     Hour = models.CharField(max_length=50, default=get_default_my_hour, null=True)
     Date = models.DateField(default=datetime.date.today)
+    Bidder = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         ordering = ('Value', )

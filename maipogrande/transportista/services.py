@@ -97,7 +97,21 @@ def GetAuctionsFromApi(user):
     serializador = AuctionSerializer(data=response.json(), many=True)
     serializador.is_valid()
     serializador.save(User=user)
-    print()
-    print(serializador.errors)
-    print()
-    return True    
+    return True
+
+
+def PostBidValueToApi(serializador):
+    """ Almacena una nueva puja.
+
+        Permite almacenar el valor de la puja en la base de datos de feria virtual.
+        parámetros:
+            - serializador: objeto serializer que contiene el valor de la puja.
+        retorna:
+            - True: El valor de puja fue almacenado correctamente
+            - False: Ocurrio algun problema y la puja no fue almacenada
+    """
+    response = requests.post(
+        url=settings.AUCTION_SERVICE_URL_BIDVALUE_POST,
+        headers=settings.SERVER_HEADERS,
+        data=json.dumps(serializador.data))
+    return True if response.status_code == 200 else False        
