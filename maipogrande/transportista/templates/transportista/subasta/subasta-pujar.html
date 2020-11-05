@@ -1,4 +1,5 @@
 {% extends 'core/base-inicial.html' %}
+{% load static %}
 
 {% block titulo %}
     Participar en subasta
@@ -33,6 +34,15 @@
                     <td class="py-0">Observación</td>
                     <td class="py-0">{{ subasta.Observation }}</td>
                 </tr>
+                <tr>
+                    <td class="py-0">Nombre de la compañia</td>
+                    <td class="py-0">{{ subasta.CompanyName }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Destino y método de contacto</td>
+                    <td class="py-0">{{ subasta.Destination }}<br>
+                        {{ subasta.PhoneNumber }}</td>
+                </tr>
             </tbody>
         </table>
         <h4>Detalle de la subasta</h4>
@@ -59,7 +69,7 @@
     </div>
 
     <!-- formulario -->
-    <form id="pujaForm" method="post" url_pujas="{% url 'mostrarPujaSubasta' subasta.id %}"  url_actualizar_pujas="{% url 'actualizarPujaSubasta' subasta.id %}">
+    <form id="pujaForm" method="post" valor_max="{{ subasta.Value }}" url_pujas="{% url 'mostrarPujaSubasta' subasta.id %}"  url_actualizar_pujas="{% url 'actualizarPujaSubasta' subasta.id %}">
         {% csrf_token %}
         <table>
             <tr>
@@ -75,11 +85,13 @@
             <tr>
                 <td colspan="4">{{ form.errors }}</td>
             </tr>
-
         </table>
     </form>
-    <table>
+    <h4>Top de postores</h4>
+    <table class="table table-hover table-hover table-striped">
         <theader>
+            <th>Puesto</th>
+            <th>Postor</th>
             <th>Valor</th>
             <th>Fecha</th>
             <th>Hora</th>
@@ -90,28 +102,7 @@
 {% endblock %}
 
 {% block jsBody %}
-    <script>
-        const url = $("#pujaForm").attr("url_pujas");
-        const url_actualizar = $("#pujaForm").attr("url_actualizar_pujas");
-        $("#pujaForm").submit(function() {
-            let puja_value = $("#id_Value").val();
-            $.ajax({url: url,data: {'value': puja_value},
-                success: function (data) { 
-                $("#id_pujita").html(data);}
-            });
-            return false;
-        });
-        var myInterval = setInterval(function() {
-            $.ajax({url: url_actualizar,data: {},
-                success: function (data) { 
-                $("#id_pujita").html(data);}
-            });
-        }, 1000);
-
-        $('#linkID').on("click", function() {
-            if (typeof myInterval != 'undefined') clearTimeout(myInterval);
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'core/js/subasta-temporizador.js' %}"></script>
 {% endblock %}
 
 

@@ -60,7 +60,7 @@ class AuctionParticipateForm(ModelForm):
             'AuctionID': HiddenInput(),
             'ClientID': HiddenInput(),
             'Hour':HiddenInput(),
-            'Value': NumberInput(attrs={'min': 1, 'pattern': "^[1-9]+$",'max': 'subasta.Value',
-            'oninvalid':"setCustomValidity('Ingrese una puja válida')", 'oninput':"setCustomValidity('')",
+            'Value': NumberInput(attrs={'min': 1, 'pattern': "^[1-9]+$",'max': '',
+            'oninvalid':"setCustomValidity('Ingrese una propuesta válida')", 'oninput':"setCustomValidity('')",
             'onkeypress':"return event.charCode >=46"}),
         }        

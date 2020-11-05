@@ -13,8 +13,8 @@ from .models import Vehicle, Auction, BidModel, AuctionProduct
 from dcomercial.models import Comercial
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
-from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi
-from .serializers import VehiculoApiSerializer, VehiculoSerializer, AuctionParticipateSerializer
+from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi
+from .serializers import VehiculoApiSerializer, VehiculoSerializer, BidValueSerializer
 from dcomercial.views import CargarDatoComercial
 from core.permission import LoginRequired
 
@@ -134,7 +134,7 @@ class AuctionListView(ListView):
         if not query2:
             query2 = query1
         if query1:
-            result = result.filter(OrderDate__range=(query1, query2))
+            result = result.filter(AuctionDate__range=(query1, query2))
         return result    
 
 def AuctionsLoadView(request):
@@ -164,19 +164,23 @@ def AuctionParticipateView(request, pk):
     return HttpResponse(template.render(context, request))
 
 
+def ActualizarPujasView(request, pk):
+    "Actualiza la vista de las pujas automaticamente."
+    auction = Auction.objects.get(id=pk)
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
+    return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
+
 
 def MostrarPujasView(request, pk):
     "Muestra los valores de las pujas realizadas."
     valor = request.GET.get('value')
     auction = Auction.objects.get(id=pk)
     bid = BidModel(AuctionID=auction.AuctionID, ClientID=request.user.loginsession.ClientID,
-        Value=valor)
+        Value=valor, Bidder= request.user.loginsession.FullName)
     bid.save()
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    PostBidValueToApi(BidValueSerializer(instance=bid))
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
-def ActualizarPujasView(request, pk):
-    "Actualiza la vista de las pujas automaticamente."
-    auction = Auction.objects.get(id=pk)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
-    return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
+
+
