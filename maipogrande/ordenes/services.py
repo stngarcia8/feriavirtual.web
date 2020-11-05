@@ -21,6 +21,11 @@ def PostToApi(orderID):
         url=settings.ORDER_SERVICE_URL_POST,
         headers=settings.SERVER_HEADERS,
         data=json.dumps(orden_serializer.data))
+    print()
+    print(response)
+    print("serializer")
+    print(json.dumps(orden_serializer.data))
+    print()
     return True if response.status_code == 200 else False
 
 
