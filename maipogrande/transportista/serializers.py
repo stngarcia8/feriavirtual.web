@@ -60,7 +60,8 @@ class AuctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = ('AuctionID', 'AuctionDate', 'Percent', 'Value',
-                  'Weight', 'LimitDate', 'Observation', 'Status', 'Products', )
+                  'Weight', 'LimitDate', 'Observation', 'CompanyName', 'Destination',
+                  'PhoneNumber' ,'Status', 'Products', )
         depth = 1
 
     def create(self, data):
@@ -68,7 +69,8 @@ class AuctionSerializer(serializers.ModelSerializer):
             AuctionID=data['AuctionID'], AuctionDate=data['AuctionDate'],
             Percent=data['Percent'], Value=data['Value'], Weight= data['Weight'],
             LimitDate=data['LimitDate'], Observation=data['Observation'],
-            Status=data['Status']
+            CompanyName=data['CompanyName'], Destination=data['Destination'],
+            PhoneNumber=data['PhoneNumber'], Status=data['Status']
         )
         Products = AuctionProductSerializer(data=data['Products'], many=True)
         Products.is_valid()
@@ -76,13 +78,8 @@ class AuctionSerializer(serializers.ModelSerializer):
         return auc
 
 
-class AuctionParticipateSerializer(serializers.ModelSerializer):
+class BidValueSerializer(serializers.ModelSerializer):
     "Serializador para participar en subastas"
     class Meta:
         model = BidModel
         fields = ('ValueID', 'AuctionID', 'ClientID', 'Value', )
-        depth = 1
-
-    def create(self, data):
-        bid = BidModel.objects.create(*data)
-        return bid    

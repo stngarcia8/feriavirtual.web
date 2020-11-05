@@ -162,3 +162,4 @@ ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/orders/delete'
 
 #url de subastas
 AUCTION_SERVICE_URL_GET_ALL = SERVER_API_URL + 'auctions/available'
+AUCTION_SERVICE_URL_BIDVALUE_POST = SERVER_API_URL + 'auctions/bidValue'

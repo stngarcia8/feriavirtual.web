@@ -14,5 +14,4 @@ urlpatterns = [
         views.ContratoAcceptUpdateView.as_view(), name='aceptarContrato'),
     url(r'^contratos/rechazar/(?P<pk>\d+)$',
         views.ContratoRefuseUpdateView.as_view(), name='rechazarContrato'),
-
 ]

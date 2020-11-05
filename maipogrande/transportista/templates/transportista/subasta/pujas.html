@@ -1,7 +1,9 @@
 {% for p in pujas %}
 <tr>
-    <td>{{ p.Value }}</td>
-    <td>{{ p.Date }}</td>
-    <td>{{ p.Hour }}</td>
+    <td class="py-0">{{ forloop.counter }}</td>    
+    <td class="py-0">{{ p.Bidder }}</td>    
+    <td class="py-0">${{ p.Value }}</td>
+    <td class="py-0">{{ p.Date }}</td>
+    <td class="py-0">{{ p.Hour }}</td>
 </tr>
 {% endfor %}
