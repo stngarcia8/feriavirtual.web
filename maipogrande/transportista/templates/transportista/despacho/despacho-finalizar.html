@@ -1,0 +1,26 @@
+{% extends 'core/base-inicial.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Confirmar Despacho
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id=dispatchForm>
+        <p class="lead text-center">
+            Si desea enviar una observación al finalizar el despacho, 
+            por favor ingrese este en la caja de observación y 
+            posteriormente presione el botón enviar. 
+        </p>
+        {% csrf_token %}
+        {% if form.non.field.errors %}
+            {{ form.non.field.errors }}
+        {% endif %}
+        <table class="tabla table-responsive">
+            {{ form }}
+        </table>
+        <button type="submit" class="btn btn-success mt-3">Enviar finalización de despacho</button>
+        <a class="btn btn-light" href="{% url 'dinamicHome' %}" role="button"> Cancelar </a>
+    </form>
+{% endblock %}

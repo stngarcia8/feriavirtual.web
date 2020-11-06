@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, TextInput, NumberInput, HiddenInput, Select, RadioSelect
-from .models import Vehicle, Auction, BidModel
+from .models import Vehicle, Auction, BidModel, OrderDispatch
 
 
 class CreateVehiculoForm(ModelForm):
@@ -63,4 +63,18 @@ class AuctionParticipateForm(ModelForm):
             'Value': NumberInput(attrs={'min': 1, 'pattern': "^[1-9]+$",'max': '',
             'oninvalid':"setCustomValidity('Ingrese una propuesta válida')", 'oninput':"setCustomValidity('')",
             'onkeypress':"return event.charCode >=46"}),
-        }        
+        } 
+
+class DispatchForm(ModelForm):
+    "Formulario para cambiar estado subasta"
+    class Meta:
+        model = OrderDispatch 
+        fields = (
+            'DispatchID', 'ClientID', 'CarrierObservation',
+        )
+        widgets = {
+            'DispatchID': HiddenInput(),
+            'ClientID': HiddenInput,
+            'CarrierDescription': Textarea(attrs={'cols': 30, 'rows': 3}),
+        }
+                   

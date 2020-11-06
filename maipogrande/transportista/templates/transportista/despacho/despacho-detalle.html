@@ -1,0 +1,84 @@
+{% extends 'core/base-inicial.html' %}
+{% load static %}
+
+{% block titulo %}
+    Detalle Orden de Despacho
+{% endblock %}
+
+{% block contenido %}
+    <div class="table-responsive justify-content-center">
+        <h4>Datos de la orden de despacho</h4>
+        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+            <tbody>
+                <tr>
+                    <td  class="py-0">Orden Nro.</td>
+                    <td  class="py-0">{{ orderdispatch.id }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Fecha de inicio</td>
+                    <td  class="py-0">{{ orderdispatch.DispatchDate }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Valor de despacho</td>
+                    <td class="py-0">${{ orderdispatch.DispatchValue }} </td>
+                </tr>
+                <tr>
+                    <td class="py-0">Peso de la carga</td>
+                    <td class="py-0">{{ orderdispatch.DispatchWeight }} kg</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Observación</td>
+                    <td class="py-0">{{ orderdispatch.Observation }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Nombre de la compañia</td>
+                    <td class="py-0">{{ orderdispatch.CompanyName }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Destino y método de contacto</td>
+                    <td class="py-0">{{ orderdispatch.Destination }}<br>
+                        {{ orderdispatch.PhoneNumber }}</td>
+                </tr>
+                <tr>
+                    <td class="py-0">Estado de despacho</td>
+                    {% if orderdispatch.Status == 5 %}
+                        <td class="py-0">Despachado<br>
+                    {% elif orderdispatch.Status == 6 %}
+                        <td class="py-0">Entregado<br>
+                    {% elif orderdispatch.Status == 9 %}
+                        <td class="py-0">Cancelado<br>        
+                    {% endif %}            
+                </tr>
+            </tbody>
+        </table>
+        <h4>Detalle del pedido</h4>
+        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+            <theader>
+                <th></th>
+                <th>Producto</th>
+                <th>Valor unitario</th>
+                <th>Cantidad</th>
+                <th>Valor total</th>
+            </theader>
+            <tbody>
+                    {% for producto in dispatch_products %}
+                        <tr>
+                            <td class ="text-right py-0">{{ forloop.counter }}</td>
+                            <td class="py-0">{{ producto.Product }}</td>
+                            <td class="py-0">{{ producto.UnitValue }}<br></td>
+                            <td class="py-0">{{ producto.Quantity }}<br></td>
+                            <td class="py-0">{{ producto.TotalValue }}<br></td>
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    {% if orderdispatch.Status == 5 %}
+        <a class="btn btn-primary" 
+        href="{{ orderdispatch.get_deliver_dispatch_url }}" role="button"> Finalizar despacho </a>
+        <a class="btn btn-danger" 
+        href="{{ orderdispatch.get_cancel_dispatch_url }}" role="button"> Cancelar despacho </a>
+    {% endif %} 
+    <a class="btn btn-success" href="{% url 'listarDespachos' %}" role="button"> Volver </a>   
+{% endblock %}
