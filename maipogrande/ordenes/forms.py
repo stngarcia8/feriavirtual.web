@@ -1,4 +1,4 @@
-from django.forms import ModelForm, HiddenInput, NumberInput, Select
+from django.forms import ModelForm, HiddenInput, NumberInput, Select,Textarea
 from django.forms.models import inlineformset_factory
 from .models import Order, OrderDetail
 
@@ -16,6 +16,7 @@ class OrderForm(ModelForm):
             'User': HiddenInput(),
             'OrderDiscount': NumberInput(attrs={'min': 0, 'max': 5, 'onkeypress':"return event.charCode >= 46", 
                 'oninvalid': "setCustomValidity('Descuento puede estar entre 0% y 5%')", 'oninput': "setCustomValidity('')"}),
+            'Observation': Textarea(attrs={'cols': 30, 'rows': 3}),
         }
 
 

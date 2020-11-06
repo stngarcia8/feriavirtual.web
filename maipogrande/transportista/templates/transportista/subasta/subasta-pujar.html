@@ -8,39 +8,39 @@
 {% block contenido %}
     <div class="table-responsive justify-content-center">
         <h4>Datos de la subasta</h4>
-        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
-            <tbody>
+        <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black" style="margin-left:auto; margin-right:auto;">
+            <tbody class="justify-content-center">
                 <tr>
-                    <td  class="py-0">Subasta Nro.</td>
-                    <td  class="py-0">{{ subasta.id }}</td>
+                    <td  class="py-0 px-5">Subasta Nro.</td>
+                    <td  class="py-0 px-5">{{ subasta.id }}</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Fecha de inicio</td>
-                    <td  class="py-0">{{ subasta.AuctionDate }}</td>
+                    <td class="py-0 px-5">Fecha de inicio</td>
+                    <td  class="py-0 px-5">{{ subasta.AuctionDate }}</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Valor Propuesto</td>
-                    <td class="py-0">${{ subasta.Value }} </td>
+                    <td class="py-0 px-5">Valor Propuesto</td>
+                    <td class="py-0 px-5">${{ subasta.Value }} </td>
                 </tr>
                 <tr>
-                    <td class="py-0">Peso de la carga</td>
-                    <td class="py-0">{{ subasta.Weight }} kg</td>
+                    <td class="py-0 px-5">Peso de la carga</td>
+                    <td class="py-0 px-5">{{ subasta.Weight }} kg</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Fecha de término</td>
-                    <td class="py-0">{{ subasta.LimitDate }}</td>
+                    <td class="py-0 px-5">Fecha de término</td>
+                    <td class="py-0 px-5">{{ subasta.LimitDate }}</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Observación</td>
-                    <td class="py-0">{{ subasta.Observation }}</td>
+                    <td class="py-0 px-5">Observación</td>
+                    <td class="py-0 px-5">{{ subasta.Observation }}</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Nombre de la compañia</td>
-                    <td class="py-0">{{ subasta.CompanyName }}</td>
+                    <td class="py-0 px-5">Nombre de la compañia</td>
+                    <td class="py-0 px-5">{{ subasta.CompanyName }}</td>
                 </tr>
                 <tr>
-                    <td class="py-0">Destino y método de contacto</td>
-                    <td class="py-0">{{ subasta.Destination }}<br>
+                    <td class="py-0 px-5">Destino y método de contacto</td>
+                    <td class="py-0 px-5">{{ subasta.Destination }}<br>
                         {{ subasta.PhoneNumber }}</td>
                 </tr>
             </tbody>
@@ -66,27 +66,28 @@
                     {% endfor %}
             </tbody>
         </table>
-    </div>
 
     <!-- formulario -->
-    <form id="pujaForm" method="post" valor_max="{{ subasta.Value }}" url_pujas="{% url 'mostrarPujaSubasta' subasta.id %}"  url_actualizar_pujas="{% url 'actualizarPujaSubasta' subasta.id %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Valor: </td>
-                <td>{{ form.Value }}</td>
-                <td>
-                    <button id="id_pujar" class="btn btn-m btn-success" type="submit"> Pujar </button>
-                </td>
-                <td>
-                    <a id="linkID" class="btn btn-light mt-3" href="{% url 'listarSubastas' %}" role="button"> Cancelar </a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">{{ form.errors }}</td>
-            </tr>
-        </table>
-    </form>
+    <div class="container col-md-3 pt-3">
+        <form id="pujaForm" method="post" valor_max="{{ subasta.Value }}" url_pujas="{% url 'mostrarPujaSubasta' subasta.id %}"  url_actualizar_pujas="{% url 'actualizarPujaSubasta' subasta.id %}" style="margin-left:auto; margin-right:auto;">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Valor: </td>
+                    <td>{{ form.Value }}</td>
+                    <td>
+                        <button id="id_pujar" class="btn btn-m btn-success" type="submit"> Pujar </button>
+                    </td>
+                    <td>
+                        <a id="linkID" class="btn btn-light" href="{% url 'listarSubastas' %}" role="button"> Cancelar </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">{{ form.errors }}</td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <h4>Top de postores</h4>
     <table class="table table-hover table-hover table-striped">
         <theader>
@@ -99,6 +100,7 @@
         <tbody id="id_pujita">
         </tbody>
     </table>
+</div>
 {% endblock %}
 
 {% block jsBody %}

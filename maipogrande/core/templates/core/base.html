@@ -62,7 +62,7 @@
                   href="{% url 'logout' %}" style="color: white;">Cerrar sesión</a>
               </li>
               <li class="nav-item mx-0 mx-lg-1">
-                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small" style="color: white;">
+                <a class="nav-link py-0 px-2 px-lg-3 rounded js-scroll-trigger small mt-1" style="color: white;">
                   {{ request.user.first_name }}
               </a>
               </li>
@@ -85,17 +85,17 @@
         <div class="row row-4 p-1">
 
           <!-- menu lateral -->
-          <div class="col col-sm-2 py-1 px-1 text-center" style="color: white;">
-            <div class="lateral container-fluid" style="background-color: darkslategray;">
-			      <p class="text-center font-weight-bold" style="color: white;">Menú</p>
-			      <div class="line"></div>
-			      {% block menu %}
-            {% endblock %}
-          </div>
+          <div class="col-sm-2 py-1 px-1 text-center" style="color: white;">
+              <div class="lateral container-fluid" style="background-color: darkslategray; padding:20px;">
+              <a class="text-center font-weight-bold" style="color: white;">Menú</a>
+              <div class="line"></div>
+              {% block menu %}
+              {% endblock %}
+            </div>
 		      </div>
 
           <!-- contenido -->
-          <div class="col col-sm-10 py-0 px-4" >
+          <div class="col col-sm-10 py-0 px-5" >
             {% block contenido %}
             {% endblock %}
           </div>
