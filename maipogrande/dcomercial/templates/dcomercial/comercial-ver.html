@@ -41,7 +41,7 @@
         </table>
     </div>
     <br>
-    <a class="btn btn-light" href="{% url 'editarComercial' comercial.id %}" role="button"> Actualizar </a>
-    <a class="btn btn-light" href="{% url 'eliminarComercial' comercial.id %}" role="button"> Eliminar </a>
-    <a class="btn btn-light" href="{% url 'dinamicHome' %}" role="button"> Volver </a>
+    <a class="btn btn-primary" href="{% url 'editarComercial' comercial.id %}" role="button"> Actualizar </a>
+    <a class="btn btn-danger" href="{% url 'eliminarComercial' comercial.id %}" role="button"> Eliminar </a>
+    <a class="btn btn-success" href="{% url 'dinamicHome' %}" role="button"> Volver </a>
 {% endblock %}

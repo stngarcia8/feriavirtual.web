@@ -6,15 +6,19 @@
 
 {% block menu %}
     <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
-    <p class="text-justify text-center font-weight-bold" style="color: white;"><b>Vehiculos</b></p>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Vehiculos</b></a>
+    <br>
     <a class="enlace" href="{% url 'actualizarListaVehiculos' %}">Lista de vehiculos</a>
     <br>
     <a class="enlace" href="{% url 'registrarVehiculo' %}">Agregar vehiculo</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Contratos</b></a>
     <br>
-    <p class="text-justify text-center font-weight-bold" style="color: white;"><b>Contratos</b></p>
     <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Subastas</b></a>
     <br>
-    <p class="text-justify text-center font-weight-bold" style="color: white;"><b>Subastas</b></p>
     <a class="enlace" href="{% url 'listarSubastas' %}">Lista de subastas</a>
     <br>
     <a class="enlace" href="{% url 'listarDespachos' %}">Ordenes de despacho</a>

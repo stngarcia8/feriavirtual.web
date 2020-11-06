@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block contenido %}
-    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+    <form class="text-justify border border-light" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
         <p class="lead text-center">
             Ingrese sus datos comerciales, cuando este listo, pulse el botón "Grabar".
         </p>
@@ -15,7 +15,7 @@
         {% if form.non.field.errors %}
             {{ form.non.field.errors }}
         {% endif %}
-        <table class="tabla table-responsive mx-auto" style="width: 400px;">
+        <table class="tabla table-responsive mx-auto" style="width: 450px;">
             {{ form }}
         </table>
         <div class="text-center">

@@ -6,13 +6,15 @@
 
 {% block menu %}
     <a class="enlace" href="{% url 'iniciarComercial' %}">Datos comerciales</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;">Productos</a>
     <br>
-    <p class="text-justify text-center font-weight-bold" style="color: white;">Productos</p>
     <a class="enlace" href="{% url 'actualizarListaProductos' %}">Lista de productos</a>
     <br>
     <a class="enlace" href="{% url 'registrarProducto' %}">Agregar producto</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;">Contratos</a>
     <br>
-    <p class="text-justify text-center font-weight-bold" style="color: white;">Contratos</p>
     <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
 {% endblock %}
 

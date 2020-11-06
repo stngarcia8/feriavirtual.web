@@ -6,100 +6,104 @@
 {% endblock %}
 
 {% block contenido %}
-    <div class="row">
-        <div class="col col-6">
-            <form class="form-inline my-2 my-lg-0" action="#" method="get" accept-charset="utf-8">
-                <label class="control-label" for="buscar">Fecha desde:</label>
-                <input name="q1" class="form-control mr-sm-2" type="date" aria-label="buscar" value="">
-                <label class="control-label" for="buscar">Hasta:</label>
-                <input name="q2" class="form-control mr-sm-2" type="date" aria-label="buscar" value="">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Buscar </button>
-            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col col-6">
+                <form class="form-inline my-2 my-lg-0" action="#" method="get" accept-charset="utf-8">
+                    <label class="control-label" for="buscar">Fecha desde:</label>
+                    <input name="q1" class="form-control mr-sm-2" type="date" aria-label="buscar" value="">
+                    <label class="control-label" for="buscar">Hasta:</label>
+                    <input name="q2" class="form-control mr-sm-2" type="date" aria-label="buscar" value="">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Buscar </button>
+                </form>
+            </div>
+            <div class="col col-1"></div>
+            <div class="col col-2">
+                <a class="btn btn-secondary" 
+                    href="{% url 'actualizarListaSubastas' %}" role="button"> Actualizar lista</a>
+            </div>
+            <div class="col col-1"></div>
+            <!-- <div class="col col-2">
+                <a class="btn btn-primary" 
+                    href="{% url 'registrarOrden' %}" role="button"> Nueva orden</a> -->
+            </div>
         </div>
-        <div class="col col-1"></div>
-        <div class="col col-2">
-            <a class="btn btn-secondary" 
-                href="{% url 'actualizarListaSubastas' %}" role="button"> Actualizar lista</a>
-        </div>
-        <div class="col col-1"></div>
-        <!-- <div class="col col-2">
-            <a class="btn btn-primary" 
-                href="{% url 'registrarOrden' %}" role="button"> Nueva orden</a> -->
-        </div>
-    </div>
-    <hr class="col-12">
-    
-    <!-- Listando las ordenes de compra -->
-    {% if auction_list %}
-        <table class="table table-hover table-striped mx-auto" style="width: 750px;">
-            <thead>
-                <tr>
-                    <th>Subasta Nro.</th>
-                    <th>Fecha de inicio</th>
-                    <th>Valor propuesto</th>
-                    <th>Peso de la carga</th>
-                    <th>Fecha de término</th>
-                    <th>Observación</th>
-                </tr>
-            </thead>
-            <tbody class="py-0">
-                {% for auction in auction_list %}
-                <tr>
-                    <td class="text-right py-0">{{ auction.id }}</td>
-                    <td class="py-0">{{ auction.AuctionDate }}</td>
-                    <td class="py-0">{{ auction.Value }}</td>
-                    <td class="py-0">{{ auction.Weight }} kg</td>
-                    <td class="py-0">{{ auction.LimitDate }}</td>
-                    <td class="text-right py-0">{{ auction.Observation }}</td>
-                    <td class="py-0">
-                        <a class="btn btn-light" 
-                            href="{{ auction.get_participar_url }}" role="button"> Participar </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <!-- Menú de paginación -->
-        {% if is_paginated %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                        <li class="page-item "><a class="page-link" href="?page=1">&laquo;&laquo;</a></li>
-                        <li class="page-item "><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&laquo;&laquo;</a></li>
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&laquo;</a></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                        <li class="page-item {% if page_obj.number == i %}active{% endif %}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        <hr class="col-12">
+        
+        <!-- Listando las ordenes de compra -->
+        {% if auction_list %}
+            <table class="table-responsive table-hover col-8 table-striped mx-auto">
+                <thead>
+                    <tr>
+                        <th>Subasta Nro.</th>
+                        <th>Fecha de inicio</th>
+                        <th>Valor propuesto</th>
+                        <th>Peso de la carga</th>
+                        <th>Fecha de término</th>
+                        <th>Observación</th>
+                    </tr>
+                </thead>
+                <tbody class="py-0">
+                    {% for auction in auction_list %}
+                    <tr>
+                        <td class="py-0 text-center">{{ auction.id }}</td>
+                        <td class="py-0 text-center">{{ auction.AuctionDate }}</td>
+                        <td class="py-0 text-center">{{ auction.Value }}</td>
+                        <td class="py-0 text-center">{{ auction.Weight }} kg</td>
+                        <td class="py-0 text-center">{{ auction.LimitDate }}</td>
+                        <td class="py-0 text-center">{{ auction.Observation }}</td>
+                        <td class="py-0">
+                            <a class="btn btn-light" 
+                                href="{{ auction.get_participar_url }}" role="button"> Participar </a>
+                        </td>
+                    </tr>
                     {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li class="page-item "><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li><li class="page-item "><a class="page-link" href="?page=last">&raquo;&raquo;</a></li>
-                    {% else %}
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&raquo;</a></li>
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&raquo;&raquo;</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
+                </tbody>
+            </table>
+
+            <!-- Menú de paginación -->
+            {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item "><a class="page-link" href="?page=1">&laquo;&laquo;</a></li>
+                            <li class="page-item "><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&laquo;&laquo;</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&laquo;</a></li>
+                        {% endif %}
+                        {% for i in paginator.page_range %}
+                            <li class="page-item {% if page_obj.number == i %}active{% endif %}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item "><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li><li class="page-item "><a class="page-link" href="?page=last">&raquo;&raquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&raquo;</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&raquo;&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+        <!-- Aqui parte la seccion cuando no hay nada ingresado -->
+        {% else %}
+            <p class="lead text-justify">
+                No hay subastas disponibles o 
+                la busqueda no produjo ningún resultado.<br>
+            </p>
         {% endif %}
 
-    <!-- Aqui parte la seccion cuando no hay nada ingresado -->
-    {% else %}
-        <p class="lead text-justify">
-            No hay subastas disponibles o 
-            la busqueda no produjo ningún resultado.<br>
-        </p>
-    {% endif %}
-
-    <!-- volver a la pagina de inicio -->
-    <br>
-    <div class="text-center">
-    <a class="btn btn-secondary" href="#" role="button"> Volver página de inicio </a>
-    </div>
-
+<<<<<<< HEAD
 {% endblock %}
 
 {% block jsBody %}
     <script type="text/javascript" src="{% static 'core/js/transportista/subasta/subasta-listar.js' %}"></script>
+=======
+        <!-- volver a la pagina de inicio -->
+        <br>
+        <div class="text-center">
+        <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
+        </div>
+    </div>
+>>>>>>> 9da4aa0bf75196d052df4bac7d76083c979c50ae
 {% endblock %}
