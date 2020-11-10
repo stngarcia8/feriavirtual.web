@@ -1,4 +1,5 @@
 {% extends 'core/base-inicial.html' %}
+{% load static %}
 
 {% block titulo %}
     Lista de subastas
@@ -92,10 +93,17 @@
             </p>
         {% endif %}
 
+<<<<<<< HEAD
+{% endblock %}
+
+{% block jsBody %}
+    <script type="text/javascript" src="{% static 'core/js/transportista/subasta/subasta-listar.js' %}"></script>
+=======
         <!-- volver a la pagina de inicio -->
         <br>
         <div class="text-center">
         <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
         </div>
     </div>
+>>>>>>> 9da4aa0bf75196d052df4bac7d76083c979c50ae
 {% endblock %}

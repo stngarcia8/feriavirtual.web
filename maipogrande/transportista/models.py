@@ -86,7 +86,7 @@ class Auction(models.Model):
 
     def get_participar_url(self):
         "Define la ruta de participación de la subasta."
-        return reverse('participarSubasta', args=[self.id])    
+        return reverse('participarSubasta', args=[self.id])            
 
 
 class AuctionProduct(models.Model):
@@ -103,10 +103,12 @@ class AuctionProduct(models.Model):
     def __str__(self):
         return self.Product
 
+
 def get_default_my_hour():
-      hour = timezone.now()
+      hour = timezone.localtime(timezone.now())
       formatedHour = hour.strftime("%H:%M:%S")
       return formatedHour
+
 
 class BidModel(models.Model):
     "Clase que representa la puja en una subasta."
@@ -120,3 +122,52 @@ class BidModel(models.Model):
 
     class Meta:
         ordering = ('Value', )
+
+
+class OrderDispatch(models.Model):
+    "Clase que representa una orden de despacho."
+    DispatchID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    DispatchDate = models.DateField(default=datetime.date.today)
+    DispatchValue = models.FloatField(default=0)
+    DispatchWeight = models.FloatField(default=0)
+    Observation = models.CharField(max_length=100, blank=True, null=True)
+    CompanyName = models.CharField(max_length=100, blank=True, null=True)
+    Destination = models.CharField(max_length=200, blank=True, null=True)
+    PhoneNumber = models.CharField(max_length=50, blank=True, null=True)
+    Status = models.IntegerField(default=0)
+    CarrierObservation = models.CharField(max_length=100, blank=True, null=True, verbose_name='Observación')
+    User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('DispatchDate', )
+
+    def __str__(self):
+        return self.ClientID
+
+    def get_cambiar_estado_url(self):
+        "Define la ruta de detalle despacho"
+        return reverse('detalleDespacho', args=[self.id])
+
+    def get_deliver_dispatch_url(self):
+        "Genera la url para finalizar un despacho."
+        return reverse('finalizarDespacho', args=[self.id])
+
+    def get_cancel_dispatch_url(self):
+        "Genera la url para cancelar un despacho."
+        return reverse('cancelarDespacho', args=[self.id])
+
+
+class DispatchProducts(models.Model):
+    "Clase que representa el detalle de una orden de despacho"
+    Product = models.CharField(blank=True, max_length=50, null=True)
+    UnitValue = models.FloatField(default=0)
+    Quantity = models.FloatField(default=0)
+    TotalValue = models.FloatField(default=0)
+    OrderDispatch = models.ForeignKey(OrderDispatch, null=True, on_delete=models.CASCADE)
+
+    class meta:
+        ordering = ('Product',)
+    
+    def __str__(self):
+        return self.Product

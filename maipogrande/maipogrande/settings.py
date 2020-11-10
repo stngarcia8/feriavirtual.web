@@ -86,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # definiendo parametros de localizacion e idiomas
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-cl'
 TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 USE_L10N = True
@@ -163,3 +163,8 @@ ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/orders/delete'
 #url de subastas
 AUCTION_SERVICE_URL_GET_ALL = SERVER_API_URL + 'auctions/available'
 AUCTION_SERVICE_URL_BIDVALUE_POST = SERVER_API_URL + 'auctions/bidValue'
+
+#url de ordenes de despacho
+DISPATCH_SERVICE_URL_GET = SERVER_API_URL + 'dispatchorders/available/get'
+DISPATCH_SERVICE_URL_PATCCH_DELIVER = SERVER_API_URL + 'dispatchorders/deliver'
+DISPATCH_SERVICE_URL_PATCCH_CANCEL = SERVER_API_URL + 'dispatchorders/cancel'

@@ -1,7 +1,7 @@
 import json
 import requests
 from django.conf import settings
-from .serializers import VehiculoApiSerializer, VehiculoSerializer, AuctionSerializer
+from .serializers import VehiculoApiSerializer, VehiculoSerializer, AuctionSerializer, DispatchSerializer
 
 
 def PostToApi(serializador):
@@ -91,7 +91,7 @@ def GetAuctionsFromApi(user):
     """
     response = requests.get(
         url=settings.AUCTION_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})     
+        params={'clientID': user.loginsession.ClientID})         
     if response.status_code != 200:
         return False     
     serializador = AuctionSerializer(data=response.json(), many=True)
@@ -114,4 +114,66 @@ def PostBidValueToApi(serializador):
         url=settings.AUCTION_SERVICE_URL_BIDVALUE_POST,
         headers=settings.SERVER_HEADERS,
         data=json.dumps(serializador.data))
-    return True if response.status_code == 200 else False        
+    return True if response.status_code == 200 else False 
+
+
+def GetDispatchesFromApi(user):
+    """ Carga la lista de despachos
+
+        Carga los despachos almacenados en la base de datos de feria virtual
+        parámetros:
+            - user: objeto que contiene la información del usuario actual.
+        retorna:
+            - True: Si cargo los datos
+            - False: En caso de problemas de conectividad. 
+    """
+    response = requests.get(
+        url=settings.DISPATCH_SERVICE_URL_GET,
+        params={'clientID': user.loginsession.ClientID})
+    print("RESPONSE")
+    print(response.json())
+    print()         
+    if response.status_code != 200:
+        return False     
+    serializador = DispatchSerializer(data=response.json(), many=True)
+    serializador.is_valid()
+    serializador.save(User=user)
+    return True
+
+
+def DispatchDeliverToApi(serializador):
+    """ Finaliza el despacho
+
+        Finaliza un despacho por parte del transportista,
+        permitiendo ingresar una observación al despacho.
+
+        parametros:
+            - serializador: objeto serializer que contiene los datos de aceptación.
+        retorna:
+            - True, en caso de realizar la aceptación correctamente.
+            - false, en caso de problemas de envío o conectividad.
+    """
+    response = requests.patch(
+        url=settings.DISPATCH_SERVICE_URL_PATCCH_DELIVER,
+        headers=settings.SERVER_HEADERS,
+        data=json.dumps(serializador.data))
+    return True if response.status_code == 200 else False
+
+
+def DispatchCancelToApi(serializador):
+    """ Cancela el despacho
+
+        Rechaza un despacho por parte del transportista,
+        permitiendo ingresar una observación al despacho.
+
+        parametros:
+            - serializador: objeto serializer que contiene los datos de cancelación.
+        retorna:
+            - True, en caso de realizar el rechazo correctamente.
+            - false, en caso de problemas de envío o conectividad.
+    """
+    response = requests.patch(
+        url=settings.DISPATCH_SERVICE_URL_PATCCH_CANCEL,
+        headers=settings.SERVER_HEADERS,
+        data=json.dumps(serializador.data))
+    return True if response.status_code == 200 else False

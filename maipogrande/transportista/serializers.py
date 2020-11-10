@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vehicle, VehicleType, AuctionProduct, Auction, BidModel
+from .models import Vehicle, VehicleType, AuctionProduct, Auction, BidModel, OrderDispatch, DispatchProducts
 
 
 class VehicleTypeSerializer(serializers.ModelSerializer):
@@ -83,3 +83,43 @@ class BidValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = BidModel
         fields = ('ValueID', 'AuctionID', 'ClientID', 'Value', )
+
+
+class DispatchProductSerializer(serializers.ModelSerializer):
+    "Serializador para los productos de las ordenes de despacho"
+    class Meta:
+        model = DispatchProducts
+        fields = ('Product', 'UnitValue', 'Quantity', 'TotalValue', )
+
+
+class DispatchSerializer(serializers.ModelSerializer):
+    "Serializador para las ordenes de despacho."
+    Products = DispatchProductSerializer(many=True)
+
+    class Meta:
+        model = OrderDispatch
+        fields = ('DispatchID', 'ClientID', 'DispatchDate', 'DispatchValue',
+                  'DispatchWeight', 'Observation', 'CompanyName', 'Destination',
+                  'PhoneNumber' ,'Status', 'User', 'Products', )
+        depth = 1
+
+    def create(self, data):
+        dis = OrderDispatch.objects.create(
+            DispatchID=data['DispatchID'], ClientID=data['ClientID'], 
+            DispatchDate=data['DispatchDate'], DispatchValue=data['DispatchValue'], 
+            DispatchWeight= data['DispatchWeight'], Observation=data['Observation'],
+            CompanyName=data['CompanyName'], Destination=data['Destination'],
+            PhoneNumber=data['PhoneNumber'], Status=data['Status'],
+            User=data['User']
+        )
+        Products = DispatchProductSerializer(data=data['Products'], many=True)
+        Products.is_valid()
+        Products.save(OrderDispatch=dis)
+        return dis
+
+class DispatchApiserializer(serializers.ModelSerializer):
+    "Serializador para los contratos, permite aceptar o rechazar un contrato."
+
+    class Meta:
+        model = OrderDispatch
+        fields = ('DispatchID', 'CarrierObservation', )                        

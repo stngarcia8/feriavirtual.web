@@ -8,13 +8,13 @@ from functools import reduce
 from django.http import HttpResponse
 from django.conf import settings
 from django.template import loader
-from .forms import CreateVehiculoForm, UpdateVehiculoForm, AuctionParticipateForm
-from .models import Vehicle, Auction, BidModel, AuctionProduct
+from .forms import CreateVehiculoForm, UpdateVehiculoForm, AuctionParticipateForm, DispatchForm
+from .models import Vehicle, Auction, BidModel, AuctionProduct, OrderDispatch, DispatchProducts
 from dcomercial.models import Comercial
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
-from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi
-from .serializers import VehiculoApiSerializer, VehiculoSerializer, BidValueSerializer
+from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi, GetDispatchesFromApi, DispatchDeliverToApi, DispatchCancelToApi
+from .serializers import VehiculoApiSerializer, VehiculoSerializer, BidValueSerializer, DispatchApiserializer
 from dcomercial.views import CargarDatoComercial
 from core.permission import LoginRequired
 
@@ -143,7 +143,7 @@ def AuctionsLoadView(request):
     GetAuctionsFromApi(request.user)
     return redirect('listarSubastas')
 
-
+        
 def AuctionParticipateView(request, pk):
     form = AuctionParticipateForm(request.POST or None)
     template = loader.get_template("transportista/subasta/subasta-pujar.html")
@@ -181,6 +181,79 @@ def MostrarPujasView(request, pk):
     PostBidValueToApi(BidValueSerializer(instance=bid))
     bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
+    
+
+class DispatchListView(ListView):
+    "Muestra la lista de despachos"
+    model = OrderDispatch
+    slug_field = 'User_id'
+    slug_url_kwarg = 'User_id'
+    template_name = 'transportista/despacho/despacho-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(DispatchListView, self).get_queryset()
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        if not query2:
+            query2 = query1
+        if query1:
+            result = result.filter(StartDate__range=(query1, query2))
+        return result
 
 
+class DispatchDetailView(DetailView):
+    "Muestra el detalle del despacho."
+    model = OrderDispatch
+    template_name = 'transportista/despacho/despacho-detalle.html'
 
+    def get_context_data(self, **kwargs):
+        data = super(DispatchDetailView, self).get_context_data(**kwargs)
+        detalles = DispatchProducts.objects.filter(OrderDispatch_id=self.object.id)
+        data['dispatch_products'] = detalles
+        return data
+
+
+def DispatchLoadView(request):
+    "Carga la lista de ordenes de despacho desde la base de datos de feria virtual."
+    data = OrderDispatch.objects.filter(ClientID=request.user.loginsession.ClientID)
+    if data.count() != 0:
+        data.delete()
+    GetDispatchesFromApi(request.user)
+    return redirect('listarDespachos')
+
+
+class DispatchDeliverUpdateView(UpdateView):
+    "Finalizar un despacho"
+    model = OrderDispatch
+    form_class = DispatchForm
+    template_name = 'transportista/despacho/despacho-finalizar.html'
+    success_url = reverse_lazy('listarDespachos')
+
+    def form_valid(self, form):
+        "Valida el formulario de finalización de un despacho."
+        self.object = form.save(commit=False)
+        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.Status = 6
+        self.object.StatusDescription = 'ENTREGADO'
+        if DispatchDeliverToApi(DispatchApiserializer(instance=self.object)):
+            self.object.save()
+        return super(DispatchDeliverUpdateView, self).form_valid(form)
+
+
+class DispatchCancelUpdateView(UpdateView):
+    "Cancel un despacho"
+    model = OrderDispatch
+    form_class = DispatchForm
+    template_name = 'transportista/despacho/despacho-cancelar.html'
+    success_url = reverse_lazy('listarDespachos')
+
+    def form_valid(self, form):
+        "Valida el formulario de cancelación de un despacho."
+        self.object = form.save(commit=False)
+        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.Status = 9
+        self.object.StatusDescription = 'CANCELADO'
+        if DispatchCancelToApi(DispatchApiserializer(instance=self.object)):
+            self.object.save()
+        return super(DispatchCancelUpdateView, self).form_valid(form)        
