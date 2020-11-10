@@ -7,11 +7,12 @@
 {% endblock %}
 
 {% block contenido %}
-    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
-        <p class="lead text-center ">
+<div class="container">
+    <form class="text-justify border border-light" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+        <p class="lead mb-4 text-center">
             Actualice sus datos comerciales, cuando este listo, pulse el botón "Grabar".
         </p>
-        <div class="text-center mb-4 mx-auto" style="width: 300px;">
+        <div class="form-group col-xs-1 col-sm-4 text-center" style="margin-left:auto; margin-right:auto;">
             {% csrf_token %}
             {% if form.non.field.errors %}
                 {{ form.non.field.errors }}
@@ -23,7 +24,7 @@
             <a class="btn btn-light mt-3" href="{% url 'dinamicHome' %}" role="button"> Cancelar </a>
         </div>
     </form>
-
+</div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         $("#id_Country").change(function () {

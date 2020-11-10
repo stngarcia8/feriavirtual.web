@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block contenido %}
-    <p class="small">
+<div class="container">
+    <p class="lead text-center">
         Registre su orden de compra, una vez que este listo, pulse
         el botón "grabar orden".<br>
         procesaremos su orden de compra y notificaremos por correo 
@@ -16,15 +17,15 @@
     <h4>Datos de la orden de compra</h4>
     <div class="panel panel-default">
         <div class="panel-body">
-            <form id="form-container" method="post" action="">
+            <form class="text-justify border border-light" id="form-container" method="post" action="">
                 {% csrf_token %}
                 <!-- Datos del formulario de orden de compra -->
-                <div class="row">
+                <div class="row text-center" style="margin-left:auto; margin-right:auto;">
                     <div class="col-4">
                         <label class="font-weight-bold">Fecha</label>
                         {{ form.OrderDate }}
                     </div>
-                    <div class="col-4" style="height: 50px;">
+                    <div class="col-4 mt-1" style="height: 50px;">
                         <label class="font-weight-bold">Condición de pago</label>
                         {{ form.PaymentCondition }}
                     </div>
@@ -39,8 +40,8 @@
                         {{ form.Observation }}
                     </div>
                 </div>
-                <br><br>
-
+            </form>
+            <br><br>
                 <!-- formulario de detalle de orden de compra -->
                 <h4>Detalle de orden de compra</h4>
                 {{ order_detail.management_form }}
@@ -70,10 +71,10 @@
                 <br><br><br>
                 <button class="btn btn-m btn-success" type="submit"> Grabar orden </button>
                 <a class="btn btn-light" href="{% url 'listarOrdenes' %}" role="button"> Cancelar </a>
-            </form>
         </div>
     </div>
     <br><br>
+</div>
 {% endblock %}
 
 {% block jsBody %}
