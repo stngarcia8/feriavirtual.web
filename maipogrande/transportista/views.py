@@ -151,16 +151,6 @@ def AuctionParticipateView(request, pk):
     auction_product = AuctionProduct.objects.filter(Auction=auction)
     bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
     context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
-
-    # if form.is_valid():
-    #     form.instance.ValueID = uuid.uuid4()
-    #     form.instance.AuctionID = auction.AuctionID
-    #     form.instance.ClientID = request.user.loginsession.ClientID
-    #     data = form.cleaned_data
-    #     form.save()
-    #     # serializador = AuctionParticipateSerializer(data=response.json(), many=True)
-    #     # serializador.is_valid()
-    #     # serializador.save(Client_id=request.loginsession.id, Auction_id=auction.AuctionID)
     return HttpResponse(template.render(context, request))
 
 

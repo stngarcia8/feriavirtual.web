@@ -1,4 +1,5 @@
 {% extends 'core/base-inicial.html' %}
+{% load static %}
 
 {% block titulo %}
     Lista de subastas
@@ -97,4 +98,8 @@
     <a class="btn btn-secondary" href="#" role="button"> Volver página de inicio </a>
     </div>
 
+{% endblock %}
+
+{% block jsBody %}
+    <script type="application/javascript" src="{% static 'core/js/transportista/subasta/subasta-listar.js' %}"></script>
 {% endblock %}

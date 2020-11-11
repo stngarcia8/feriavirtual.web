@@ -18,6 +18,8 @@ urlpatterns = [
         views.VehiculoUpdateView.as_view(), name='editarVehiculo'),
     url(r'^vehiculo/eliminar/(?P<pk>\d+)$',
         views.VehiculoDeleteView.as_view(), name='eliminarVehiculo'),
+
+    # Rutas para subastas
     url(r'^subastas/listar/$', views.AuctionListView.as_view(),
         name='listarSubastas'),
     url(r'^subastas/cargar$', views.AuctionsLoadView,
