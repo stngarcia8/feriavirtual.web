@@ -1,9 +1,7 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-import operator
-from django.db.models import Q
-from functools import reduce
 from django.conf import settings
+from django.db.models import Q
 from .forms import ProductoForm
 from .models import Producto
 from django.views.generic.base import TemplateView
@@ -11,6 +9,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import ProductoSerializer
 from core.permission import LoginRequired
+from django.contrib.auth.models import UserManager
 
 class ProducerRequired(object):
     def dispatch(self, request, *args, **kwargs):
@@ -27,24 +26,22 @@ class HomeProducer(LoginRequired, ProducerRequired, TemplateView):
 class ProductoListView(LoginRequired, ProducerRequired, ListView):
     "Muestra la lista de productos"
     model = Producto
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'productor/producto-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
-    def get_queryset(self):
-        "Ejecuta el filtro de la lista desplegada."
+    def get_context_data(self,**kwargs):
+        context = super(ProductoListView,self).get_context_data(**kwargs)
         result = super(ProductoListView, self).get_queryset()
         query = self.request.GET.get('q')
         if query:
-            query_list = query.split()
-            result = result.filter(reduce(operator.and_,
-                                          (Q(ProductName__icontains=q) for q in query_list)) |
-                                   reduce(operator.and_, (Q(ProductName__icontains=q)
-                                                          for q in query_list)))
-        return result
+            query = query.upper()
+            result = result.filter(Q(User_id=self.request.user.id) & Q(ProductName__icontains=query))
+        else:
+            result = result.filter(Q(User_id=self.request.user.id))
+        context['producto_list'] = result
+        return context
 
-
+    
 class ProductoDetailView(LoginRequired, ProducerRequired, DetailView):
     "Muestra el detalle del producto."
     model = Producto

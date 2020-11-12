@@ -28,7 +28,7 @@ class ProductoSerializer(serializers.ModelSerializer):
             ProductId=data['ProductId'], ClientId=data['ClientId'],
             ProductName=data['ProductName'], Category=category,
             ProductValue=data['ProductValue'], ProductQuantity=data['ProductQuantity'],
-            Observation=data['Observation']
+            Observation=data['Observation'], User=data['User']
         )
         return prod
 

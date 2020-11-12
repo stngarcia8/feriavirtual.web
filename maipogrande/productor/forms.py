@@ -16,7 +16,7 @@ class ProductoForm(ModelForm):
             'ProductId': HiddenInput(),
             'ClientId': HiddenInput(),
             'ProductName': TextInput(
-                attrs={'size': '32', 'autofocus': '', 'minlength': 3, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ]+$",
+                attrs={'size': '32', 'autofocus': '', 'minlength': 3, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ\s]+$",
                        'oninvalid': "setCustomValidity('Ingrese un nombre válido')",
                        'oninput': "setCustomValidity('')"}),
             'Category': Select(),

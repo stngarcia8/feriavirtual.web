@@ -15,7 +15,7 @@ def PostToApi(orderID):
             - True: La orden fue almacenado correctamente
             - False: Ocurrio algun problema y la orden no fue almacenado
     """
-    orden = Order.objects.get(OrderID=orderID)
+    orden = Order.objects.get(OrderId=orderID)
     orden_serializer = OrderSerializer(instance=orden)
     response = requests.post(
         url=settings.ORDER_SERVICE_URL_POST,
