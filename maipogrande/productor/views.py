@@ -14,7 +14,7 @@ from core.permission import LoginRequired
 
 class ProducerRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 5:
+        if request.user.loginsession.ProfileId == 5:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')
 
@@ -61,7 +61,7 @@ class ProductoCreateView(LoginRequired, ProducerRequired, CreateView):
     def form_valid(self, form):
         "Valida el formulario de ingreso."
         self.object = form.save(commit=False)
-        self.object.ClientID = self.request.user.loginsession.ClientID
+        self.object.ClientId = self.request.user.loginsession.ClientId
         self.object.User = self.request.user
         if PostToApi(ProductoSerializer(instance=self.object)):
             self.object.save()
@@ -92,7 +92,7 @@ class ProductoDeleteView(LoginRequired, ProducerRequired, DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación del producto."
         self.object = self.get_object()
-        if DeleteToApi(self.object.ProductID):
+        if DeleteToApi(self.object.ProductId):
             self.object.delete()
         return redirect('listarProductos')
 

@@ -8,13 +8,13 @@ class ContractForm(ModelForm):
     class Meta:
         model = Contract
         fields = (
-            'ProfileID', 'ContractID', 'ClientID',
+            'ProfileId', 'ContractId', 'ClientId',
             'CustomerObservation',
             'Status', 'StatusDescription', )
         widgets = {
-            'ProfileID': HiddenInput(),
-            'ContractID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'ProfileId': HiddenInput(),
+            'ContractId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'CustomerObservation': Textarea(attrs={'cols': 30, 'rows': 3}),
             'Status': HiddenInput(),
             'StatusDescription': HiddenInput(),

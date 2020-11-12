@@ -71,7 +71,7 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.TRANSPORTISTA_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientID': user.loginsession.ClientId})
     if response.status_code != 200:
         return False
     serializador = VehiculoSerializer(data=response.json(), many=True)
@@ -91,7 +91,7 @@ def GetAuctionsFromApi(user):
     """
     response = requests.get(
         url=settings.AUCTION_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})     
+        params={'clientID': user.loginsession.ClientId})
     if response.status_code != 200:
         return False     
     serializador = AuctionSerializer(data=response.json(), many=True)

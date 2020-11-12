@@ -1,17 +1,9 @@
-import requests
 import hashlib
-from django.contrib.auth import authenticate, logout
+import requests
 from django.conf import settings
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
 from login.models import LoginSession
-
-# CargarLogin(username, password)
-# Parametros:
-#   username: Nombre de usuario a verificar
-#   password: Contraseña del usuario a verificar.
-# Retorna:
-#   resultado: true si la peticion es correcta, false en caso de error o falla fe validacion
-#   json: resultado obtenido de la peticion, None en caso de problema.
 
 
 def CargarLogin(username, password):
@@ -60,11 +52,11 @@ def CrearSesion(serializador, user):
     "Crea una sesion de usuario en el sistema."
     sesion = LoginSession()
     sesion.UserId = serializador.data.get('UserId')
-    sesion.ClientID = serializador.data.get('ClientID')
+    sesion.ClientId = serializador.data.get('ClientId')
     sesion.Username = serializador.data.get('Username')
     sesion.FullName = serializador.data.get('FullName')
     sesion.Email = serializador.data.get('Email')
-    sesion.ProfileID = serializador.data.get('ProfileID')
+    sesion.ProfileId = serializador.data.get('ProfileId')
     sesion.ProfileName = serializador.data.get('ProfileName')
     sesion.User = user
     sesion.save()
@@ -74,12 +66,12 @@ def CrearSesion(serializador, user):
 def RedireccionarInicio(user):
     "redirecciona a los usuarios a sus páginas de inicio según su perfil."
     pagina = 'home'
-    if user.loginsession.ProfileID == 3:
+    if user.loginsession.ProfileId == 3:
         pagina = 'homeExterno'
-    if user.loginsession.ProfileID == 4:
+    if user.loginsession.ProfileId == 4:
         pagina = 'homeInterno'
-    if user.loginsession.ProfileID == 5:
+    if user.loginsession.ProfileId == 5:
         pagina = 'homeProducer'
-    if user.loginsession.ProfileID == 6:
+    if user.loginsession.ProfileId == 6:
         pagina = 'homeCarrier'
     return pagina

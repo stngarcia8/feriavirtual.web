@@ -20,7 +20,7 @@ from core.permission import LoginRequired
 
 class CarrierRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 6:
+        if request.user.loginsession.ProfileId == 6:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')  
 
@@ -76,7 +76,7 @@ class VehiculoCreateView(LoginRequired, CarrierRequired, CreateView):
     def form_valid(self, form):
         "Valida el formulario de ingreso."
         self.object = form.save(commit=False)
-        self.object.ClientID = self.request.user.loginsession.ClientID
+        self.object.ClientId = self.request.user.loginsession.ClientId
         self.object.User = self.request.user
         if PostToApi(VehiculoSerializer(instance=self.object, many=False)):
             self.object.save()
@@ -107,7 +107,7 @@ class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación del vehiculo."
         self.object = self.get_object()
-        if DeleteToApi(self.object.VehicleID):
+        if DeleteToApi(self.object.VehicleId):
             self.object.delete()
         return redirect('listarVehiculos')
 
@@ -149,7 +149,7 @@ def AuctionParticipateView(request, pk):
     template = loader.get_template("transportista/subasta/subasta-pujar.html")
     auction = Auction.objects.get(id=pk)
     auction_product = AuctionProduct.objects.filter(Auction=auction)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)
     context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
     return HttpResponse(template.render(context, request))
 
@@ -157,7 +157,7 @@ def AuctionParticipateView(request, pk):
 def ActualizarPujasView(request, pk):
     "Actualiza la vista de las pujas automaticamente."
     auction = Auction.objects.get(id=pk)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
 
@@ -165,11 +165,11 @@ def MostrarPujasView(request, pk):
     "Muestra los valores de las pujas realizadas."
     valor = request.GET.get('value')
     auction = Auction.objects.get(id=pk)
-    bid = BidModel(AuctionID=auction.AuctionID, ClientID=request.user.loginsession.ClientID,
-        Value=valor, Bidder= request.user.loginsession.FullName)
+    bid = BidModel(AuctionID=auction.AuctionId, ClientID=request.user.loginsession.ClientId,
+                   Value=valor, Bidder= request.user.loginsession.FullName)
     bid.save()
     PostBidValueToApi(BidValueSerializer(instance=bid))
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
 

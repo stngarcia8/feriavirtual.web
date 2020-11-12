@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Order, OrderDetail, ExportProduct
+
 
 class ExportProductSerializer(serializers.ModelSerializer):
     "Serializador de la lista de productos de exportación."
@@ -20,7 +22,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDetail
-        fields = ('OrderDetailID', 'OrderID', 'ProductName', 'Quantity', )
+        fields = ('OrderDetailId', 'OrderId', 'ProductName', 'Quantity',)
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -34,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('OrderID', 'ClientID', 'ConditionID',
+        fields = ('OrderId', 'ClientId', 'ConditionId',
                   'ConditionDescription', 'OrderDiscount',
-                  'Observation', 'OrderDetail', )
+                  'Observation', 'OrderDetail',)
         depth = 1

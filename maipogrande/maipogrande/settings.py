@@ -122,6 +122,10 @@ EMAIL_HOST_USER = '4f6dbc1693a95c'
 EMAIL_HOST_PASSWORD = 'b4103afb73d3cb'
 EMAIL_PORT = '2525'
 
+# Definiendo propiedades para los captchas
+GOOGLE_RECAPTCHA_SECRET_KEY = '6Ley-uEZAAAAAItLSCXvm07IXnzB3GVzZD4nC1b4'
+
+
 # Datos de conexion al servidor
 SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'
 SERVER_HEADERS = {"content-type": "application/json; charset=utf-8", }

@@ -1,4 +1,5 @@
 from django.forms import ModelForm, TextInput, NumberInput, EmailInput, Select, HiddenInput
+
 from .models import Comercial, City
 
 
@@ -8,12 +9,12 @@ class CreateComercialForm(ModelForm):
     class Meta:
         model = Comercial
         fields = (
-            'ComercialID', 'ClientID', 'CompanyName', 'FantasyName', 'ComercialBusiness', 'Email',
-            'ComercialDNI', 'Address', 'Country', 'City', 'PhoneNumber'
+            'ComercialId', 'ClientId', 'CompanyName', 'FantasyName', 'ComercialBusiness', 'Email',
+            'ComercialDni', 'Address', 'Country', 'City', 'PhoneNumber'
         )
         widgets = {
-            'ComercialID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'ComercialId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'CompanyName': TextInput(attrs={'size': '15', 'minlength': 3, 'autofocus': '', 
                                             'pattern': '[ña-zÑA-Z\s\.]+$',
                                             'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
@@ -22,7 +23,7 @@ class CreateComercialForm(ModelForm):
             'ComercialBusiness': TextInput(attrs={'size': '15', 'minlength': 5, 'pattern': '[ña-zÑA-Z\s\.]+$',
                                                   'oninvalid': "setCustomValidity('Ingrese un nombre válido')", 'oninput': "setCustomValidity('')"}),
             'Email': EmailInput(),
-            'ComercialDNI': TextInput(),
+            'ComercialDni': TextInput(),
             'Address': TextInput(attrs={'size': '15', 'pattern': '^[ÑA-Zña-z0-9 _]*[ÑA-Zña-z0-9][ÑA-Zña-z0-9 _]*$', 
                                         'oninvalid': "setCustomValidity('Ingrese una dirección válida')", 'oninput': "setCustomValidity('')"}),
             'Country': Select(attrs={'autofocus': ''}),

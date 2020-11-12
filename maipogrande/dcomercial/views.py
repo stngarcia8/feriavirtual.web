@@ -1,13 +1,13 @@
 from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.shortcuts import render, reverse
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, TemplateView
+
+from core.views import DinamicHomePage
 from .forms import CreateComercialForm
 from .models import Comercial, City
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, TemplateView
+from .serializers import ComercialSerializer
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
-from .serializers import ComercialApiSerializer, ComercialSerializer
-from login.utils.functions import RedireccionarInicio
-from core.views import DinamicHomePage
 
 
 def CargarDatoComercial(request):
@@ -50,7 +50,7 @@ class ComercialCreateView(CreateView):
     def form_valid(self, form):
         "Valida el formulario de ingreso"
         self.object = form.save(commit=False)
-        self.object.ClientID = self.request.user.loginsession.ClientID
+        self.object.ClientId = self.request.user.loginsession.ClientId
         self.object.User = self.request.user
         if PostToApi(ComercialSerializer(instance=self.object, many=False)):
             self.object.save()
@@ -81,7 +81,7 @@ class ComercialDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación del dato comercial."
         self.object = self.get_object()
-        if DeleteToApi(self.object.ComercialID):
+        if DeleteToApi(self.object.ComercialId):
             self.object.delete()
         return redirect('iniciarComercial')
 
@@ -91,5 +91,3 @@ def CargarCiudades(request):
     country_id = request.GET.get('country_id')
     cities = City.objects.filter(Country_id=country_id).all()
     return render(request, 'dcomercial/ciudades.html', {'cities': cities})
-
-

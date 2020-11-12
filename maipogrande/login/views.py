@@ -1,17 +1,15 @@
-from django.views.generic.base import TemplateView
-import json
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
+from django.views.generic.base import TemplateView
+
 from .forms import LoginForm
-from .utils import functions
 from .serializers import LoginSerializer
+from .utils import functions
 
 
-# Login:
-# Vista para el inicio de sesion
 def iniciarSesion(request):
     form = LoginForm(request.POST or None)
     template = loader.get_template("login/login.html")
@@ -23,7 +21,7 @@ def iniciarSesion(request):
         if json is not None:
             serializador = LoginSerializer(data=json)
             serializador.is_valid()
-            if serializador.data.get('ProfileID') < 3:
+            if serializador.data.get('ProfileId') < 3:
                 return redirect('restrictedaccess')
             user = functions.CrearUsuario(
                 request, serializador, data.get("password"))

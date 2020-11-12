@@ -1,19 +1,20 @@
-import uuid
 import datetime
-from django.db import models
+import uuid
+
 from django.contrib.auth.models import User
+from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
 
 class VehicleType(models.Model):
     "Representa el tipo de transporte"
-    VehicleTypeID = models.IntegerField(default=1)
+    VehicleTypeId = models.IntegerField(default=1)
     VehicleTypeDescription = models.CharField(
         max_length=100, verbose_name='Tipo transporte')
 
     class Meta:
-        ordering = ('VehicleTypeID',)
+        ordering = ('VehicleTypeId',)
 
     def __str__(self):
         return self.VehicleTypeDescription
@@ -23,8 +24,8 @@ class Vehicle(models.Model):
     "Representa un vehiculo del transportista."
     disponibilidad = ((1, 'Disponible'), (0, 'Inhabilitado'))
 
-    VehicleID = models.UUIDField(default=uuid.uuid4, unique=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    VehicleId = models.UUIDField(default=uuid.uuid4, unique=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     VehicleType = models.ForeignKey(
         VehicleType, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione tipo de transporte')
     VehiclePatent = models.CharField(
@@ -66,7 +67,7 @@ class Vehicle(models.Model):
 
 class Auction(models.Model):
     "Clase que representa una subasta."
-    AuctionID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
     AuctionDate = models.DateField(default=datetime.date.today)
     Percent = models.FloatField(default=0)
     Value = models.FloatField(default=0)
@@ -79,14 +80,14 @@ class Auction(models.Model):
     Status = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('AuctionDate', )
+        ordering = ('AuctionDate',)
 
     def __str__(self):
         return self.AuctionDate
 
     def get_participar_url(self):
         "Define la ruta de participación de la subasta."
-        return reverse('participarSubasta', args=[self.id])    
+        return reverse('participarSubasta', args=[self.id])
 
 
 class AuctionProduct(models.Model):
@@ -96,27 +97,29 @@ class AuctionProduct(models.Model):
     Quantity = models.FloatField(default=0)
     TotalValue = models.FloatField(default=0)
     Auction = models.ForeignKey(Auction, null=True, on_delete=models.CASCADE)
-    
+
     class meta:
         ordering = ('Product',)
-    
+
     def __str__(self):
         return self.Product
 
+
 def get_default_my_hour():
-      hour = timezone.now()
-      formatedHour = hour.strftime("%H:%M:%S")
-      return formatedHour
+    hour = timezone.now()
+    formatedHour = hour.strftime("%H:%M:%S")
+    return formatedHour
+
 
 class BidModel(models.Model):
     "Clase que representa la puja en una subasta."
-    ValueID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
-    AuctionID = models.CharField(max_length=40, blank=True, null=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    ValueId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionId = models.CharField(max_length=40, blank=True, null=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     Value = models.IntegerField(default=0, verbose_name='Puja')
     Hour = models.CharField(max_length=50, default=get_default_my_hour, null=True)
     Date = models.DateField(default=datetime.date.today)
     Bidder = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
-        ordering = ('Value', )
+        ordering = ('Value',)

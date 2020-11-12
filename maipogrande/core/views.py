@@ -1,3 +1,7 @@
+import requests
+import json
+from django.conf import settings
+from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -30,21 +34,28 @@ def Contact(request):
     if request.method == "POST":
         contact_form = ContactForm(data=request.POST)
         if contact_form.is_valid():
-            name = request.POST.get('name', '')
-            email = request.POST.get('email', '')
-            content = request.POST.get('content', '')
-            email = EmailMessage(
-                "Feria Virtual: Nueva solicitud de registro.",
-                "De {} <{}>\n\nEscribió:\n\n{}".format(name, email, content),
-                "no-contestar@inbox.mailtrap.io",
-                ["maipogrande-fv@gmail.com"],
-                reply_to=[email]
-            )
-            try:
-                email.send()
-                return redirect(reverse('emailOk'))
-            except Exception:
-                return redirect(reverse('emailFail'))
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            data = {'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY, 'response': recaptcha_response}
+            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+            result = r.json()
+            if result['success']:
+                name = request.POST.get('name', '')
+                email = request.POST.get('email', '')
+                content = request.POST.get('content', '')
+                email = EmailMessage(
+                    "Feria Virtual: Nueva solicitud de registro.",
+                    "De {} <{}>\n\nEscribió:\n\n{}".format(name, email, content),
+                    "no-contestar@inbox.mailtrap.io",
+                    ["maipogrande-fv@gmail.com"],
+                    reply_to=[email]
+                )
+                try:
+                    email.send()
+                    return redirect(reverse('emailOk'))
+                except Exception:
+                    return redirect(reverse('emailFail'))
+            else:
+                messages.error(request, 'Verificación inválida, por favor intentelo nuevamente.')
     return render(request, "core/contact.html", {'form': contact_form})
 
 
@@ -67,13 +78,13 @@ class ServiceNotAvailable(TemplateView):
 def DinamicHome(request):
     "Redirecciona a las páginas de inicio según el perfil del usuario."
     pagina = "core/home.html"
-    if request.user.loginsession.ProfileID == 3:
+    if request.user.loginsession.ProfileId == 3:
         pagina = "cexterno/home-externo.html"
-    if request.user.loginsession.ProfileID == 4:
+    if request.user.loginsession.ProfileId == 4:
         pagina = "cinterno/home-interno.html"
-    if request.user.loginsession.ProfileID == 5:
+    if request.user.loginsession.ProfileId == 5:
         pagina = "productor/home-productor.html"
-    if request.user.loginsession.ProfileID == 6:
+    if request.user.loginsession.ProfileId == 6:
         pagina = "transportista/home-transportista.html"
     miPlantilla = loader.get_template(pagina)
     return HttpResponse(miPlantilla.render({}, request))
@@ -82,12 +93,12 @@ def DinamicHome(request):
 def DinamicHomePage(request):
     "Retorna la ppágina de inicio de los usuarios según su perfil."
     pagina = "core/home.html"
-    if request.user.loginsession.ProfileID == 3:
+    if request.user.loginsession.ProfileId == 3:
         pagina = "cexterno/home-externo.html"
-    if request.user.loginsession.ProfileID == 4:
+    if request.user.loginsession.ProfileId == 4:
         pagina = "cinterno/home-interno.html"
-    if request.user.loginsession.ProfileID == 5:
+    if request.user.loginsession.ProfileId == 5:
         pagina = "productor/home-productor.html"
-    if request.user.loginsession.ProfileID == 6:
+    if request.user.loginsession.ProfileId == 6:
         pagina = "transportista/home-transportista.html"
     return pagina

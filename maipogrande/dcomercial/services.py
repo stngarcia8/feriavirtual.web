@@ -73,13 +73,13 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.COMERCIAL_SERVICE_URL_GET,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False  
     serializador = ComercialSerializer(data=response.json())
     serializador.is_valid()
-    print("Este error sale")
-    print(serializador.errors)
-    print()
     serializador.save(User=user)
+    print("Este error sale")
+    print(serializador.data)
+    print()
     return True        

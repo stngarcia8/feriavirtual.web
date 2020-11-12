@@ -70,7 +70,7 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.PRODUCTOR_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientID': user.loginsession.ClientId})
     if response.status_code != 200:
         return False
     serializador = ProductoSerializer(data=response.json(), many=True)

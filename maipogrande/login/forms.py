@@ -1,9 +1,8 @@
 from django import forms
 
 
-# LoginForm
-# Formulario de inicio de sesion.
 class LoginForm(forms.Form):
+    "Formulario de inicio de sesion."
     username = forms.CharField(
         widget=forms.TextInput(attrs={'autofocus': '', 'minlength': 8}), label="Nombre de Usuario")
     password = forms.CharField(

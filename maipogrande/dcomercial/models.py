@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class Country(models.Model):
     "Modelo que representa los países de residencia de los clientes"
-    CountryID = models.IntegerField(default=1)
+    CountryId = models.IntegerField(default=1)
     CountryName = models.CharField(max_length=100)
     CountryPrefix = models.CharField(max_length=6, null=True, blank=True)
 
@@ -19,7 +19,7 @@ class Country(models.Model):
 
 class City(models.Model):
     "Modelo que representa las ciudades de residencia de los clientes"
-    CityID = models.IntegerField(default=1)
+    CityId = models.IntegerField(default=1)
     CityName = models.CharField(max_length=100)
     Country = models.ForeignKey(Country, null=True, on_delete=models.SET_NULL)
 
@@ -31,11 +31,11 @@ class City(models.Model):
 
 
 class Profile(models.Model):
-    ProfileID = models.AutoField(primary_key=True)
+    ProfileId = models.AutoField(primary_key=True)
     ProfileName = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('ProfileID',)
+        ordering = ('ProfileId',)
 
     def __str__(self):
         return self.ProfileName        
@@ -43,8 +43,8 @@ class Profile(models.Model):
 
 class Comercial(models.Model):
     "Modelo que representa los datos comerciales de los clientes"
-    ComercialID = models.UUIDField(default=uuid.uuid4, unique=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    ComercialId = models.UUIDField(default=uuid.uuid4, unique=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     CompanyName = models.CharField(max_length=100, verbose_name='Razón social')
     FantasyName = models.CharField(
         max_length=100, verbose_name='Nombre de fantasía')
@@ -52,7 +52,7 @@ class Comercial(models.Model):
         max_length=100, verbose_name='Giro comercial',)
     Email = models.EmailField(verbose_name='Email comercial', validators=[
                               RegexValidator(r'^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')])
-    ComercialDNI = models.CharField(
+    ComercialDni = models.CharField(
         max_length=20, help_text='(ej: 12345678-K)', verbose_name='DNI comercial',)
     Address = models.CharField(
         max_length=100, verbose_name='Dirección comercial')
@@ -79,4 +79,3 @@ class Comercial(models.Model):
     def get_absolute_url(self):
         "Define la ruta absoluta de los datos comerciales."
         return reverse('verComercial', args=[self.User.id])        
-

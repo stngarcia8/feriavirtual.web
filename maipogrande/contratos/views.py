@@ -1,16 +1,17 @@
+from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.conf import settings
 from django.views.generic import ListView, DetailView, UpdateView
-from .models import Contract
-from .services import GetFromApi, PatchAcceptToApi, PatchRefuseToApi
-from .forms import ContractForm
-from .serializers import ContractApiserializer
 from core.permission import LoginRequired
+from .forms import ContractForm
+from .models import Contract
+from .serializers import ContractApiserializer
+from .services import GetFromApi, PatchAcceptToApi, PatchRefuseToApi
+
 
 class UserRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 5 or request.user.loginsession.ProfileID == 6:
+        if request.user.loginsession.ProfileId == 5 or request.user.loginsession.ProfileId == 6:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')
 
@@ -59,7 +60,7 @@ class ContratoAcceptUpdateView(LoginRequired, UserRequired, UpdateView):
     def form_valid(self, form):
         "Valida el formulario de aceptación de un contrato."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 1
         self.object.StatusDescription = 'Aceptado'
         if PatchAcceptToApi(ContractApiserializer(instance=self.object)):
@@ -77,7 +78,7 @@ class ContratoRefuseUpdateView(LoginRequired, UserRequired, UpdateView):
     def form_valid(self, form):
         "Valida el formulario de aceptación de un contrato."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 2
         self.object.StatusDescription = 'Rechazado'
         if PatchRefuseToApi(ContractApiserializer(instance=self.object)):

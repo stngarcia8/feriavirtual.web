@@ -1,5 +1,5 @@
-import requests
 import json
+import requests
 from django.conf import settings
 from .serializers import ContratoSerializer
 
@@ -16,19 +16,12 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.CONTRATO_SERVICE_URL_GET,
-        params={'profileID': user.loginsession.ProfileID, 'clientID': user.loginsession.ClientID})
+        params={'profileId': user.loginsession.ProfileId, 'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False    
     serializador = ContratoSerializer(data=response.json(), many=True)
     if serializador.is_valid():
-        serializador.save(User=user, ProfileID=user.loginsession.ProfileID)
-        print()
-        print(serializador.data)
-        print()
-    else:
-        print()
-        print(serializador.errors)
-        print()
+        serializador.save(User=user, ProfileId=user.loginsession.ProfileId)
     return True
 
 
