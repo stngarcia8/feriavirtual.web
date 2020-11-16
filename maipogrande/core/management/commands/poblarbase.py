@@ -1,9 +1,10 @@
 from django.core.management.base import BaseCommand
-
 from dcomercial.models import Profile, Country, City
 from ordenes.models import PaymentCondition
 from productor.models import Category
 from transportista.models import VehicleType
+from login.models import LoginSession
+from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
@@ -11,6 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.CrearCategorias()
+        self.CrearUsuarios()
         self.CrearCondicionesDePago()
         self.CrearPaisCiudad()
         self.CrearPerfil()
@@ -26,6 +28,44 @@ class Command(BaseCommand):
         category = Category(CategoryId=2, CategoryName='Venta nacional')
         category.save()
         return
+
+    def CrearUsuarios(self):
+        "Crea los usuarios de ejemplo para pruebas."
+        print("Creando usuarios conocidos de pruebas")
+        users = User.objects.all().delete()
+        user = self.CreaUnUsuario('l.garciar', '552668dcde69cd6c10aebb8e5ee4e61dfb54050a', 'Lolita Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('5f950227-a59a-48ec-a358-a403ede00bca', 'd124fdef-6956-460f-9873-1953fe29f81b', 6, 'Transportista', user)
+        user = self.CreaUnUsuario('f.garciar', '92d52f9c820e4e291318819f2ab5514dd8a389ea', 'Flo Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('08daae9c-d977-4234-a054-0b83918ed3e7', 'a3220c48-ddb2-4fe8-8e80-8bc832fb80d5', 5, 'Productor', user)
+        user = self.CreaUnUsuario('d.garciar', '6f57196fd9309e992379d3c90fec691531219eea', ' Daniela Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('aa3ed254-ff6d-4c3c-97b6-048efdedaf69', 'd78ee803-2e99-4c87-a684-d600e6540564', 3, 'Cliente externo', user)
+        user = self.CreaUnUsuario('l.romanq', '7a4013826e6cbb73d29cbea95ce32abcba60aa6e', 'Loreto Roman Quiroz', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('729d6773-a60c-4dd5-9e39-9629e44c98b2', 'e7d1d546-84ad-4420-bb05-169aebc376a5',4, 'Cliente interno', user)
+        return
+
+    def CreaUnUsuario(self, usr, pwd, fname, eml):
+        "Crea un usuario en la base de datos temporal."
+        u = User.objects.create_user(username=usr, password=pwd,first_name=fname, email=eml)
+        uis_staff = True
+        u.is_active = True
+        u.save()
+        return u
+
+    def CreaUnaSesion(self, clId, usrId, proId, proName, usr):
+        s = LoginSession()
+        s.UserId = usrId
+        s.ClientId = clId
+        s.Username = usr.username
+        s.FullName = usr.first_name
+        s.Email = usr.email
+        s.ProfileId = proId
+        s.ProfileName = proName
+        s.User = usr
+        s.save()
+        return
+
+
+
 
     def CrearCondicionesDePago(self):
         "Crea las condiciones de pago para las ordenes de venta."

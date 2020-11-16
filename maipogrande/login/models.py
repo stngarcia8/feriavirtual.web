@@ -2,9 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-# LoginSession
-# Clase que define el inicio de sesion de los usuarios
 class LoginSession(models.Model):
+    "Define la sesion de un usuario logeado en el sistema."
     id = models.AutoField(primary_key=True)
     UserId = models.CharField(max_length=150)
     ClientId = models.CharField(max_length=150)

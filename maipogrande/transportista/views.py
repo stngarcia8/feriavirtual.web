@@ -28,16 +28,6 @@ class HomeCarrier(LoginRequired, CarrierRequired, TemplateView):
     "Carga la vista de transportista"
     template_name = 'transportista/home-transportista.html'
 
-    def get_context_data(self, **kwargs):
-        data = super(HomeCarrier, self).get_context_data(**kwargs)
-        CargarDatoComercial(self.request)
-        try:
-            comercial = Comercial.objects.get(User_id=self.request.user.id)
-        except Exception:
-            comercial = None
-        data['comercial'] = comercial
-        return data       
-
 
 class VehiculoListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de vehiculos"

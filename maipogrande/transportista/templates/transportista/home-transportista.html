@@ -19,7 +19,7 @@
     <br>
     <a class="enlace" href="">Confirmar/retirar puja</a>
     <br>
-    {% endblock %}
+{% endblock %}
 
 {% block contenido %}
 
@@ -138,21 +138,4 @@
   </div>
   <!-- /.container -->
 
-{% endblock %}
-
-{% block jsBody %}
-    <script>
-        $( document ).ready(function() {
-            // cargar contratos del transportista 
-            $.ajax({url: "{% url 'cargarContratos' %}",
-                success: function () { 
-                console.log('Contratos cargados...!!');}
-            });
-            // Cargar datos comerciales
-            $.ajax({url: "{% url 'cargarComercial' %}",
-                success: function () { 
-                console.log('Datos comerciales cargados!!');}
-            });
-        });
-    </script>
 {% endblock %}

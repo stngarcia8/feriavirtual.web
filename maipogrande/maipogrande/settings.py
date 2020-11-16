@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -70,10 +71,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'maipogrande.wsgi.application'
 
 # Definiendo coneccion a la base de datos.
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'maipogrande.db', }}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'maipogrande.db', }}
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fv_env',
+        'USER': 'fv_user',
+        'PASSWORD': 'fv_pwd',
+        'HOST': 'maipogrande-fv.duckdns.org',
+        'PORT': 5432,
+    }
+}
+
+
+
 
 # Definiendo los estilos de validacion de las contraseñas.
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -129,6 +144,11 @@ GOOGLE_RECAPTCHA_SECRET_KEY = '6Ley-uEZAAAAAItLSCXvm07IXnzB3GVzZD4nC1b4'
 # Datos de conexion al servidor
 SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'
 SERVER_HEADERS = {"content-type": "application/json; charset=utf-8", }
+
+
+# Url de servicio de mensajeria.
+
+
 
 # URl de servicios
 LOGIN_SERVICE_URL = SERVER_API_URL + 'login/autenticate/post'

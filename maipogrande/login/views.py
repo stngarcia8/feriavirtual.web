@@ -1,13 +1,11 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.generic.base import TemplateView
-
 from .forms import LoginForm
-from .serializers import LoginSerializer
-from .utils import functions
+from .services import EncriptPassword, RedireccionarInicio
 
 
 def iniciarSesion(request):
@@ -16,47 +14,33 @@ def iniciarSesion(request):
     context = {'form': form, 'usuario': request.user, }
     if form.is_valid():
         data = form.cleaned_data
-        json = functions.CargarLogin(
-            data.get("username"), data.get("password"))
-        if json is not None:
-            serializador = LoginSerializer(data=json)
-            serializador.is_valid()
-            if serializador.data.get('ProfileId') < 3:
-                return redirect('restrictedaccess')
-            user = functions.CrearUsuario(
-                request, serializador, data.get("password"))
-            if user is not None:
-                login(request, user)
-                functions.CrearSesion(serializador, user)
-                return redirect(functions.RedireccionarInicio(user))
+        user = authenticate(
+            username=data.get("username"), password=EncriptPassword(data.get("password")))
+        if user is not None:
+            login(request, user)
+            return redirect(RedireccionarInicio(user))
         else:
             return redirect('accessdenied')
     return HttpResponse(template.render(context, request))
 
 
-# Logout:
-# Vista para finalizar la sesion del usuario.
 @login_required(login_url='iniciarSesion')
 def cerrarSesion(request):
-    username = request.user.username
+    "Cerrar la sesion del usuario."
     logout(request)
-    functions.EliminarUsuario(username)
     return redirect('/')
 
 
-# Denegar:
-# Muestra la vista para denegar el acceso a los usuarios sin permisos de login
 class Denied(TemplateView):
+    "Vista que indica el acceso no permitido."
     template_name = 'login/accessdenied.html'
 
 
-# Restringir:
-# Muestra la vista para los usuarios que intentan acceder por url a los servicios.
 class Restricted(TemplateView):
+    "Vista que muestra página de acceso restringido."
     template_name = 'login/restrictedaccess.html'
 
 
-# ErrorLoginService:
-# Muestra la vista cuando la api de login no este disponible.
 class ErrorLoginService(TemplateView):
+    "Vista que muestra página en caso que el servicio de login no este disponible."
     template_name = 'login/loginservicenotavailable'
