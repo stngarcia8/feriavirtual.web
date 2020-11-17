@@ -5,16 +5,17 @@
 {% endblock %}
 
 {% block contenido %}
-    <form class="text-justify border border-light p-5" method="post" id="comercialForm" urlCiudades="{% url 'cargarCiudades' %}">
+    <form class="text-justify border border-light p-5" method="post" id="comercialForm"
+          urlCiudades="{% url 'cargarCiudades' %}">
         <p class="lead text-justify text-center">
-            ¿Esta seguro de eliminar el producto 
-            {{ producto.ProductName }}, 
-            con el precio de ${{ producto.ProductValue }} y que registra la 
+            ¿Esta seguro de eliminar el producto
+            {{ producto.ProductName }},
+            con el precio de ${{ producto.ProductValue }} y que registra la
             cantidad de {{ producto.ProductQuantity }} kilos?<br>
         </p>
         {% csrf_token %}
         <div class="text-center">
-            <button type="submit" class="btn btn-danger mt-3"> Eliminar producto </button>
+            <button type="submit" class="btn btn-danger mt-3"> Eliminar producto</button>
             <a class="btn btn-success mt-3" href="{% url 'listarProductos' %}" role="button"> Cancelar </a>
         </div>
     </form>

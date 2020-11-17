@@ -24,7 +24,7 @@ def iniciarSesion(request):
     return HttpResponse(template.render(context, request))
 
 
-@login_required(login_url='iniciarSesion')
+@login_required(login_url='login')
 def cerrarSesion(request):
     "Cerrar la sesion del usuario."
     logout(request)

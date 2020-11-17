@@ -12,11 +12,11 @@
             Actualice su producto, cuando este listo, pulse el botón "Grabar".
         </p>
         <div class="form-group col-xs-1 col-sm-4 text-center" style="margin-left:auto; margin-right:auto;">
-        {% csrf_token %}
-        {% if form.non.field.errors %}
-            {{ form.non.field.errors }}
-        {% endif %}
-        {{ form|bootstrap }}
+            {% csrf_token %}
+            {% if form.non.field.errors %}
+                {{ form.non.field.errors }}
+            {% endif %}
+            {{ form|bootstrap }}
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success mt-3">Actualizar producto</button>

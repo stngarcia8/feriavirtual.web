@@ -18,8 +18,8 @@ function temporizador(activate_interval){
         }, 1000);
     } else {
         clearTimeout(myInterval);
-    };
-};
+    }
+}
 
 $("#pujaForm").submit(function() {
     let puja_value = $("#id_Value").val();
