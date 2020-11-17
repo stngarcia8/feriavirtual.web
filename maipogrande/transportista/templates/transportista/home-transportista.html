@@ -152,11 +152,6 @@
                 success: function () { 
                 console.log('Contratos cargados...!!');}
             });
-            // Cargar datos comerciales
-            $.ajax({url: "{% url 'cargarComercial' %}",
-                success: function () { 
-                console.log('Datos comerciales cargados!!');}
-            });
         });
     </script>
 {% endblock %}

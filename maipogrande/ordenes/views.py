@@ -14,7 +14,7 @@ from core.permission import LoginRequired
 
 class ClientRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 3 or request.user.loginsession.ProfileID == 4:
+        if request.user.loginsession.ProfileId == 3 or request.user.loginsession.ProfileId == 4:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')
 
@@ -76,13 +76,13 @@ class OrderCreateView(LoginRequired, ClientRequired, CreateView):
         context = self.get_context_data()
         detalles = context['order_detail']
         with transaction.atomic():
-            form.instance.ClientID = self.request.user.loginsession.ClientID
+            form.instance.ClientId = self.request.user.loginsession.ClientId
             form.instance.User = self.request.user
             self.object = form.save()
             if detalles.is_valid():
                 detalles.instance = self.object
                 detalles.save()
-                PostToApi(self.object.OrderID)
+                PostToApi(self.object.OrderId)
         return super(OrderCreateView, self).form_valid(form)
 
     def get_success_url(self):
@@ -115,7 +115,7 @@ class OrderUpdateView(LoginRequired, ClientRequired, UpdateView):
             if details.is_valid():
                 details.instance = self.object
                 details.save()
-                PutToApi(self.object.OrderID)
+                PutToApi(self.object.OrderId)
         return super(OrderUpdateView, self).form_valid(form)
 
 
@@ -127,7 +127,7 @@ class OrderDeleteView(LoginRequired, ClientRequired, DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación de la orden de compra."
         self.object = self.get_object()
-        if DeleteToApi(self.object.OrderID):
+        if DeleteToApi(self.object.OrderId):
             self.object.delete()
         return redirect('listarOrdenes')
 

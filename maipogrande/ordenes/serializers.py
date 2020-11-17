@@ -20,7 +20,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDetail
-        fields = ('OrderDetailID', 'OrderID', 'ProductName', 'Quantity', )
+        fields = ('OrderDetailId', 'OrderId', 'ProductName', 'Quantity', )
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -34,7 +34,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('OrderID', 'ClientID', 'ConditionID',
+        fields = ('OrderId', 'ClientId', 'ConditionId',
                   'ConditionDescription', 'OrderDiscount',
                   'Observation', 'OrderDetail', )
         depth = 1

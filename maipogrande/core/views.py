@@ -67,13 +67,13 @@ class ServiceNotAvailable(TemplateView):
 def DinamicHome(request):
     "Redirecciona a las páginas de inicio según el perfil del usuario."
     pagina = "core/home.html"
-    if request.user.loginsession.ProfileID == 3:
+    if request.user.loginsession.ProfileId == 3:
         pagina = "cexterno/home-externo.html"
-    if request.user.loginsession.ProfileID == 4:
+    if request.user.loginsession.ProfileId == 4:
         pagina = "cinterno/home-interno.html"
-    if request.user.loginsession.ProfileID == 5:
+    if request.user.loginsession.ProfileId == 5:
         pagina = "productor/home-productor.html"
-    if request.user.loginsession.ProfileID == 6:
+    if request.user.loginsession.ProfileId == 6:
         pagina = "transportista/home-transportista.html"
     miPlantilla = loader.get_template(pagina)
     return HttpResponse(miPlantilla.render({}, request))
@@ -82,12 +82,12 @@ def DinamicHome(request):
 def DinamicHomePage(request):
     "Retorna la ppágina de inicio de los usuarios según su perfil."
     pagina = "core/home.html"
-    if request.user.loginsession.ProfileID == 3:
+    if request.user.loginsession.ProfileId == 3:
         pagina = "cexterno/home-externo.html"
-    if request.user.loginsession.ProfileID == 4:
+    if request.user.loginsession.ProfileId == 4:
         pagina = "cinterno/home-interno.html"
-    if request.user.loginsession.ProfileID == 5:
+    if request.user.loginsession.ProfileId == 5:
         pagina = "productor/home-productor.html"
-    if request.user.loginsession.ProfileID == 6:
+    if request.user.loginsession.ProfileId == 6:
         pagina = "transportista/home-transportista.html"
     return pagina

@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     "Representa la categoría de un producto."
-    CategoryID = models.IntegerField(default=1)
+    CategoryId = models.IntegerField(default=1)
     CategoryName = models.CharField(
         max_length=25, verbose_name='Categoría de producto')
 
     class Meta:
-        ordering = ('CategoryID',)
+        ordering = ('CategoryId',)
 
     def __str__(self):
         return self.CategoryName
@@ -19,8 +19,8 @@ class Category(models.Model):
 
 class Producto(models.Model):
     "Modelo que representa un producto en el sistema"
-    ProductID = models.UUIDField(default=uuid.uuid4, unique=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    ProductId = models.UUIDField(default=uuid.uuid4, unique=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     ProductName = models.CharField(
         max_length=50,verbose_name='Nombre producto')
     Category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione categoría de producto')

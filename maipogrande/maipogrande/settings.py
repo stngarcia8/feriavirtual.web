@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'cinterno',
     'ordenes',
     'contratos',
+    'tasker',
 ]
 
 # Definiendo los middleware a utilizar.
@@ -70,10 +71,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'maipogrande.wsgi.application'
 
 # Definiendo coneccion a la base de datos.
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'maipogrande.db', }}
+
+# Definicion de uso de postgresql
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'maipogrande.db', }}
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fv_env',
+        'USER': 'fv_user',
+        'PASSWORD': 'fv_pwd',
+        'HOST': 'maipogrande-fv.duckdns.org',
+        'PORT': 5432,
+    }
+}
+
+
+
 
 # Definiendo los estilos de validacion de las contraseñas.
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -121,6 +137,11 @@ EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = '4f6dbc1693a95c'
 EMAIL_HOST_PASSWORD = 'b4103afb73d3cb'
 EMAIL_PORT = '2525'
+
+
+# Definiendo propiedades para los captchas
+GOOGLE_RECAPTCHA_SECRET_KEY = '6Ley-uEZAAAAAItLSCXvm07IXnzB3GVzZD4nC1b4'
+
 
 # Datos de conexion al servidor
 SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'

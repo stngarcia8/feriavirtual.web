@@ -8,12 +8,12 @@ from django.utils import timezone
 
 class VehicleType(models.Model):
     "Representa el tipo de transporte"
-    VehicleTypeID = models.IntegerField(default=1)
+    VehicleTypeId = models.IntegerField(default=1)
     VehicleTypeDescription = models.CharField(
         max_length=100, verbose_name='Tipo transporte')
 
     class Meta:
-        ordering = ('VehicleTypeID',)
+        ordering = ('VehicleTypeId',)
 
     def __str__(self):
         return self.VehicleTypeDescription
@@ -23,8 +23,8 @@ class Vehicle(models.Model):
     "Representa un vehiculo del transportista."
     disponibilidad = ((1, 'Disponible'), (0, 'Inhabilitado'))
 
-    VehicleID = models.UUIDField(default=uuid.uuid4, unique=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    VehicleId = models.UUIDField(default=uuid.uuid4, unique=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     VehicleType = models.ForeignKey(
         VehicleType, null=True, on_delete=models.SET_NULL, verbose_name='Seleccione tipo de transporte')
     VehiclePatent = models.CharField(
@@ -66,7 +66,7 @@ class Vehicle(models.Model):
 
 class Auction(models.Model):
     "Clase que representa una subasta."
-    AuctionID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
     AuctionDate = models.DateField(default=datetime.date.today)
     Percent = models.FloatField(default=0)
     Value = models.FloatField(default=0)
@@ -112,9 +112,9 @@ def get_default_my_hour():
 
 class BidModel(models.Model):
     "Clase que representa la puja en una subasta."
-    ValueID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
-    AuctionID = models.CharField(max_length=40, blank=True, null=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    ValueId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionId = models.CharField(max_length=40, blank=True, null=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     Value = models.IntegerField(default=0, verbose_name='Puja')
     Hour = models.CharField(max_length=50, default=get_default_my_hour, null=True)
     Date = models.DateField(default=datetime.date.today)
@@ -126,8 +126,8 @@ class BidModel(models.Model):
 
 class OrderDispatch(models.Model):
     "Clase que representa una orden de despacho."
-    DispatchID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    DispatchId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     DispatchDate = models.DateField(default=datetime.date.today)
     DispatchValue = models.FloatField(default=0)
     DispatchWeight = models.FloatField(default=0)
@@ -143,7 +143,7 @@ class OrderDispatch(models.Model):
         ordering = ('DispatchDate', )
 
     def __str__(self):
-        return self.ClientID
+        return self.ClientId
 
     def get_cambiar_estado_url(self):
         "Define la ruta de detalle despacho"

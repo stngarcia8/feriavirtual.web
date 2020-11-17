@@ -5,7 +5,7 @@ from .models import Order
 from .serializers import OrderSerializer
 
 
-def PostToApi(orderID):
+def PostToApi(orderId):
     """ Almacena una nueva orden de compra.
 
         Permite almacenar los datos de la nueva orden de compra en la base de datos de feria virtual.
@@ -15,7 +15,7 @@ def PostToApi(orderID):
             - True: La orden fue almacenado correctamente
             - False: Ocurrio algun problema y la orden no fue almacenado
     """
-    orden = Order.objects.get(OrderID=orderID)
+    orden = Order.objects.get(OrderId=orderId)
     orden_serializer = OrderSerializer(instance=orden)
     response = requests.post(
         url=settings.ORDER_SERVICE_URL_POST,
@@ -24,7 +24,7 @@ def PostToApi(orderID):
     return True if response.status_code == 200 else False
 
 
-def PutToApi(orderID):
+def PutToApi(orderId):
     """ Actualiza una orden de compra.
 
         Permite actualizar la información de una orden de compra en la base de datos de feria virtual.
@@ -34,7 +34,7 @@ def PutToApi(orderID):
             - True: la orden de compra fue actualizada correctamente
             - False: Ocurrio algun problema y la orden no fue almacenada
     """
-    orden = Order.objects.get(OrderID=orderID)
+    orden = Order.objects.get(OrderId=orderId)
     orden_serializer = OrderSerializer(instance=orden)
     response = requests.put(
         url=settings.ORDER_SERVICE_URL_PUT,
@@ -55,5 +55,5 @@ def DeleteToApi(order_id):
     """
     response = requests.delete(
         url=settings.ORDER_SERVICE_URL_DELETE,
-        params={'orderID': order_id})
+        params={'orderId': order_id})
     return True if response.status_code == 200 else False

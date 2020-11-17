@@ -6,7 +6,7 @@ from .models import Comercial, City
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, TemplateView
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi
 from .serializers import ComercialApiSerializer, ComercialSerializer
-from login.utils.functions import RedireccionarInicio
+from login.services import RedireccionarInicio
 from core.views import DinamicHomePage
 
 
@@ -50,7 +50,7 @@ class ComercialCreateView(CreateView):
     def form_valid(self, form):
         "Valida el formulario de ingreso"
         self.object = form.save(commit=False)
-        self.object.ClientID = self.request.user.loginsession.ClientID
+        self.object.ClientId = self.request.user.loginsession.ClientId
         self.object.User = self.request.user
         if PostToApi(ComercialSerializer(instance=self.object, many=False)):
             self.object.save()
@@ -81,7 +81,7 @@ class ComercialDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación del dato comercial."
         self.object = self.get_object()
-        if DeleteToApi(self.object.ComercialID):
+        if DeleteToApi(self.object.ComercialId):
             self.object.delete()
         return redirect('iniciarComercial')
 

@@ -54,7 +54,7 @@ def DeleteToApi(product_id):
     """
     response = requests.delete(
         url=settings.PRODUCTOR_SERVICE_URL_DELETE,
-        params={'productID': product_id})
+        params={'productId': product_id})
     return True if response.status_code == 200 else False
 
 
@@ -70,7 +70,7 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.PRODUCTOR_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False
     serializador = ProductoSerializer(data=response.json(), many=True)

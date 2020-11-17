@@ -1,17 +1,18 @@
-from dcomercial.models import Profile, Country, City
-from transportista.models import VehicleType
-from productor.models import Category
-from ordenes.models import PaymentCondition
 from django.core.management.base import BaseCommand
+from dcomercial.models import Profile, Country, City
+from ordenes.models import PaymentCondition
+from productor.models import Category
+from transportista.models import VehicleType
+from login.models import LoginSession
+from django.contrib.auth.models import User
 
 
-# Command();
-# Clase que permite ejecutar comandos personalizados desde manage.py
 class Command(BaseCommand):
     help = 'Ingresa valores de prueba para feria virtual.'
 
     def handle(self, *args, **kwargs):
         self.CrearCategorias()
+        self.CrearUsuarios()
         self.CrearCondicionesDePago()
         self.CrearPaisCiudad()
         self.CrearPerfil()
@@ -21,285 +22,329 @@ class Command(BaseCommand):
     def CrearCategorias(self):
         "Crea las categorías de los productos."
         print('Creando categorías de productos.')
-        category = Category(CategoryID=1, CategoryName='Exportación')
+        categories = Category.objects.all().delete()
+        category = Category(CategoryId=1, CategoryName='Exportación')
         category.save()
-        category = Category(CategoryID=2, CategoryName='Venta nacional')
+        category = Category(CategoryId=2, CategoryName='Venta nacional')
         category.save()
         return
 
+    def CrearUsuarios(self):
+        "Crea los usuarios de ejemplo para pruebas."
+        print("Creando usuarios conocidos de pruebas")
+        users = User.objects.all().delete()
+        user = self.CreaUnUsuario('l.garciar', '552668dcde69cd6c10aebb8e5ee4e61dfb54050a', 'Lolita Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('5f950227-a59a-48ec-a358-a403ede00bca', 'd124fdef-6956-460f-9873-1953fe29f81b', 6, 'Transportista', user)
+        user = self.CreaUnUsuario('f.garciar', '92d52f9c820e4e291318819f2ab5514dd8a389ea', 'Flo Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('08daae9c-d977-4234-a054-0b83918ed3e7', 'a3220c48-ddb2-4fe8-8e80-8bc832fb80d5', 5, 'Productor', user)
+        user = self.CreaUnUsuario('d.garciar', '6f57196fd9309e992379d3c90fec691531219eea', ' Daniela Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('aa3ed254-ff6d-4c3c-97b6-048efdedaf69', 'd78ee803-2e99-4c87-a684-d600e6540564', 3, 'Cliente externo', user)
+        user = self.CreaUnUsuario('l.romanq', '7a4013826e6cbb73d29cbea95ce32abcba60aa6e', 'Loreto Roman Quiroz', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('729d6773-a60c-4dd5-9e39-9629e44c98b2', 'e7d1d546-84ad-4420-bb05-169aebc376a5',4, 'Cliente interno', user)
+        return
+
+    def CreaUnUsuario(self, usr, pwd, fname, eml):
+        "Crea un usuario en la base de datos temporal."
+        u = User.objects.create_user(username=usr, password=pwd,first_name=fname, email=eml)
+        uis_staff = True
+        u.is_active = True
+        u.save()
+        return u
+
+    def CreaUnaSesion(self, clId, usrId, proId, proName, usr):
+        s = LoginSession()
+        s.UserId = usrId
+        s.ClientId = clId
+        s.Username = usr.username
+        s.FullName = usr.first_name
+        s.Email = usr.email
+        s.ProfileId = proId
+        s.ProfileName = proName
+        s.User = usr
+        s.save()
+        return
+
+
+
+
     def CrearCondicionesDePago(self):
         "Crea las condiciones de pago para las ordenes de venta."
-        print('Creando Creando condiciones de pago.')
-        condicion = PaymentCondition(ConditionID=1, ConditionDescription='CONTADO')
+        print('Creando condiciones de pago.')
+        conditions = PaymentCondition.objects.all().delete()
+        condicion = PaymentCondition(ConditionId=1, ConditionDescription='CONTADO')
         condicion.save()
-        condicion= PaymentCondition(ConditionID=2, ConditionDescription='1 MES')
+        condicion= PaymentCondition(ConditionId=2, ConditionDescription='1 MES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=3, ConditionDescription='2 MESES')
+        condicion = PaymentCondition(ConditionId=3, ConditionDescription='2 MESES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=4, ConditionDescription='3 MESES')
+        condicion = PaymentCondition(ConditionId=4, ConditionDescription='3 MESES')
         condicion.save()
-        condicion = PaymentCondition(ConditionID=5, ConditionDescription='4 MESES')
+        condicion = PaymentCondition(ConditionId=5, ConditionDescription='4 MESES')
         condicion.save()
         return
 
     def CrearPerfil(self):
         "Crea los perfiles para los usuarios del sistema."
         print('Creando roles de usuario.')
-        profile = Profile(ProfileID=1, ProfileName='Administrador')
+        profiles = Profile.objects.all().delete()
+        profile = Profile(ProfileId=1, ProfileName='Administrador')
         profile.save()
-        profile = Profile(ProfileID=2, ProfileName='Consultor')
+        profile = Profile(ProfileId=2, ProfileName='Consultor')
         profile.save()
-        profile = Profile(ProfileID=3, ProfileName='Cliente externo')
+        profile = Profile(ProfileId=3, ProfileName='Cliente externo')
         profile.save()
-        profile = Profile(ProfileID=4, ProfileName='Cliente interno')
+        profile = Profile(ProfileId=4, ProfileName='Cliente interno')
         profile.save()
-        profile = Profile(ProfileID=5, ProfileName='Productor')
+        profile = Profile(ProfileId=5, ProfileName='Productor')
         profile.save()
-        profile = Profile(ProfileID=6, ProfileName='Transportista')
+        profile = Profile(ProfileId=6, ProfileName='Transportista')
         profile.save()
         return
 
     def CrearTiposDeTransportes(self):
         "Crea los tipos de medios de transportes para los vehículos."
         print('Creando tipos de medios de transportes')
-        vehicleType = VehicleType(VehicleTypeID=1, VehicleTypeDescription='Aereo')
+        vehicleTypes = VehicleType.objects.all().delete()
+        vehicleType = VehicleType(VehicleTypeId=1, VehicleTypeDescription='Aereo')
         vehicleType.save()
-        vehicleType = VehicleType(VehicleTypeID=2, VehicleTypeDescription='Terrestre')
+        vehicleType = VehicleType(VehicleTypeId=2, VehicleTypeDescription='Terrestre')
         vehicleType.save()
-        vehicleType = VehicleType(VehicleTypeID=3, VehicleTypeDescription='Maritimo')
+        vehicleType = VehicleType(VehicleTypeId=3, VehicleTypeDescription='Maritimo')
         vehicleType.save()
         return
 
     def CrearPaisCiudad(self):
         "Crea los paises y ciudades necesarios para los datos comerciales de los clientes."
         print('Creando paises y ciudades.')
-        country = Country(CountryID=1, CountryName='Alemania',
+        countries = Country.objects.all().delete()
+        cities = City.objects.all().delete()
+        country = Country(CountryId=1, CountryName='Alemania',
                           CountryPrefix='+54')
         country.save()
-        city = City(CityID=1, Country=country, CityName='Berlin')
+        city = City(CityId=1, Country=country, CityName='Berlin')
         city.save()
-        city = City(CityID=2, Country=country, CityName='Munich')
-        city.save()
-        country = Country(
-            CountryID=2, CountryName='Argentina', CountryPrefix='+49')
-        country.save()
-        city = City(CityID=3, Country=country, CityName='Buenos Aires')
-        city.save()
-        city = City(CityID=4, Country=country, CityName='Cordoba')
+        city = City(CityId=2, Country=country, CityName='Munich')
         city.save()
         country = Country(
-            CountryID=3, CountryName='Australia', CountryPrefix='+61')
+            CountryId=2, CountryName='Argentina', CountryPrefix='+49')
         country.save()
-        city = City(CityID=5, Country=country, CityName='Sidney')
+        city = City(CityId=3, Country=country, CityName='Buenos Aires')
         city.save()
-        city = City(CityID=6, Country=country, CityName='Melbourne')
+        city = City(CityId=4, Country=country, CityName='Cordoba')
         city.save()
-        city = City(CityID=7, Country=country, CityName='Canberra')
+        country = Country(
+            CountryId=3, CountryName='Australia', CountryPrefix='+61')
+        country.save()
+        city = City(CityId=5, Country=country, CityName='Sidney')
         city.save()
-        country = Country(CountryID=4, CountryName='Austria',
+        city = City(CityId=6, Country=country, CityName='Melbourne')
+        city.save()
+        city = City(CityId=7, Country=country, CityName='Canberra')
+        city.save()
+        country = Country(CountryId=4, CountryName='Austria',
                           CountryPrefix='+43')
         country.save()
-        city = City(CityID=8, Country=country, CityName='Viena')
+        city = City(CityId=8, Country=country, CityName='Viena')
         city.save()
-        country = Country(CountryID=5, CountryName='Belgica',
+        country = Country(CountryId=5, CountryName='Belgica',
                           CountryPrefix='+32')
         country.save()
-        city = City(CityID=9, Country=country, CityName='Bruselas')
+        city = City(CityId=9, Country=country, CityName='Bruselas')
         city.save()
-        city = City(CityID=10, Country=country, CityName='Brujas')
+        city = City(CityId=10, Country=country, CityName='Brujas')
         city.save()
-        country = Country(CountryID=6, CountryName='Brasil',
+        country = Country(CountryId=6, CountryName='Brasil',
                           CountryPrefix='+55')
         country.save()
-        city = City(CityID=11, Country=country, CityName='Brasilia')
+        city = City(CityId=11, Country=country, CityName='Brasilia')
         city.save()
-        city = City(CityID=12, Country=country, CityName='Rio de janeiro')
+        city = City(CityId=12, Country=country, CityName='Rio de janeiro')
         city.save()
-        city = City(CityID=13, Country=country, CityName='Sao Paulo')
+        city = City(CityId=13, Country=country, CityName='Sao Paulo')
         city.save()
-        country = Country(CountryID=7, CountryName='Bulgaria',
+        country = Country(CountryId=7, CountryName='Bulgaria',
                           CountryPrefix='+359')
         country.save()
-        city = City(CityID=14, Country=country, CityName='Sofia')
+        city = City(CityId=14, Country=country, CityName='Sofia')
         city.save()
-        country = Country(CountryID=8, CountryName='Canada',
+        country = Country(CountryId=8, CountryName='Canada',
                           CountryPrefix='+1')
         country.save()
-        city = City(CityID=15, Country=country, CityName='Ottawa')
+        city = City(CityId=15, Country=country, CityName='Ottawa')
         city.save()
-        city = City(CityID=16, Country=country, CityName='Toronto')
+        city = City(CityId=16, Country=country, CityName='Toronto')
         city.save()
-        city = City(CityID=17, Country=country, CityName='Montreal')
+        city = City(CityId=17, Country=country, CityName='Montreal')
         city.save()
-        country = Country(CountryID=9, CountryName='Chile',
+        country = Country(CountryId=9, CountryName='Chile',
                           CountryPrefix='+56')
         country.save()
-        city = City(CityID=18, Country=country, CityName='Santiago')
+        city = City(CityId=18, Country=country, CityName='Santiago')
         city.save()
-        city = City(CityID=19, Country=country, CityName='Valparaiso')
+        city = City(CityId=19, Country=country, CityName='Valparaiso')
         city.save()
-        city = City(CityID=20, Country=country, CityName='Valdivia')
+        city = City(CityId=20, Country=country, CityName='Valdivia')
         city.save()
-        city = City(CityID=21, Country=country, CityName='Concepcion')
+        city = City(CityId=21, Country=country, CityName='Concepcion')
         city.save()
-        country = Country(CountryID=10, CountryName='China',
+        country = Country(CountryId=10, CountryName='China',
                           CountryPrefix='+86')
         country.save()
-        city = City(CityID=22, Country=country, CityName='Pekin')
+        city = City(CityId=22, Country=country, CityName='Pekin')
         city.save()
-        city = City(CityID=23, Country=country, CityName='Shanghai')
+        city = City(CityId=23, Country=country, CityName='Shanghai')
         city.save()
         country = Country(
-            CountryID=11, CountryName='Colombia', CountryPrefix='+57')
+            CountryId=11, CountryName='Colombia', CountryPrefix='+57')
         country.save()
-        city = City(CityID=24, Country=country, CityName='Bogota')
+        city = City(CityId=24, Country=country, CityName='Bogota')
         city.save()
-        city = City(CityID=25, Country=country, CityName='Medellin')
+        city = City(CityId=25, Country=country, CityName='Medellin')
         city.save()
-        country = Country(CountryID=12, CountryName='Croacia',
+        country = Country(CountryId=12, CountryName='Croacia',
                           CountryPrefix='+385')
         country.save()
-        city = City(CityID=26, Country=country, CityName='Zagreb')
+        city = City(CityId=26, Country=country, CityName='Zagreb')
         city.save()
         country = Country(
-            CountryID=13, CountryName='Dinamarca', CountryPrefix='+45')
+            CountryId=13, CountryName='Dinamarca', CountryPrefix='+45')
         country.save()
-        city = City(CityID=27, Country=country, CityName='Copenhague')
+        city = City(CityId=27, Country=country, CityName='Copenhague')
         city.save()
-        country = Country(CountryID=14, CountryName='Egipto',
+        country = Country(CountryId=14, CountryName='Egipto',
                           CountryPrefix='+20')
         country.save()
-        city = City(CityID=28, Country=country, CityName='El cairo')
+        city = City(CityId=28, Country=country, CityName='El cairo')
         city.save()
-        country = Country(CountryID=15, CountryName='España',
+        country = Country(CountryId=15, CountryName='España',
                           CountryPrefix='+34')
         country.save()
-        city = City(CityID=29, Country=country, CityName='Madrid')
+        city = City(CityId=29, Country=country, CityName='Madrid')
         city.save()
-        city = City(CityID=30, Country=country, CityName='Barcelona')
+        city = City(CityId=30, Country=country, CityName='Barcelona')
         city.save()
-        country = Country(CountryID=16, CountryName='Francia',
+        country = Country(CountryId=16, CountryName='Francia',
                           CountryPrefix='+33')
         country.save()
-        city = City(CityID=31, Country=country, CityName='Paris')
+        city = City(CityId=31, Country=country, CityName='Paris')
         city.save()
-        country = Country(CountryID=17, CountryName='Grecia',
+        country = Country(CountryId=17, CountryName='Grecia',
                           CountryPrefix='+30')
         country.save()
-        city = City(CityID=32, Country=country, CityName='Atenas')
+        city = City(CityId=32, Country=country, CityName='Atenas')
         city.save()
-        country = Country(CountryID=18, CountryName='Holanda',
+        country = Country(CountryId=18, CountryName='Holanda',
                           CountryPrefix='+31')
         country.save()
-        city = City(CityID=33, Country=country, CityName='Amsterdam')
+        city = City(CityId=33, Country=country, CityName='Amsterdam')
         city.save()
-        country = Country(CountryID=19, CountryName='India',
+        country = Country(CountryId=19, CountryName='India',
                           CountryPrefix='+91')
         country.save()
-        city = City(CityID=34, Country=country, CityName='Nueva Delhi')
+        city = City(CityId=34, Country=country, CityName='Nueva Delhi')
         city.save()
-        city = City(CityID=35, Country=country, CityName='Bombay')
+        city = City(CityId=35, Country=country, CityName='Bombay')
         city.save()
-        country = Country(CountryID=20, CountryName='Italia',
+        country = Country(CountryId=20, CountryName='Italia',
                           CountryPrefix='+39')
         country.save()
-        city = City(CityID=36, Country=country, CityName='Roma')
+        city = City(CityId=36, Country=country, CityName='Roma')
         city.save()
-        city = City(CityID=37, Country=country, CityName='Milan')
+        city = City(CityId=37, Country=country, CityName='Milan')
         city.save()
-        country = Country(CountryID=21, CountryName='Japon',
+        country = Country(CountryId=21, CountryName='Japon',
                           CountryPrefix='+81')
         country.save()
-        city = City(CityID=38, Country=country, CityName='Tokio')
+        city = City(CityId=38, Country=country, CityName='Tokio')
         city.save()
-        country = Country(CountryID=22, CountryName='Mexico',
+        country = Country(CountryId=22, CountryName='Mexico',
                           CountryPrefix='+52')
         country.save()
-        city = City(CityID=39, Country=country, CityName='Ciudad de Mexico')
+        city = City(CityId=39, Country=country, CityName='Ciudad de Mexico')
         city.save()
-        city = City(CityID=40, Country=country, CityName='Monterrey')
+        city = City(CityId=40, Country=country, CityName='Monterrey')
         city.save()
-        country = Country(CountryID=23, CountryName='Noruega',
+        country = Country(CountryId=23, CountryName='Noruega',
                           CountryPrefix='+47')
         country.save()
-        city = City(CityID=41, Country=country, CityName='Oslo')
+        city = City(CityId=41, Country=country, CityName='Oslo')
         city.save()
-        country = Country(CountryID=24, CountryName='Peru',
+        country = Country(CountryId=24, CountryName='Peru',
                           CountryPrefix='+51')
         country.save()
-        city = City(CityID=42, Country=country, CityName='Lima')
+        city = City(CityId=42, Country=country, CityName='Lima')
         city.save()
-        country = Country(CountryID=25, CountryName='Portugal',
+        country = Country(CountryId=25, CountryName='Portugal',
                           CountryPrefix='+351')
         country.save()
-        city = City(CityID=43, Country=country, CityName='Lisboa')
+        city = City(CityId=43, Country=country, CityName='Lisboa')
         city.save()
-        city = City(CityID=44, Country=country, CityName='Oporto')
+        city = City(CityId=44, Country=country, CityName='Oporto')
         city.save()
-        country = Country(CountryID=26, CountryName='Qatar',
+        country = Country(CountryId=26, CountryName='Qatar',
                           CountryPrefix='+974')
         country.save()
-        city = City(CityID=45, Country=country, CityName='Doha')
+        city = City(CityId=45, Country=country, CityName='Doha')
         city.save()
-        country = Country(CountryID=27, CountryName='Rusia',
+        country = Country(CountryId=27, CountryName='Rusia',
                           CountryPrefix='+7')
         country.save()
-        city = City(CityID=46, Country=country, CityName='Moscu')
+        city = City(CityId=46, Country=country, CityName='Moscu')
         city.save()
-        city = City(CityID=47, Country=country, CityName='San Petersburgo')
-        city.save()
-        country = Country(
-            CountryID=28, CountryName='Reino Unido', CountryPrefix='+44')
-        country.save()
-        city = City(CityID=48, Country=country, CityName='Londres')
+        city = City(CityId=47, Country=country, CityName='San Petersburgo')
         city.save()
         country = Country(
-            CountryID=29, CountryName='Sudafrica', CountryPrefix='+27')
+            CountryId=28, CountryName='Reino Unido', CountryPrefix='+44')
         country.save()
-        city = City(CityID=49, Country=country, CityName='Manchester')
+        city = City(CityId=48, Country=country, CityName='Londres')
         city.save()
-        country = Country(CountryID=30, CountryName='Suecia',
+        country = Country(
+            CountryId=29, CountryName='Sudafrica', CountryPrefix='+27')
+        country.save()
+        city = City(CityId=49, Country=country, CityName='Manchester')
+        city.save()
+        country = Country(CountryId=30, CountryName='Suecia',
                           CountryPrefix='+46')
         country.save()
-        city = City(CityID=50, Country=country, CityName='Estocolmo')
+        city = City(CityId=50, Country=country, CityName='Estocolmo')
         city.save()
-        country = Country(CountryID=31, CountryName='Suiza',
+        country = Country(CountryId=31, CountryName='Suiza',
                           CountryPrefix='+41')
         country.save()
-        city = City(CityID=51, Country=country, CityName='Berna')
+        city = City(CityId=51, Country=country, CityName='Berna')
         city.save()
-        city = City(CityID=52, Country=country, CityName='Zurich')
+        city = City(CityId=52, Country=country, CityName='Zurich')
         city.save()
         country = Country(
-            CountryID=32, CountryName='Tailandia', CountryPrefix='+66')
+            CountryId=32, CountryName='Tailandia', CountryPrefix='+66')
         country.save()
-        city = City(CityID=53, Country=country, CityName='Bangkok')
+        city = City(CityId=53, Country=country, CityName='Bangkok')
         city.save()
-        country = Country(CountryID=33, CountryName='Turquia',
+        country = Country(CountryId=33, CountryName='Turquia',
                           CountryPrefix='+90')
         country.save()
-        city = City(CityID=54, Country=country, CityName='Ankara')
+        city = City(CityId=54, Country=country, CityName='Ankara')
         city.save()
-        city = City(CityID=55, Country=country, CityName='Estambul')
+        city = City(CityId=55, Country=country, CityName='Estambul')
         city.save()
-        country = Country(CountryID=34, CountryName='Usa', CountryPrefix='+1')
+        country = Country(CountryId=34, CountryName='Usa', CountryPrefix='+1')
         country.save()
-        city = City(CityID=56, Country=country, CityName='Washington')
+        city = City(CityId=56, Country=country, CityName='Washington')
         city.save()
-        city = City(CityID=57, Country=country, CityName='Los Angeles')
+        city = City(CityId=57, Country=country, CityName='Los Angeles')
         city.save()
-        city = City(CityID=58, Country=country, CityName='New York')
+        city = City(CityId=58, Country=country, CityName='New York')
         city.save()
-        city = City(CityID=59, Country=country, CityName='Miami')
+        city = City(CityId=59, Country=country, CityName='Miami')
         city.save()
-        country = Country(CountryID=35, CountryName='Uruguay',
+        country = Country(CountryId=35, CountryName='Uruguay',
                           CountryPrefix='+598')
         country.save()
-        city = City(CityID=60, Country=country, CityName='Montevideo')
+        city = City(CityId=60, Country=country, CityName='Montevideo')
         city.save()
-        country = Country(CountryID=36, CountryName='Vietnam',
+        country = Country(CountryId=36, CountryName='Vietnam',
                           CountryPrefix='+84')
         country.save()
-        city = City(CityID=61, Country=country, CityName='Hanoi')
+        city = City(CityId=61, Country=country, CityName='Hanoi')
         city.save()
         return

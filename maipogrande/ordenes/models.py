@@ -21,12 +21,12 @@ class ExportProduct(models.Model):
 
 class PaymentCondition(models.Model):
     "Representa un metodo de pago de la orden de compra"
-    ConditionID = models.IntegerField(default=1)
+    ConditionId = models.IntegerField(default=1)
     ConditionDescription = models.CharField(
         max_length=25, verbose_name='Condición de pago')
 
     class Meta:
-        ordering = ('ConditionID',)
+        ordering = ('ConditionId',)
 
     def __str__(self):
         return self.ConditionDescription
@@ -34,13 +34,13 @@ class PaymentCondition(models.Model):
 
 class Order(models.Model):
     "Representa la orden de compra de productos"
-    OrderID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
-    ClientID = models.CharField(
+    OrderId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    ClientId = models.CharField(
         max_length=40, blank=True, null=True)
     PaymentCondition = models.ForeignKey(
         PaymentCondition, null=True, on_delete=models.SET_NULL,
         verbose_name='Condiciones de pago')
-    ConditionID = models.IntegerField(default=1)
+    ConditionId = models.IntegerField(default=1)
     ConditionDescription = models.CharField(max_length=25, blank=True)
     OrderDate = models.DateField(
         default=datetime.date.today,
@@ -55,7 +55,7 @@ class Order(models.Model):
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        self.ConditionID = self.PaymentCondition.ConditionID
+        self.ConditionId = self.PaymentCondition.ConditionId
         self.ConditionDescription = self.PaymentCondition.ConditionDescription
         self.Observation = self.Observation.upper() if self.Observation else ''
         super(Order, self).save(*args, **kwargs)
@@ -78,21 +78,21 @@ class Order(models.Model):
         return reverse('eliminarOrden', args=[self.id])
 
     def __str__(self):
-        return self.OrderID
+        return self.OrderId
 
 
 class OrderDetail(models.Model):
     "Clase que define el detalle de la orden de compra."
-    OrderDetailID = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    OrderDetailId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
     Order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
-    OrderID = models.CharField(max_length=40, blank=True, null=True)
+    OrderId = models.CharField(max_length=40, blank=True, null=True)
     Product = models.ForeignKey(ExportProduct, null=True, on_delete=models.SET_NULL)
     ProductName = models.CharField(max_length=50, blank=True, null=True)
     Quantity = models.FloatField(default=0, verbose_name='Cantidad de productos (medido en KG)',
                                  validators=[MinValueValidator(1), MaxValueValidator(9999)])
 
     def save(self):
-        self.OrderID = self.Order.OrderID
+        self.OrderId = self.Order.OrderId
         self.ProductName = self.Product.ProductName
         super(OrderDetail, self).save()
 
@@ -102,4 +102,4 @@ class OrderDetail(models.Model):
         ordering = ('id',)
 
     def __str(self):
-        return self.OrderDetailID
+        return self.OrderDetailId

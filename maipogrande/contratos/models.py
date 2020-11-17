@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 
 class Contract(models.Model):
     "Define la clase de los contratos del transportista."
-    ContractID = models.CharField(max_length=40, blank=True, null=True)
-    ClientID = models.CharField(max_length=40, blank=True, null=True)
+    ContractId = models.CharField(max_length=40, blank=True, null=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
     Customername = models.CharField(max_length=101, blank=True, null=True)
-    CustomerDNI = models.CharField(max_length=20, blank=True, null=True)
+    CustomerDni = models.CharField(max_length=20, blank=True, null=True)
     CustomerEmail = models.CharField(max_length=255, blank=True, null=True)
     ContractObservation = models.CharField(max_length=100, blank=True, null=True)
     CustomerObservation = models.CharField(max_length=100, blank=True, null=True, verbose_name='ingrese observación')
@@ -23,7 +23,7 @@ class Contract(models.Model):
     FineValue = models.FloatField(default=0)
     Status = models.IntegerField(default=0)
     StatusDescription = models.CharField(max_length=30, blank=True, null=True)
-    ProfileID = models.IntegerField(default=0)
+    ProfileId = models.IntegerField(default=0)
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:

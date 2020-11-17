@@ -57,7 +57,7 @@ def DeleteToApi(comercial_id):
     """
     response = requests.delete(
         url=settings.COMERCIAL_SERVICE_URL_DELETE,
-        params={'comercialID': comercial_id})
+        params={'comercialId': comercial_id})
     return True if response.status_code == 200 else False
 
 
@@ -73,13 +73,10 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.COMERCIAL_SERVICE_URL_GET,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False  
     serializador = ComercialSerializer(data=response.json())
     serializador.is_valid()
-    print("Este error sale")
-    print(serializador.errors)
-    print()
     serializador.save(User=user)
     return True        

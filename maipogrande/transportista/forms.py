@@ -7,10 +7,10 @@ class CreateVehiculoForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = (
-            'VehicleID', 'ClientID', 'VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 'Observation', )
+            'VehicleId', 'ClientId', 'VehicleType', 'VehiclePatent', 'VehicleModel', 'VehicleCapacity', 'Observation', )
         widgets = {
-            'VehicleID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'VehicleId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'VehicleType': Select(attrs={'autofocus': ''}),
             'VehiclePatent': TextInput(attrs={'size': '15', 'pattern': "[ÑA-Zña-z0-9]+$", 'minlength': 4, 
                 'oninvalid':"setCustomValidity('Ingrese una patente válida')", 'oninput':"setCustomValidity('')"}),
@@ -28,13 +28,13 @@ class UpdateVehiculoForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = (
-            'VehicleID', 'ClientID', 'VehicleType',
+            'VehicleId', 'ClientId', 'VehicleType',
             'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
             'VehicleAvailable', 'Observation',
         )
         widgets = {
-            'VehicleID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'VehicleId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'VehicleType': Select(attrs={'autofocus': ''}),
             'VehiclePatent': TextInput(attrs={'size': '15', 'pattern': "[ÑA-Zña-z0-9]+$", 'minlength': 4, 
                 'oninvalid':"setCustomValidity('Ingrese una patente válida')", 'oninput':"setCustomValidity('')"}),
@@ -53,12 +53,12 @@ class AuctionParticipateForm(ModelForm):
     class Meta:
         model = BidModel
         fields = (
-            'ValueID', 'AuctionID', 'ClientID', 'Value',
+            'ValueId', 'AuctionId', 'ClientId', 'Value',
         )
         widgets = {
-            'ValueID': HiddenInput(),
-            'AuctionID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'ValueId': HiddenInput(),
+            'AuctionId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'Hour':HiddenInput(),
             'Value': NumberInput(attrs={'min': 1, 'pattern': "^[1-9]+$",'max': '',
             'oninvalid':"setCustomValidity('Ingrese una propuesta válida')", 'oninput':"setCustomValidity('')",
@@ -70,11 +70,11 @@ class DispatchForm(ModelForm):
     class Meta:
         model = OrderDispatch 
         fields = (
-            'DispatchID', 'ClientID', 'CarrierObservation',
+            'DispatchId', 'ClientId', 'CarrierObservation',
         )
         widgets = {
-            'DispatchID': HiddenInput(),
-            'ClientID': HiddenInput,
+            'DispatchId': HiddenInput(),
+            'ClientId': HiddenInput,
             'CarrierDescription': Textarea(attrs={'cols': 30, 'rows': 3}),
         }
                    

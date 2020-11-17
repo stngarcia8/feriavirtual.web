@@ -1,26 +1,29 @@
 import operator
-from django.shortcuts import render, reverse
-import uuid
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.db.models import Q
 from functools import reduce
-from django.http import HttpResponse
+
 from django.conf import settings
+from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.template import loader
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from django.views.generic.base import TemplateView
+
+from core.permission import LoginRequired
+from dcomercial.models import Comercial
+from dcomercial.views import CargarDatoComercial
 from .forms import CreateVehiculoForm, UpdateVehiculoForm, AuctionParticipateForm, DispatchForm
 from .models import Vehicle, Auction, BidModel, AuctionProduct, OrderDispatch, DispatchProducts
-from dcomercial.models import Comercial
-from django.views.generic.base import TemplateView
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
-from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi, GetDispatchesFromApi, DispatchDeliverToApi, DispatchCancelToApi
-from .serializers import VehiculoApiSerializer, VehiculoSerializer, BidValueSerializer, DispatchApiserializer
-from dcomercial.views import CargarDatoComercial
-from core.permission import LoginRequired
+from .serializers import VehiculoSerializer, BidValueSerializer, DispatchApiserializer
+from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi, \
+    GetDispatchesFromApi, DispatchDeliverToApi, DispatchCancelToApi
+
 
 class CarrierRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 6:
+        if request.user.loginsession.ProfileId == 6:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')  
 
@@ -76,7 +79,7 @@ class VehiculoCreateView(LoginRequired, CarrierRequired, CreateView):
     def form_valid(self, form):
         "Valida el formulario de ingreso."
         self.object = form.save(commit=False)
-        self.object.ClientID = self.request.user.loginsession.ClientID
+        self.object.ClientId = self.request.user.loginsession.ClientId
         self.object.User = self.request.user
         if PostToApi(VehiculoSerializer(instance=self.object, many=False)):
             self.object.save()
@@ -107,16 +110,13 @@ class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
     def delete(self, request, *args, **kwargs):
         "Valida la eliminación del vehiculo."
         self.object = self.get_object()
-        if DeleteToApi(self.object.VehicleID):
+        if DeleteToApi(self.object.VehicleId):
             self.object.delete()
         return redirect('listarVehiculos')
 
 
 def VehiculosLoadView(request):
     "Carga la lista de vehiculos desde la base de datos de feria virtual."
-    data = Vehicle.objects.filter(User_id=request.user.id)
-    if data.count() != 0:
-        data.delete()
     GetFromApi(request.user)
     return redirect('listarVehiculos')
 
@@ -149,13 +149,13 @@ def AuctionParticipateView(request, pk):
     template = loader.get_template("transportista/subasta/subasta-pujar.html")
     auction = Auction.objects.get(id=pk)
     auction_product = AuctionProduct.objects.filter(Auction=auction)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)
     context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
 
     # if form.is_valid():
     #     form.instance.ValueID = uuid.uuid4()
     #     form.instance.AuctionID = auction.AuctionID
-    #     form.instance.ClientID = request.user.loginsession.ClientID
+    #     form.instance.ClientId = request.user.loginsession.ClientId
     #     data = form.cleaned_data
     #     form.save()
     #     # serializador = AuctionParticipateSerializer(data=response.json(), many=True)
@@ -167,7 +167,7 @@ def AuctionParticipateView(request, pk):
 def ActualizarPujasView(request, pk):
     "Actualiza la vista de las pujas automaticamente."
     auction = Auction.objects.get(id=pk)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
 
@@ -175,11 +175,11 @@ def MostrarPujasView(request, pk):
     "Muestra los valores de las pujas realizadas."
     valor = request.GET.get('value')
     auction = Auction.objects.get(id=pk)
-    bid = BidModel(AuctionID=auction.AuctionID, ClientID=request.user.loginsession.ClientID,
-        Value=valor, Bidder= request.user.loginsession.FullName)
+    bid = BidModel(AuctionID=auction.AuctionId, ClientID=request.user.loginsession.ClientId,
+                   Value=valor, Bidder= request.user.loginsession.FullName)
     bid.save()
     PostBidValueToApi(BidValueSerializer(instance=bid))
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionID)[:10]
+    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
     
 
@@ -216,7 +216,7 @@ class DispatchDetailView(DetailView):
 
 def DispatchLoadView(request):
     "Carga la lista de ordenes de despacho desde la base de datos de feria virtual."
-    data = OrderDispatch.objects.filter(ClientID=request.user.loginsession.ClientID)
+    data = OrderDispatch.objects.filter(ClientID=request.user.loginsession.ClientId)
     if data.count() != 0:
         data.delete()
     GetDispatchesFromApi(request.user)
@@ -233,7 +233,7 @@ class DispatchDeliverUpdateView(UpdateView):
     def form_valid(self, form):
         "Valida el formulario de finalización de un despacho."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 6
         self.object.StatusDescription = 'ENTREGADO'
         if DispatchDeliverToApi(DispatchApiserializer(instance=self.object)):
@@ -251,7 +251,7 @@ class DispatchCancelUpdateView(UpdateView):
     def form_valid(self, form):
         "Valida el formulario de cancelación de un despacho."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 9
         self.object.StatusDescription = 'CANCELADO'
         if DispatchCancelToApi(DispatchApiserializer(instance=self.object)):

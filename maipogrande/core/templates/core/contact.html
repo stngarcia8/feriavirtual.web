@@ -32,7 +32,12 @@
       {% endif %}
       {{ form|bootstrap }}
     </div>
+    <div class="g-recaptcha" data-sitekey="6Ley-uEZAAAAAKoHOpLnG0spCCbBrkGM6THQKgNv"></div>
     <button type="submit" class="btn btn-success mt-3">Enviar solicitud</button>
   </form>
   <br><br>
+{% endblock %}
+
+{% block jsBody %}
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}

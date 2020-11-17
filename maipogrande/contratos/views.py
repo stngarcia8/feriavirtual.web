@@ -1,16 +1,17 @@
+from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.conf import settings
 from django.views.generic import ListView, DetailView, UpdateView
-from .models import Contract
-from .services import GetFromApi, PatchAcceptToApi, PatchRefuseToApi
-from .forms import ContractForm
-from .serializers import ContractApiserializer
 from core.permission import LoginRequired
+from .forms import ContractForm
+from .models import Contract
+from .serializers import ContractApiserializer
+from .services import GetFromApi, PatchAcceptToApi, PatchRefuseToApi
+
 
 class UserRequired(object):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.loginsession.ProfileID == 5 or request.user.loginsession.ProfileID == 6:
+        if request.user.loginsession.ProfileId == 5 or request.user.loginsession.ProfileId == 6:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')
 
@@ -18,8 +19,8 @@ class UserRequired(object):
 class ContratoListView(LoginRequired, UserRequired, ListView):
     "Muestra la lista de contratos"
     model = Contract
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
+    slug_field = 'ClientId'
+    slug_url_kwarg = 'ClientId'
     template_name = 'contratos/contrato-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
@@ -42,9 +43,6 @@ class ContratoDetailView(LoginRequired, UserRequired, DetailView):
 
 def ContratosLoadView(request):
     "Carga la lista de contratos desde la base de datos de feria virtual."
-    data = Contract.objects.filter(User_id=request.user.id)
-    if data.count() != 0:
-        data.delete()
     GetFromApi(request.user)
     return redirect('listarContratos')
 
@@ -59,7 +57,7 @@ class ContratoAcceptUpdateView(LoginRequired, UserRequired, UpdateView):
     def form_valid(self, form):
         "Valida el formulario de aceptación de un contrato."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 1
         self.object.StatusDescription = 'Aceptado'
         if PatchAcceptToApi(ContractApiserializer(instance=self.object)):
@@ -77,7 +75,7 @@ class ContratoRefuseUpdateView(LoginRequired, UserRequired, UpdateView):
     def form_valid(self, form):
         "Valida el formulario de aceptación de un contrato."
         self.object = form.save(commit=False)
-        self.object.ProfileID = self.request.user.loginsession.ProfileID
+        self.object.ProfileId = self.request.user.loginsession.ProfileId
         self.object.Status = 2
         self.object.StatusDescription = 'Rechazado'
         if PatchRefuseToApi(ContractApiserializer(instance=self.object)):

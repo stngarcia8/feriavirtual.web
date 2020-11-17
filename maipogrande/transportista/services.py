@@ -55,7 +55,7 @@ def DeleteToApi(vehicle_id):
     """
     response = requests.delete(
         url=settings.TRANSPORTISTA_SERVICE_URL_DELETE,
-        params={'vehicleID': vehicle_id})
+        params={'vehicleId': vehicle_id})
     return True if response.status_code == 200 else False
 
 
@@ -71,7 +71,7 @@ def GetFromApi(user):
     """
     response = requests.get(
         url=settings.TRANSPORTISTA_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False
     serializador = VehiculoSerializer(data=response.json(), many=True)
@@ -91,7 +91,7 @@ def GetAuctionsFromApi(user):
     """
     response = requests.get(
         url=settings.AUCTION_SERVICE_URL_GET_ALL,
-        params={'clientID': user.loginsession.ClientID})         
+        params={'clientId': user.loginsession.ClientId})
     if response.status_code != 200:
         return False     
     serializador = AuctionSerializer(data=response.json(), many=True)
@@ -129,7 +129,7 @@ def GetDispatchesFromApi(user):
     """
     response = requests.get(
         url=settings.DISPATCH_SERVICE_URL_GET,
-        params={'clientID': user.loginsession.ClientID})
+        params={'clientId': user.loginsession.ClientId})
     print("RESPONSE")
     print(response.json())
     print()         

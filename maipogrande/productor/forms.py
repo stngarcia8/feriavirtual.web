@@ -8,12 +8,12 @@ class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         fields = (
-            'ProductID', 'ClientID', 'ProductName',
+            'ProductId', 'ClientId', 'ProductName',
             'Category', 'ProductValue', 'ProductQuantity',
             'Observation', )
         widgets = {
-            'ProductID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'ProductId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'ProductName': TextInput(attrs={'size': '32', 'autofocus': '', 'minlength':3, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ]+$",
             'oninvalid':"setCustomValidity('Ingrese un nombre válido')", 'oninput':"setCustomValidity('')"}),
             'Category': Select(),

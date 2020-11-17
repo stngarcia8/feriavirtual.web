@@ -71,11 +71,6 @@
                 success: function () { 
                 console.log('productos de exportación cargados...!!');}
             });
-            // Cargar datos comerciales
-            $.ajax({url: "{% url 'cargarComercial' %}",
-                success: function () { 
-                console.log('Pase por aqui!!');}
-            });
         });
     </script>
 {% endblock %}

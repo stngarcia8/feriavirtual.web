@@ -7,11 +7,11 @@ from django.contrib.auth.models import User
 class LoginSession(models.Model):
     id = models.AutoField(primary_key=True)
     UserId = models.CharField(max_length=150)
-    ClientID = models.CharField(max_length=150)
+    ClientId = models.CharField(max_length=150)
     Username = models.CharField(max_length=150)
     FullName = models.CharField(max_length=250)
     Email = models.CharField(max_length=254)
-    ProfileID = models.PositiveIntegerField(
+    ProfileId = models.PositiveIntegerField(
         default=0, verbose_name='id perfil')
     ProfileName = models.CharField(max_length=50)
     User = models.OneToOneField(User, null=True, on_delete=models.CASCADE)

@@ -8,11 +8,11 @@ class OrderForm(ModelForm):
 
     class Meta:
         model = Order
-        fields = ('OrderID', 'ClientID', 'PaymentCondition', 'OrderDate',
-                  'OrderDiscount', 'Observation', )
+        fields = ('OrderId', 'ClientId', 'PaymentCondition', 'OrderDate',
+                  'OrderDiscount', 'Observation',)
         widgets = {
-            'OrderID': HiddenInput(),
-            'ClientID': HiddenInput(),
+            'OrderId': HiddenInput(),
+            'ClientId': HiddenInput(),
             'User': HiddenInput(),
             'OrderDiscount': NumberInput(attrs={'min': 0, 'max': 5, 'onkeypress':"return event.charCode >= 46", 
                 'oninvalid': "setCustomValidity('Descuento puede estar entre 0% y 5%')", 'oninput': "setCustomValidity('')"}),

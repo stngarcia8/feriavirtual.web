@@ -6,7 +6,7 @@ class VehicleTypeSerializer(serializers.ModelSerializer):
     "Serializador para los tipos de transportes"
     class Meta:
         model = VehicleType
-        fields = ('VehicleTypeID', 'VehicleTypeDescription')
+        fields = ('VehicleTypeId', 'VehicleTypeDescription')
 
 
 class VehiculoSerializer(serializers.ModelSerializer):
@@ -15,22 +15,25 @@ class VehiculoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vehicle
-        fields = ('VehicleID', 'ClientID', 'VehicleType',
+        fields = ('VehicleId', 'ClientId', 'VehicleType',
                   'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
                   'VehicleAvailable', 'Observation', 'User', )
         depth = 1
 
     def create(self, data):
         "Permite recibir parámetros en el evento save()"
-        id = data['VehicleType']['VehicleTypeID']
-        vehicle_type = VehicleType.objects.get(VehicleTypeID=id)
-        veh = Vehicle.objects.create(
-            VehicleID=data['VehicleID'], ClientID=data['ClientID'],
-            VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
-            VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
-            VehicleAvailable=data['VehicleAvailable'],
-            Observation=data['Observation'], User=data['User'])
-        return veh
+        try:
+            veh = Vehicle.objects.get(VehicleId=data['VehicleId'])
+        except Exception:
+            id = data['VehicleType']['VehicleTypeId']
+            vehicle_type = VehicleType.objects.get(VehicleTypeId=id)
+            veh = Vehicle.objects.create(
+                VehicleId=data['VehicleId'], ClientId=data['ClientId'],
+                VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
+                VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
+                VehicleAvailable=data['VehicleAvailable'],
+                Observation=data['Observation'], User=data['User'])
+            return veh
 
 
 class VehiculoApiSerializer(serializers.ModelSerializer):
@@ -40,7 +43,7 @@ class VehiculoApiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         #exclude = ('id', 'User',)
-        fields = ('VehicleID', 'ClientID', 'VehicleType',
+        fields = ('VehicleId', 'ClientId', 'VehicleType',
                   'VehiclePatent', 'VehicleModel', 'VehicleCapacity',
                   'VehicleAvailable', 'Observation', )
         depth = 1
@@ -59,14 +62,14 @@ class AuctionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Auction
-        fields = ('AuctionID', 'AuctionDate', 'Percent', 'Value',
+        fields = ('AuctionId', 'AuctionDate', 'Percent', 'Value',
                   'Weight', 'LimitDate', 'Observation', 'CompanyName', 'Destination',
                   'PhoneNumber' ,'Status', 'Products', )
         depth = 1
 
     def create(self, data):
         auc = Auction.objects.create(
-            AuctionID=data['AuctionID'], AuctionDate=data['AuctionDate'],
+            AuctionId=data['AuctionID'], AuctionDate=data['AuctionDate'],
             Percent=data['Percent'], Value=data['Value'], Weight= data['Weight'],
             LimitDate=data['LimitDate'], Observation=data['Observation'],
             CompanyName=data['CompanyName'], Destination=data['Destination'],
@@ -82,7 +85,7 @@ class BidValueSerializer(serializers.ModelSerializer):
     "Serializador para participar en subastas"
     class Meta:
         model = BidModel
-        fields = ('ValueID', 'AuctionID', 'ClientID', 'Value', )
+        fields = ('ValueId', 'AuctionId', 'ClientId', 'Value', )
 
 
 class DispatchProductSerializer(serializers.ModelSerializer):
@@ -98,14 +101,14 @@ class DispatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDispatch
-        fields = ('DispatchID', 'ClientID', 'DispatchDate', 'DispatchValue',
+        fields = ('DispatchId', 'ClientId', 'DispatchDate', 'DispatchValue',
                   'DispatchWeight', 'Observation', 'CompanyName', 'Destination',
                   'PhoneNumber' ,'Status', 'User', 'Products', )
         depth = 1
 
     def create(self, data):
         dis = OrderDispatch.objects.create(
-            DispatchID=data['DispatchID'], ClientID=data['ClientID'], 
+            DispatchId=data['DispatchID'], ClientId=data['ClientId'],
             DispatchDate=data['DispatchDate'], DispatchValue=data['DispatchValue'], 
             DispatchWeight= data['DispatchWeight'], Observation=data['Observation'],
             CompanyName=data['CompanyName'], Destination=data['Destination'],
@@ -122,4 +125,4 @@ class DispatchApiserializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDispatch
-        fields = ('DispatchID', 'CarrierObservation', )                        
+        fields = ('DispatchId', 'CarrierObservation', )
