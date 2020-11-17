@@ -139,3 +139,15 @@
   <!-- /.container -->
 
 {% endblock %}
+
+{% block jsBody %}
+    <script>
+        $( document ).ready(function() {
+            // cargar contratos del transportista 
+            $.ajax({url: "{% url 'cargarContratos' %}",
+                success: function () { 
+                console.log('Contratos cargados...!!');}
+            });
+        });
+    </script>
+{% endblock %}

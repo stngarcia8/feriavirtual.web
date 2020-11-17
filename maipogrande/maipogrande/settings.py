@@ -1,5 +1,4 @@
 from pathlib import Path
-from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,6 +35,7 @@ INSTALLED_APPS = [
     'cinterno',
     'ordenes',
     'contratos',
+    'tasker',
 ]
 
 # Definiendo los middleware a utilizar.
@@ -71,7 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'maipogrande.wsgi.application'
 
 # Definiendo coneccion a la base de datos.
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': BASE_DIR / 'maipogrande.db', }}
@@ -86,8 +86,6 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
-
 
 
 # Definiendo los estilos de validacion de las contraseñas.
@@ -146,10 +144,6 @@ SERVER_API_URL = 'http://maipogrande-fv.duckdns.org:8080/api/v1/'
 SERVER_HEADERS = {"content-type": "application/json; charset=utf-8", }
 
 
-# Url de servicio de mensajeria.
-
-
-
 # URl de servicios
 LOGIN_SERVICE_URL = SERVER_API_URL + 'login/autenticate/post'
 
@@ -184,6 +178,7 @@ ORDER_SERVICE_URL_POST = SERVER_API_URL + 'customers/orders/add'
 ORDER_SERVICE_URL_PUT = SERVER_API_URL + 'customers/orders/edit'
 ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/orders/delete'
 
-#url de subastas
+
+# url de subastas
 AUCTION_SERVICE_URL_GET_ALL = SERVER_API_URL + 'auctions/available'
 AUCTION_SERVICE_URL_BIDVALUE_POST = SERVER_API_URL + 'auctions/bidValue'
