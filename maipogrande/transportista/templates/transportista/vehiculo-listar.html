@@ -42,21 +42,23 @@
             </thead>
             <tbody class="py-0">
                 {% for vehiculo in vehicle_list %}
-                <tr>
-                    <td class="py-0">{{ vehiculo.VehiclePatent }}</td>
-                    <td class="py-0">{{ vehiculo.VehicleModel }}</td>
-                    <td class="py-0">{{ vehiculo.VehicleType.VehicleTypeDescription }}</td>
-                    <td class="text-right py-0">{{ vehiculo.VehicleCapacity }} (KG)</td>
-                    {% if vehiculo.VehicleAvailable %}
-                        <td class="text-center py-0">Disponible</td>
-                    {% else %}
-                        <td class="text-center py-0">Inhabilitado</td>
+                    {% if vehiculo.ClientId == request.user.loginsession.ClientId %}
+                    <tr>
+                        <td class="py-0">{{ vehiculo.VehiclePatent }}</td>
+                        <td class="py-0">{{ vehiculo.VehicleModel }}</td>
+                        <td class="py-0">{{ vehiculo.VehicleType.VehicleTypeDescription }}</td>
+                        <td class="text-right py-0">{{ vehiculo.VehicleCapacity }} (KG)</td>
+                        {% if vehiculo.VehicleAvailable %}
+                            <td class="text-center py-0">Disponible</td>
+                        {% else %}
+                            <td class="text-center py-0">Inhabilitado</td>
+                        {% endif %}
+                        <td class="py-0">
+                            <a class="btn btn-light" 
+                                href="{{ vehiculo.get_absolute_url }}" role="button"> Ver detalles </a>
+                        </td>
+                    </tr>
                     {% endif %}
-                    <td class="py-0">
-                        <a class="btn btn-light" 
-                            href="{{ vehiculo.get_absolute_url }}" role="button"> Ver detalles </a>
-                    </td>
-                </tr>
                 {% endfor %}
             </tbody>
         </table>

@@ -23,15 +23,18 @@ class VehiculoSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         "Permite recibir parámetros en el evento save()"
-        id = data['VehicleType']['VehicleTypeId']
-        vehicle_type = VehicleType.objects.get(VehicleTypeId=id)
-        veh = Vehicle.objects.create(
-            VehicleId=data['VehicleId'], ClientId=data['ClientId'],
-            VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
-            VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
-            VehicleAvailable=data['VehicleAvailable'],
-            Observation=data['Observation'], User=data['User'])
-        return veh
+        try:
+            veh = Vehicle.objects.get(VehicleId=data['VehicleId'])
+        except Exception:
+            id = data['VehicleType']['VehicleTypeId']
+            vehicle_type = VehicleType.objects.get(VehicleTypeId=id)
+            veh = Vehicle.objects.create(
+                VehicleId=data['VehicleId'], ClientId=data['ClientId'],
+                VehicleType=vehicle_type, VehiclePatent=data['VehiclePatent'],
+                VehicleModel=data['VehicleModel'], VehicleCapacity=data['VehicleCapacity'],
+                VehicleAvailable=data['VehicleAvailable'],
+                Observation=data['Observation'], User=data['User'])
+            return veh
 
 
 class VehiculoApiSerializer(serializers.ModelSerializer):

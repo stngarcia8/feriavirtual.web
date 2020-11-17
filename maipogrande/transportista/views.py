@@ -24,6 +24,7 @@ class CarrierRequired(object):
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')  
 
+
 class HomeCarrier(LoginRequired, CarrierRequired, TemplateView):
     "Carga la vista de transportista"
     template_name = 'transportista/home-transportista.html'
@@ -104,9 +105,6 @@ class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
 
 def VehiculosLoadView(request):
     "Carga la lista de vehiculos desde la base de datos de feria virtual."
-    data = Vehicle.objects.filter(User_id=request.user.id)
-    if data.count() != 0:
-        data.delete()
     GetFromApi(request.user)
     return redirect('listarVehiculos')
 
