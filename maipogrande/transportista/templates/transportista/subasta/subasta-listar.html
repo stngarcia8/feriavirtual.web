@@ -41,6 +41,7 @@
                         <th>Peso de la carga</th>
                         <th>Fecha de término</th>
                         <th>Observación</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody class="py-0">
@@ -52,10 +53,19 @@
                         <td class="py-0 text-center">{{ auction.Weight }} kg</td>
                         <td class="py-0 text-center">{{ auction.LimitDate }}</td>
                         <td class="py-0 text-center">{{ auction.Observation }}</td>
-                        <td class="py-0">
-                            <a class="btn btn-light" 
-                                href="{{ auction.get_participar_url }}" role="button"> Participar </a>
-                        </td>
+                        {% if auction.Status == 1 %}
+                            <td class="py-0 text-center">Disponible</td>
+                            <td class="py-0">
+                                <a class="btn btn-light" 
+                                    href="{{ auction.get_participar_url }}" role="button"> Participar </a>
+                            </td>
+                        {% else %}
+                            <td class="py-0 text-center">Cerrada</td>
+                            <td class="py-0">
+                                <a class="btn btn-light" 
+                                    href="{{ auction.get_mostrar_resultado_pujas_url }}" role="button"> Ver resultados </a>
+                            </td>
+                            {% endif %}    
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -84,6 +94,12 @@
                     </ul>
                 </nav>
             {% endif %}
+        
+            <!-- volver a la pagina de inicio -->
+            <br>
+            <div class="text-center">
+            <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
+            </div>
 
         <!-- Aqui parte la seccion cuando no hay nada ingresado -->
         {% else %}
@@ -93,17 +109,8 @@
             </p>
         {% endif %}
 
-<<<<<<< HEAD
 {% endblock %}
 
 {% block jsBody %}
     <script type="text/javascript" src="{% static 'core/js/transportista/subasta/subasta-listar.js' %}"></script>
-=======
-        <!-- volver a la pagina de inicio -->
-        <br>
-        <div class="text-center">
-        <a class="btn btn-secondary" href="{% url 'dinamicHome' %}" role="button"> Volver página de inicio </a>
-        </div>
-    </div>
->>>>>>> 9da4aa0bf75196d052df4bac7d76083c979c50ae
 {% endblock %}

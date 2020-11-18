@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block titulo %}
-    Participar en subasta
+    Resultados de subasta
 {% endblock %}
 
 {% block contenido %}
@@ -66,27 +66,6 @@
                     {% endfor %}
             </tbody>
         </table>
-    <!-- formulario -->
-    <div class="container col-md-3 pt-3">
-        <form id="pujaForm" method="post" valor_max="{{ subasta.Value }}" url_pujas="{% url 'mostrarPujaSubasta' subasta.id %}"  url_actualizar_pujas="{% url 'actualizarPujaSubasta' subasta.id %}" style="margin-left:auto; margin-right:auto;">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>Valor: </td>
-                    <td>{{ form.Value }}</td>
-                    <td>
-                        <button id="id_pujar" class="btn btn-m btn-success" type="submit"> Pujar </button>
-                    </td>
-                    <td>
-                        <a id="linkID" class="btn btn-light" href="{% url 'listarSubastas' %}" role="button"> Cancelar </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4">{{ form.errors }}</td>
-                </tr>
-            </table>
-        </form>
-    </div>
 
     <h4>Top de postores</h4>
     <table class="table table-hover table-hover table-striped">
@@ -98,12 +77,28 @@
             <th>Hora</th>
         </theader>  
         <tbody id="id_pujita">
+            {% for puja in pujas %}
+            {% if forloop.counter == 1%}
+                <tr style="background-color:#43C845">
+                    <td class ="py-0">{{ forloop.counter }}</td>
+                    <td class="py-0">{{ puja.Bidder }}</td>
+                    <td class="py-0">{{ puja.Value }}</td>
+                    <td class="py-0">{{ puja.Date}}<br></td>
+                    <td class="py-0">{{ puja.Hour }}<br></td>
+                </tr>
+            {% else %}
+            <tr>
+                <td class ="py-0">{{ forloop.counter }}</td>
+                <td class="py-0">{{ puja.Bidder }}</td>
+                <td class="py-0">{{ puja.Value }}</td>
+                <td class="py-0">{{ puja.Date}}<br></td>
+                <td class="py-0">{{ puja.Hour }}<br></td>
+            </tr>    
+            {% endif %}
+            {% endfor %}
         </tbody>
     </table>
-{% endblock %}
-
-{% block jsBody %}
-    <script type="text/javascript" src="{% static 'core/js/transportista/subasta/subasta-pujar.js' %}"></script>
+    <a class="btn btn-success" href="{% url 'listarSubastas' %}" role="button"> Volver </a>
 {% endblock %}
 
 

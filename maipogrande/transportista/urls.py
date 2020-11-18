@@ -28,7 +28,9 @@ urlpatterns = [
         views.MostrarPujasView, name='mostrarPujaSubasta'),
     url(r'^subasta/puja/actualizar/(?P<pk>\d+)$',
         views.ActualizarPujasView, name='actualizarPujaSubasta'),
-        
+    url(r'^subasta/ver/resultados/(?P<pk>\d+)$',
+        views.AuctionShowView, name='resultadosSubasta'),            
+
     url(r'^despachos/listar$', views.DispatchListView.as_view(),
         name='listarDespachos'),
     url(r'^despachos/cargar$', views.DispatchLoadView,

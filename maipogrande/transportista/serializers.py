@@ -68,17 +68,27 @@ class AuctionSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, data):
-        auc = Auction.objects.create(
-            AuctionId=data['AuctionID'], AuctionDate=data['AuctionDate'],
-            Percent=data['Percent'], Value=data['Value'], Weight= data['Weight'],
-            LimitDate=data['LimitDate'], Observation=data['Observation'],
-            CompanyName=data['CompanyName'], Destination=data['Destination'],
-            PhoneNumber=data['PhoneNumber'], Status=data['Status']
-        )
-        Products = AuctionProductSerializer(data=data['Products'], many=True)
-        Products.is_valid()
-        Products.save(Auction=auc)
-        return auc
+        print()
+        print()
+        print("este print!")
+        print(data['AuctionId'])
+        print()
+        print()
+        try:
+            auc = Auction.objects.get(AuctionId=data['AuctionId'])
+            return auc
+        except Exception:
+            auc = Auction.objects.create(
+                AuctionId=data['AuctionId'], AuctionDate=data['AuctionDate'],
+                Percent=data['Percent'], Value=data['Value'], Weight= data['Weight'],
+                LimitDate=data['LimitDate'], Observation=data['Observation'],
+                CompanyName=data['CompanyName'], Destination=data['Destination'],
+                PhoneNumber=data['PhoneNumber'], Status=data['Status']
+            )
+            Products = AuctionProductSerializer(data=data['Products'], many=True)
+            Products.is_valid()
+            Products.save(Auction=auc)
+            return auc
 
 
 class BidValueSerializer(serializers.ModelSerializer):
@@ -108,7 +118,7 @@ class DispatchSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         dis = OrderDispatch.objects.create(
-            DispatchId=data['DispatchID'], ClientId=data['ClientId'],
+            DispatchId=data['DispatchId'], ClientId=data['ClientId'],
             DispatchDate=data['DispatchDate'], DispatchValue=data['DispatchValue'], 
             DispatchWeight= data['DispatchWeight'], Observation=data['Observation'],
             CompanyName=data['CompanyName'], Destination=data['Destination'],

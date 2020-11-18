@@ -31,22 +31,10 @@ class HomeCarrier(LoginRequired, CarrierRequired, TemplateView):
     "Carga la vista de transportista"
     template_name = 'transportista/home-transportista.html'
 
-    def get_context_data(self, **kwargs):
-        data = super(HomeCarrier, self).get_context_data(**kwargs)
-        CargarDatoComercial(self.request)
-        try:
-            comercial = Comercial.objects.get(User_id=self.request.user.id)
-        except Exception:
-            comercial = None
-        data['comercial'] = comercial
-        return data       
-
 
 class VehiculoListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de vehiculos"
     model = Vehicle
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'transportista/vehiculo-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
@@ -55,11 +43,9 @@ class VehiculoListView(LoginRequired, CarrierRequired, ListView):
         result = super(VehiculoListView, self).get_queryset()
         query = self.request.GET.get('q')
         if query:
-            query_list = query.split()
-            result = result.filter(reduce(operator.and_,
-                                          (Q(VehiclePatent__icontains=q) for q in query_list)) |
-                                   reduce(operator.and_, (Q(VehiclePatent__icontains=q)
-                                                          for q in query_list)))
+            result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(VehiclePatent__icontains=query))
+        else:
+            result = result.filter(ClientId=self.request.user.loginsession.ClientId)    
         return result
 
 
@@ -117,7 +103,7 @@ class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
 
 def VehiculosLoadView(request):
     "Carga la lista de vehiculos desde la base de datos de feria virtual."
-    GetFromApi(request.user)
+    # GetFromApi(request.user)
     return redirect('listarVehiculos')
 
 
@@ -129,17 +115,11 @@ class AuctionListView(ListView):
 
     def get_queryset(self):
         result = super(AuctionListView, self).get_queryset()
-        query1 = self.request.GET.get('q1')
-        query2 = self.request.GET.get('q2')
-        if not query2:
-            query2 = query1
-        if query1:
-            result = result.filter(AuctionDate__range=(query1, query2))
         return result    
 
 def AuctionsLoadView(request):
     "Carga la lista de subastas desde la base de datos de feria virtual."
-    auction = Auction.objects.all().delete()
+    # auction = Auction.objects.all().delete()
     GetAuctionsFromApi(request.user)
     return redirect('listarSubastas')
 
@@ -149,25 +129,15 @@ def AuctionParticipateView(request, pk):
     template = loader.get_template("transportista/subasta/subasta-pujar.html")
     auction = Auction.objects.get(id=pk)
     auction_product = AuctionProduct.objects.filter(Auction=auction)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)
+    bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)
     context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
-
-    # if form.is_valid():
-    #     form.instance.ValueID = uuid.uuid4()
-    #     form.instance.AuctionID = auction.AuctionID
-    #     form.instance.ClientId = request.user.loginsession.ClientId
-    #     data = form.cleaned_data
-    #     form.save()
-    #     # serializador = AuctionParticipateSerializer(data=response.json(), many=True)
-    #     # serializador.is_valid()
-    #     # serializador.save(Client_id=request.loginsession.id, Auction_id=auction.AuctionID)
     return HttpResponse(template.render(context, request))
 
 
 def ActualizarPujasView(request, pk):
     "Actualiza la vista de las pujas automaticamente."
     auction = Auction.objects.get(id=pk)
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
+    bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
 
@@ -175,13 +145,22 @@ def MostrarPujasView(request, pk):
     "Muestra los valores de las pujas realizadas."
     valor = request.GET.get('value')
     auction = Auction.objects.get(id=pk)
-    bid = BidModel(AuctionID=auction.AuctionId, ClientID=request.user.loginsession.ClientId,
+    bid = BidModel(AuctionId=auction.AuctionId, ClientId=request.user.loginsession.ClientId,
                    Value=valor, Bidder= request.user.loginsession.FullName)
     bid.save()
     PostBidValueToApi(BidValueSerializer(instance=bid))
-    bid_value = BidModel.objects.filter(AuctionID=auction.AuctionId)[:10]
+    bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
     
+
+def AuctionShowView(request, pk):
+    template = loader.get_template("transportista/subasta/subasta-detalle.html")
+    auction = Auction.objects.get(id=pk)
+    auction_product = AuctionProduct.objects.filter(Auction=auction)
+    bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)
+    context = {'subasta': auction, 'productos': auction_product, 'pujas': bid_value}
+    return HttpResponse(template.render(context, request))
+
 
 class DispatchListView(ListView):
     "Muestra la lista de despachos"
@@ -216,7 +195,7 @@ class DispatchDetailView(DetailView):
 
 def DispatchLoadView(request):
     "Carga la lista de ordenes de despacho desde la base de datos de feria virtual."
-    data = OrderDispatch.objects.filter(ClientID=request.user.loginsession.ClientId)
+    data = OrderDispatch.objects.filter(ClientId=request.user.loginsession.ClientId)
     if data.count() != 0:
         data.delete()
     GetDispatchesFromApi(request.user)

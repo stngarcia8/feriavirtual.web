@@ -7,6 +7,8 @@ urlpatterns = [
     # Ruta para la pagina de inicio del cliente externo
     url(r'^ordenes/listar/$', views.OrderListView.as_view(),
         name='listarOrdenes'),
+    url(r'^ordenes/cargar$', views.OrdenesLoadView,
+        name='actualizarListaOrdenes'),    
     url(r'^ordenes/ver/(?P<pk>\d+)$',
         views.OrderDetailView.as_view(), name='verOrden'),
     url(r'^ordenes/crear/$', views.OrderCreateView.as_view(),
