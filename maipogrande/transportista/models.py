@@ -66,7 +66,7 @@ class Vehicle(models.Model):
 
 class Auction(models.Model):
     "Clase que representa una subasta."
-    AuctionId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    AuctionId = models.UUIDField(default=uuid.uuid4, blank=True)
     AuctionDate = models.DateField(default=datetime.date.today)
     Percent = models.FloatField(default=0)
     Value = models.FloatField(default=0)

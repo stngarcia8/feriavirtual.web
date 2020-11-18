@@ -68,12 +68,6 @@ class AuctionSerializer(serializers.ModelSerializer):
         depth = 1
 
     def create(self, data):
-        print()
-        print()
-        print("este print!")
-        print(data['AuctionId'])
-        print()
-        print()
         try:
             auc = Auction.objects.get(AuctionId=data['AuctionId'])
             return auc
