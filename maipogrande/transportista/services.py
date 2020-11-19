@@ -99,9 +99,9 @@ def GetAuctionsFromApi(user):
         return False     
     serializador = AuctionSerializer(data=response.json(), many=True)
     serializador.is_valid()
-    serializador.save(User=user)
     print("Error serializador")
     print(serializador.errors)
+    serializador.save(User=user)
     return True
 
 
