@@ -25,15 +25,3 @@
   </form>
 </div>
 {% endblock %}
-
-{% block jsBody %}
-  <script>
-    $( document ).ready(function() {
-	    $.ajax({url: "{% url 'cargarNuevoUsuario' %}",
-		    success: function () { 
-			    console.log('Usuarios creados');}
-	    });
-    });
-  </script>
-{% endblock %}
-

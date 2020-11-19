@@ -40,7 +40,6 @@
             </thead>
             <tbody class="py-0">
                 {% for vehiculo in vehicle_list %}
-                    {%  if vehiculo.ClientId == request.user.loginsession.ClientId %}
                     <tr>
                         <td class="py-0">{{ vehiculo.VehiclePatent }}</td>
                         <td class="py-0">{{ vehiculo.VehicleModel }}</td>
@@ -56,7 +55,6 @@
                                 href="{{ vehiculo.get_absolute_url }}" role="button"> Ver detalles </a>
                         </td>
                     </tr>
-                    {%  endif %}
                 {% endfor %}
             </tbody>
         </table>

@@ -27,8 +27,6 @@ class HomeProducer(LoginRequired, ProducerRequired, TemplateView):
 class ProductoListView(LoginRequired, ProducerRequired, ListView):
     "Muestra la lista de productos"
     model = Producto
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'productor/producto-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
@@ -37,11 +35,9 @@ class ProductoListView(LoginRequired, ProducerRequired, ListView):
         result = super(ProductoListView, self).get_queryset()
         query = self.request.GET.get('q')
         if query:
-            query_list = query.split()
-            result = result.filter(reduce(operator.and_,
-                                          (Q(ProductName__icontains=q) for q in query_list)) |
-                                   reduce(operator.and_, (Q(ProductName__icontains=q)
-                                                          for q in query_list)))
+            result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(ProductName__icontains=query))
+        else:
+            result = result.filter(ClientId=self.request.user.loginsession.ClientId)
         return result
 
 
@@ -98,8 +94,5 @@ class ProductoDeleteView(LoginRequired, ProducerRequired, DeleteView):
 
 
 def ProductosLoadView(request):
-    data = Producto.objects.filter(User_id=request.user.id)
-    if data.count() != 0:
-        data.delete()
-    GetFromApi(request.user)
+    # GetFromApi(request.user)
     return redirect('listarProductos')

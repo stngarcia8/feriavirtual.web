@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
@@ -19,17 +20,15 @@ class UserRequired(object):
 class ContratoListView(LoginRequired, UserRequired, ListView):
     "Muestra la lista de contratos"
     model = Contract
-    slug_field = 'ClientId'
-    slug_url_kwarg = 'ClientId'
     template_name = 'contratos/contrato-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
     def get_queryset(self):
         result = super(ContratoListView, self).get_queryset()
+        result = result.filter(ClientId=self.request.user.loginsession.ClientId)
         query1 = self.request.GET.get('q1')
         query2 = self.request.GET.get('q2')
-        if not query2:
-            query2 = query1
+        query2 = query1 if not query2 else query2
         if query1:
             result = result.filter(StartDate__range=(query1, query2))
         return result
@@ -43,7 +42,6 @@ class ContratoDetailView(LoginRequired, UserRequired, DetailView):
 
 def ContratosLoadView(request):
     "Carga la lista de contratos desde la base de datos de feria virtual."
-    GetFromApi(request.user)
     return redirect('listarContratos')
 
 

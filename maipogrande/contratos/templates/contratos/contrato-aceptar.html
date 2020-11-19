@@ -9,9 +9,9 @@
 {% block contenido %}
     <form class="text-justify border border-light p-5" method="post" id=contractForm>
         <p class="lead text-center">
-            Si desea enviar una observación al aceptar su contrato, 
-            por favor ingrese este en la caja de observación y 
-            posteriormente presione el botón enviar. 
+            Si desea enviar una observación al aceptar su contrato,
+            por favor ingrese este en la caja de observación y
+            posteriormente presione el botón enviar.
         </p>
         {% csrf_token %}
         {% if form.non.field.errors %}

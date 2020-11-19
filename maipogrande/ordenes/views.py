@@ -22,23 +22,15 @@ class ClientRequired(object):
 class OrderListView(LoginRequired, ClientRequired, ListView):
     "Muestra la lista de ordenes de compra"
     model = Order
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'ordenes/orden-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
-    def get_context_data(self,**kwargs):
-        context = super(OrderListView,self).get_context_data(**kwargs)
-        orders = Order.objects.filter(User_id=self.request.user.id)
-        context['order_list'] = orders
-        return context
-
     def get_queryset(self):
         result = super(OrderListView, self).get_queryset()
+        result = result.filter(ClientId=self.request.user.loginsession.ClientId)
         query1 = self.request.GET.get('q1')
         query2 = self.request.GET.get('q2')
-        if not query2:
-            query2 = query1
+        query2 = query1 if not query2 else query2
         if query1:
             result = result.filter(OrderDate__range=(query1, query2))
         return result
@@ -141,3 +133,6 @@ def CargarOrdenesSinProcesar(request):
         ordenes.delete()
     # aqui voy, cargando las ordenes desde la bdd.
     return render(request, 'cexterno/home-externo.html')
+
+def OrdenesLoadView(request):
+    return redirect('listarOrdenes')

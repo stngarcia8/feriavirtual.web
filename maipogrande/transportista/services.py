@@ -92,11 +92,16 @@ def GetAuctionsFromApi(user):
     response = requests.get(
         url=settings.AUCTION_SERVICE_URL_GET_ALL,
         params={'clientId': user.loginsession.ClientId})
+    print()
+    print(response.json())
+    print()    
     if response.status_code != 200:
         return False     
     serializador = AuctionSerializer(data=response.json(), many=True)
     serializador.is_valid()
     serializador.save(User=user)
+    print("Error serializador")
+    print(serializador.errors)
     return True
 
 

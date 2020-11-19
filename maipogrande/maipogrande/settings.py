@@ -4,8 +4,10 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@wt_+y+*mx)jz&r2u6p3^65t+8v60(-z3eln@)6e50j7#1#r83'
@@ -15,6 +17,7 @@ DEBUG = True
 
 # Permitiendo los host que pueden acceder al programa.
 ALLOWED_HOSTS = ['*']
+
 
 # Definicion de las aplicaciones.
 INSTALLED_APPS = [
@@ -35,8 +38,8 @@ INSTALLED_APPS = [
     'cinterno',
     'ordenes',
     'contratos',
-    'tasker',
 ]
+
 
 # Definiendo los middleware a utilizar.
 MIDDLEWARE = [
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 # Definiendo la ruta base de las aplicaciones.
 ROOT_URLCONF = 'maipogrande.urls'
@@ -66,6 +70,7 @@ TEMPLATES = [
         },
      },
 ]
+
 
 # Definiendo el token de la aplicacion
 WSGI_APPLICATION = 'maipogrande.wsgi.application'
@@ -89,8 +94,6 @@ DATABASES = {
 }
 
 
-
-
 # Definiendo los estilos de validacion de las contraseñas.
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -100,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
+
 # definiendo parametros de localizacion e idiomas
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 LANGUAGE_CODE = 'es-cl'
@@ -107,6 +111,7 @@ TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
 
 # Definiendo las rutas para los archivos estaticos (js, css e imagenes)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -117,6 +122,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+
 # Definiendo la busqueda de archivos estaticos
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -126,11 +132,14 @@ STATICFILES_FINDERS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
 # Ruta para redireccionamiento
 LOGIN_REDIRECT_URL = 'home'
 
+
 # Definiendo la cantidad de registros por pagina
 RECORDS_PER_PAGE = 10
+
 
 # Definiendo propiedades de los correos
 EMAIL_HOST = 'smtp.mailtrap.io'
@@ -141,6 +150,13 @@ EMAIL_PORT = '2525'
 
 # Definiendo propiedades para los captchas
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Ley-uEZAAAAAItLSCXvm07IXnzB3GVzZD4nC1b4'
+
+
+# Configuracion de las tareas con celery
+CELERY_BROKER_URL = 'amqp://fv_user:fv_pwd@maipogrande-fv.duckdns.org:5672/'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TIMEZONE = 'America/Santiago'
 
 
 # Datos de conexion al servidor
@@ -181,11 +197,11 @@ ORDER_SERVICE_URL_POST = SERVER_API_URL + 'customers/orders/add'
 ORDER_SERVICE_URL_PUT = SERVER_API_URL + 'customers/orders/edit'
 ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/orders/delete'
 
-#url de subastas
+# url de subastas
 AUCTION_SERVICE_URL_GET_ALL = SERVER_API_URL + 'auctions/available'
 AUCTION_SERVICE_URL_BIDVALUE_POST = SERVER_API_URL + 'auctions/bidValue'
 
-#url de ordenes de despacho
+# url de ordenes de despacho
 DISPATCH_SERVICE_URL_GET = SERVER_API_URL + 'dispatchorders/available/get'
 DISPATCH_SERVICE_URL_PATCCH_DELIVER = SERVER_API_URL + 'dispatchorders/deliver'
 DISPATCH_SERVICE_URL_PATCCH_CANCEL = SERVER_API_URL + 'dispatchorders/cancel'

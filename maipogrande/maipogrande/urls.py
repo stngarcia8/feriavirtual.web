@@ -14,7 +14,6 @@ urlpatterns = [
     path('interno/', include('cinterno.urls')),
     path('contratos/', include('contratos.urls')),
     path('ordenes/', include('ordenes.urls')),
-    path('background/', include('tasker.urls')),
 ]
 
 

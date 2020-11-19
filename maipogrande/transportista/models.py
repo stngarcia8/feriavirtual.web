@@ -88,6 +88,12 @@ class Auction(models.Model):
         "Define la ruta de participación de la subasta."
         return reverse('participarSubasta', args=[self.id])            
 
+    def get_mostrar_resultado_pujas_url(self):
+        "Define la ruta de participación de la subasta."
+        return reverse('resultadosSubasta', args=[self.id])            
+
+
+
 
 class AuctionProduct(models.Model):
     "Representa un producto dentro de la subasta."

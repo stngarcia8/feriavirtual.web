@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Contract
+from login.models import LoginSession
 
 
 class ContratoSerializer(serializers.ModelSerializer):
@@ -18,6 +19,7 @@ class ContratoSerializer(serializers.ModelSerializer):
         try:
             con = Contract.objects.get(ContractId=data['ContractId'])
         except Exception:
+            sesion = LoginSession.objects.get(ClientId=data['ClientId'])
             con = Contract.objects.create(
                 ContractId=data['ContractId'], ClientId=data['ClientId'], Customername=data['Customername'],
                 CustomerDni=data['CustomerDni'], CustomerEmail=data['CustomerEmail'],
@@ -27,7 +29,7 @@ class ContratoSerializer(serializers.ModelSerializer):
                 ContractDescription=data['ContractDescription'], CommisionValue=data['CommisionValue'],
                 AdditionalValue=data['AdditionalValue'], FineValue=data['FineValue'], Status=data['Status'],
                 StatusDescription=data['StatusDescription'],
-                ProfileId=data['ProfileId'], User=data['User']
+                ProfileId=sesion.ProfileId, User=sesion.User
             )
             return con
 
