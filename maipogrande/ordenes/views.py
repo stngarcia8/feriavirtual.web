@@ -8,6 +8,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from .forms import OrderForm, OrderDetailFormSet
 from .models import Order, OrderDetail
 from dcomercial.models import Comercial
+from productor.models import Producto, Category
 from .services import PostToApi, DeleteToApi, PutToApi
 from dcomercial.views import CargarDatoComercial
 from core.permission import LoginRequired
@@ -27,7 +28,7 @@ class OrderListView(LoginRequired, ClientRequired, ListView):
 
     def get_queryset(self):
         result = super(OrderListView, self).get_queryset()
-        result = result.filter(ClientId=self.request.user.loginsession.ClientId)
+        result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(Status__range=(1, 5)))
         query1 = self.request.GET.get('q1')
         query2 = self.request.GET.get('q2')
         query2 = query1 if not query2 else query2
@@ -50,19 +51,23 @@ class OrderDetailView(LoginRequired, ClientRequired, DetailView):
 class OrderCreateView(LoginRequired, ClientRequired, CreateView):
     "Crea una nueva orden de compra."
     model = Order
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'ordenes/orden-registrar.html'
     form_class = OrderForm
     success_url = None
 
     def get_context_data(self, **kwargs):
         data = super(OrderCreateView, self).get_context_data(**kwargs)
+        categoria = 1 if self.request.user.loginsession.ProfileId == 3 else 2
+        productos = Producto.objects.filter(Category_id=categoria)
         if self.request.POST:
-            data['order_detail'] = OrderDetailFormSet(self.request.POST)
+            form_set_detail = OrderDetailFormSet(self.request.POST)
         else:
-            data['order_detail'] = OrderDetailFormSet()
+             form_set_detail = OrderDetailFormSet()
+        for form in form_set_detail:
+            form.fields['Product'].queryset = productos
+        data['order_detail'] = form_set_detail
         return data
+
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -88,20 +93,21 @@ class OrderUpdateView(LoginRequired, ClientRequired, UpdateView):
 
     def get_context_data(self, **kwargs):
         data = super(OrderUpdateView, self).get_context_data(**kwargs)
+        categoria = 1 if self.request.user.loginsession.ProfileId == 3 else 2
+        productos = Producto.objects.filter(Category_id=categoria)
         if self.request.POST:
-            data['order_detail'] = OrderDetailFormSet(
+            form_set_detail = OrderDetailFormSet(
                 self.request.POST, instance=self.object)
         else:
-            data['order_detail'] = OrderDetailFormSet(instance=self.object)
+            form_set_detail = OrderDetailFormSet(instance=self.object)
+        for form in form_set_detail:
+            form.fields['Product'].queryset = productos
+        data['order_detail'] = form_set_detail    
         return data
 
     def form_valid(self, form):
         context = self.get_context_data()
         details = context['order_detail']
-        print()
-        print("forrmset")
-        print(details.errors)
-        print()
         with transaction.atomic():
             self.object = form.save()
             if details.is_valid():

@@ -15,6 +15,7 @@ from core.permission import LoginRequired
 from dcomercial.models import Comercial
 from dcomercial.views import CargarDatoComercial
 from .forms import CreateVehiculoForm, UpdateVehiculoForm, AuctionParticipateForm, DispatchForm
+from ordenes.models import Order
 from .models import Vehicle, Auction, BidModel, AuctionProduct, OrderDispatch, DispatchProducts
 from .serializers import VehiculoSerializer, BidValueSerializer, DispatchApiserializer
 from .services import PostToApi, PutToApi, DeleteToApi, GetFromApi, GetAuctionsFromApi, PostBidValueToApi, \
@@ -217,6 +218,7 @@ class DispatchDeliverUpdateView(UpdateView):
         self.object.StatusDescription = 'ENTREGADO'
         if DispatchDeliverToApi(DispatchApiserializer(instance=self.object)):
             self.object.save()
+            CambiarEstadoOrdenCompra(self.object.OrderId, 6)
         return super(DispatchDeliverUpdateView, self).form_valid(form)
 
 
@@ -235,4 +237,14 @@ class DispatchCancelUpdateView(UpdateView):
         self.object.StatusDescription = 'CANCELADO'
         if DispatchCancelToApi(DispatchApiserializer(instance=self.object)):
             self.object.save()
+            CambiarEstadoOrdenCompra(self.object.OrderId, 9)
         return super(DispatchCancelUpdateView, self).form_valid(form)        
+
+
+def CambiarEstadoOrdenCompra(orderId, estado):
+    orden_compra = Order.objects.get(OrderId=orderId)
+    orden_compra.Status = estado
+    orden_compra.save()
+    return
+
+

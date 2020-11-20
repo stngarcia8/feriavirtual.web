@@ -105,14 +105,14 @@ class DispatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDispatch
-        fields = ('DispatchId', 'ClientId', 'DispatchDate', 'DispatchValue',
+        fields = ('DispatchId', 'OrderId', 'ClientId', 'DispatchDate', 'DispatchValue',
                   'DispatchWeight', 'Observation', 'CompanyName', 'Destination',
                   'PhoneNumber' ,'Status', 'User', 'Products', )
         depth = 1
 
     def create(self, data):
         dis = OrderDispatch.objects.create(
-            DispatchId=data['DispatchId'], ClientId=data['ClientId'],
+            DispatchId=data['DispatchId'], OrderId = data['OrderId'],ClientId=data['ClientId'],
             DispatchDate=data['DispatchDate'], DispatchValue=data['DispatchValue'], 
             DispatchWeight= data['DispatchWeight'], Observation=data['Observation'],
             CompanyName=data['CompanyName'], Destination=data['Destination'],

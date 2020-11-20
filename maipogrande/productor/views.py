@@ -94,5 +94,4 @@ class ProductoDeleteView(LoginRequired, ProducerRequired, DeleteView):
 
 
 def ProductosLoadView(request):
-    # GetFromApi(request.user)
     return redirect('listarProductos')

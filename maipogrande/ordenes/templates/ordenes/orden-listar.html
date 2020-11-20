@@ -37,6 +37,7 @@
                     <th>Fecha solicitud</th>
                     <th>Condición de pago</th>
                     <th>Descuento</th>
+                    <th>Estado</th>
                     <th></th>
                 </tr>
             </thead>
@@ -47,6 +48,17 @@
                     <td class="py-0">{{ order.OrderDate }}</td>
                     <td class="py-0">{{ order.PaymentCondition.ConditionDescription }}</td>
                     <td class="text-right py-0">${{ order.OrderDiscount }}%</td>
+                    {% if order.Status == 1 %}
+                    <td class="py-0">Orden recepcionada</td>
+                    {% elif order.Status == 2 %}
+                    <td class="py-0">Propuesta generada</td>
+                    {% elif order.Status == 3 %}
+                    <td class="py-0">Subasta publicada</td>
+                    {% elif order.Status == 4 %}
+                    <td class="py-0">Transporte asignado</td>
+                    {% elif order.Status == 5 %}
+                    <td class="py-0">Pedido despachado</td>
+                    {% endif %}
                     <td class="py-0">
                         <a class="btn btn-light" 
                             href="{{ order.get_absolute_url }}" role="button"> Ver detalles </a>

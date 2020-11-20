@@ -27,7 +27,7 @@ class Contract(models.Model):
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('-StartDate',)
+        ordering = ('-StartDate', 'Status')
 
     def get_absolute_url(self):
         "Genera la url para la visualización de cada contrato."

@@ -54,6 +54,6 @@ class Producto(models.Model):
         "Genera la url para la eliminación de cada instancia del modelo."
         return reverse('eliminarProducto', args=[self.id])
 
-    def __str(self):
-        "Define el metodo __str del modelo mostrando el nombre del producto."
-        return self.ProductName
+    def __str__(self):
+        "Define el metodo __str__ del modelo mostrando el nombre del producto."
+        return self.ProductName.upper()

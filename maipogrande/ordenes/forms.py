@@ -1,6 +1,7 @@
 from django.forms import ModelForm, HiddenInput, NumberInput, Select,Textarea
 from django.forms.models import inlineformset_factory
 from .models import Order, OrderDetail
+from productor.models import Producto, Category
 
 
 class OrderForm(ModelForm):
@@ -31,6 +32,12 @@ class OrderDetailForm(ModelForm):
             'Quantity': NumberInput(attrs={'min': 1, 'max': 9999, 'onkeypress':"return event.charCode >= 46", 
                 'oninvalid': "setCustomValidity('El rango de productos permitidos es de 1 a 9999 kg')", 'oninput': "setCustomValidity('')"}),
         }
+
+    # def __init__(self, *args, **kwargs):
+    #     super(OrderDetailForm, self).__init__(*args, **kwargs)
+    #     self.fields['Product'].queryset = Producto.objects.filter(Category_id=1)
+    #     print()
+    #     print(self)
 
 
 OrderDetailFormSet = inlineformset_factory(

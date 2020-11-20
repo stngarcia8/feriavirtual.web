@@ -133,6 +133,7 @@ class BidModel(models.Model):
 class OrderDispatch(models.Model):
     "Clase que representa una orden de despacho."
     DispatchId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    OrderId = models.CharField(max_length=40, blank=True, null=True)
     ClientId = models.CharField(max_length=40, blank=True, null=True)
     DispatchDate = models.DateField(default=datetime.date.today)
     DispatchValue = models.FloatField(default=0)

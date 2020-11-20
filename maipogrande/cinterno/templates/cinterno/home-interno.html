@@ -63,15 +63,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block jsBody %}
-    <script>
-        $( document ).ready(function() {
-            // cargar productos de exportacion
-            $.ajax({url: "{% url 'cargarProductosInternosExportacion' %}",
-                success: function () { 
-                console.log('productos de exportación cargados...!!');}
-            });
-        });
-    </script>
-{% endblock %}

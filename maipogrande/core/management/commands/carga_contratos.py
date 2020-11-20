@@ -14,9 +14,15 @@ class Command(BaseCommand):
     def consumer_callback(self, ch, method, properties, body):
         "Callback de la cola de contratos."
         json_data = json.loads(body)
-        serializador = ContratoSerializer(data=json_data, many=True)
+        print()
+        print(json_data)
+        print()
+        serializador = ContratoSerializer(data=json_data)
         serializador.is_valid()
         serializador.save()
+        print()
+        print(serializador.errors)
+        print()
         return
 
     def conectar_rabbitmq(self):

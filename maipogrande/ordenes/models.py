@@ -1,6 +1,7 @@
 import uuid
 import datetime
 from django.db import models
+from productor.models import Producto
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -16,7 +17,7 @@ class ExportProduct(models.Model):
         ordering = ('ProductName',)
 
     def __str__(self):
-        return self.ProductName
+        return self.ProductName.upper()
 
 
 class PaymentCondition(models.Model):
@@ -86,14 +87,14 @@ class OrderDetail(models.Model):
     OrderDetailId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
     Order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
     OrderId = models.CharField(max_length=40, blank=True, null=True)
-    Product = models.ForeignKey(ExportProduct, null=True, on_delete=models.SET_NULL)
+    Product = models.ForeignKey(Producto, null=True, on_delete=models.SET_NULL)
     ProductName = models.CharField(max_length=50, blank=True, null=True)
     Quantity = models.FloatField(default=0, verbose_name='Cantidad de productos (medido en KG)',
                                  validators=[MinValueValidator(1), MaxValueValidator(9999)])
 
     def save(self):
         self.OrderId = self.Order.OrderId
-        self.ProductName = self.Product.ProductName
+        self.ProductName = self.Product.ProductName.upper()
         super(OrderDetail, self).save()
 
     class Meta:
