@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from dcomercial.models import Profile, Country, City
-from ordenes.models import PaymentCondition
+from ordenes.models import PaymentCondition, PaymentMethod
 from productor.models import Category
 from transportista.models import VehicleType
 from login.models import LoginSession
@@ -14,15 +14,35 @@ class Command(BaseCommand):
         self.CrearCategorias()
         self.CrearUsuarios()
         self.CrearCondicionesDePago()
+        self.CrearMetodosDePago()
         self.CrearPaisCiudad()
         self.CrearPerfil()
         self.CrearTiposDeTransportes()
         print('Base de datos poblada para pruebas!')
 
+    def CrearMetodosDePago(self):
+        "Crea los metodos de pago para las ordenes de venta."
+        print('Creando metodos de pago.')
+        methods = PaymentMethod.objects.all().delete()
+        metodo = PaymentMethod(MethodId=1, MethodDescription='VISA')
+        metodo.save()
+        metodo = PaymentMethod(MethodId=2, MethodDescription='MASTERCARD')
+        metodo.save()
+        metodo = PaymentMethod(MethodId=3, MethodDescription='TRANSFERENCIA BANCARIA')
+        metodo.save()
+        metodo = PaymentMethod(MethodId=4, MethodDescription='WEBPAY')
+        metodo.save()
+        metodo = PaymentMethod(MethodId=5, MethodDescription='PAYPAL')
+        metodo.save()
+        return
+
+
+
     def CrearCategorias(self):
         "Crea las categorías de los productos."
         print('Creando categorías de productos.')
-        categories = Category.objects.all().delete()
+        categories = Category.objects.all()
+        categories.delete()
         category = Category(CategoryId=1, CategoryName='Exportación')
         category.save()
         category = Category(CategoryId=2, CategoryName='Venta nacional')

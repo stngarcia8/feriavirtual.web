@@ -17,6 +17,16 @@ urlpatterns = [
         views.OrderUpdateView.as_view(), name='editarOrden'),
     url(r'^ordenes/eliminar/(?P<pk>\d+)$',
         views.OrderDeleteView.as_view(), name='eliminarOrden'),
+    url(r'^ordenes/confirmar/listar/$', views.ConfirmarOrdenListView.as_view(),
+        name='listarOrdenesEntregadas'),
+    url(r'^ordenes/confirmar/ver/(?P<pk>\d+)$',
+        views.ConfirmarOrdenDetailView.as_view(), name='verOrdenEntregada'),
+    url(r'^ordenes/entregadas/cargar$', views.ConfirmarOrdenesLoadView,
+        name='actualizarListaOrdenesEntregadas'),
+    url(r'^orden/aceptar/(?P<pk>\d+)$',
+        views.OrderAcceptCreateView.as_view(), name='aceptarProductos'),
+    url(r'^orden/rechazar/(?P<pk>\d+)$',
+        views.OrderRefuseUpdateView.as_view(), name='rechazarProductos'),                 
 
     # Carga de datos al iniciar sesion
     url(r'^ordenes/cargar/sinprocesar/$', views.CargarOrdenesSinProcesar,

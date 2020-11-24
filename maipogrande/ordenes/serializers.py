@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Order, OrderDetail, ExportProduct
+from .models import Order, OrderDetail, ExportProduct, OrderRefuse, Payment
 
 class ExportProductSerializer(serializers.ModelSerializer):
     "Serializador de la lista de productos de exportación."
@@ -37,4 +37,21 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ('OrderId', 'ClientId', 'ConditionId',
                   'ConditionDescription', 'OrderDiscount',
                   'Observation', 'OrderDetail', )
+        depth = 1
+
+
+class OrderRefuseSerializer(serializers.ModelSerializer):
+    "Serializador para la cancelación de productos."
+
+    class Meta:
+        model = OrderRefuse
+        fields = ('RefuseId', 'OrderId', 'RefuseType', 'Observation', )
+
+
+class OrderAcceptSerializer(serializers.ModelSerializer):
+    "Serializador para la aceptación de productos."
+
+    class Meta:
+        model = Payment
+        fields = ('PaymentId', 'PaymentMethod', 'OrderId', 'PaymentDate', 'Amount', 'Observation', )
         depth = 1

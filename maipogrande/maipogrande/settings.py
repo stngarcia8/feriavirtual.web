@@ -196,6 +196,7 @@ ORDER_SERVICE_URL_GET = SERVER_API_URL + 'customers/orders/status'
 ORDER_SERVICE_URL_POST = SERVER_API_URL + 'customers/orders/add'
 ORDER_SERVICE_URL_PUT = SERVER_API_URL + 'customers/orders/edit'
 ORDER_SERVICE_URL_DELETE = SERVER_API_URL + 'customers/orders/delete'
+ORDER_SERVICE_URL_REFUSE = SERVER_API_URL + 'customers/orders/refuse'
 
 # url de subastas
 AUCTION_SERVICE_URL_GET_ALL = SERVER_API_URL + 'auctions/available'
@@ -205,3 +206,6 @@ AUCTION_SERVICE_URL_BIDVALUE_POST = SERVER_API_URL + 'auctions/bidValue'
 DISPATCH_SERVICE_URL_GET = SERVER_API_URL + 'dispatchorders/available/get'
 DISPATCH_SERVICE_URL_PATCCH_DELIVER = SERVER_API_URL + 'dispatchorders/deliver'
 DISPATCH_SERVICE_URL_PATCCH_CANCEL = SERVER_API_URL + 'dispatchorders/cancel'
+
+# url de aceptación de productos
+PAYMENT_SERVICE_URL_POST = SERVER_API_URL + 'payments/new'
