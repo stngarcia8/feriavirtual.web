@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.views.generic.base import TemplateView
 
@@ -108,7 +109,7 @@ def VehiculosLoadView(request):
     return redirect('listarVehiculos')
 
 
-class AuctionListView(ListView):
+class AuctionListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de subastas disponibles"
     model = Auction
     template_name = 'transportista/subasta/subasta-listar.html'
@@ -121,11 +122,13 @@ class AuctionListView(ListView):
 def AuctionsLoadView(request):
     "Carga la lista de subastas desde la base de datos de feria virtual."
     # auction = Auction.objects.all().delete()
-    GetAuctionsFromApi(request.user)
+    # GetAuctionsFromApi(request.user)
     return redirect('listarSubastas')
 
-        
+@login_required(login_url='login') 
 def AuctionParticipateView(request, pk):
+    if request.user.loginsession.ProfileId != 6:
+        return redirect('restrictedaccess')
     form = AuctionParticipateForm(request.POST or None)
     template = loader.get_template("transportista/subasta/subasta-pujar.html")
     auction = Auction.objects.get(id=pk)
@@ -134,16 +137,18 @@ def AuctionParticipateView(request, pk):
     context = {'form': form, 'subasta': auction, 'productos': auction_product, 'puja': bid_value}
     return HttpResponse(template.render(context, request))
 
-
+@login_required(login_url='login')
 def ActualizarPujasView(request, pk):
     "Actualiza la vista de las pujas automaticamente."
     auction = Auction.objects.get(id=pk)
     bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
 
-
+@login_required(login_url='login')
 def MostrarPujasView(request, pk):
     "Muestra los valores de las pujas realizadas."
+    if request.user.loginsession.ProfileId != 6:
+        return redirect('restrictedaccess')
     valor = request.GET.get('value')
     auction = Auction.objects.get(id=pk)
     bid = BidModel(AuctionId=auction.AuctionId, ClientId=request.user.loginsession.ClientId,
@@ -153,8 +158,10 @@ def MostrarPujasView(request, pk):
     bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
     
-
+@login_required(login_url='login')
 def AuctionShowView(request, pk):
+    if request.user.loginsession.ProfileId != 6:
+        return redirect('restrictedaccess')
     template = loader.get_template("transportista/subasta/subasta-detalle.html")
     auction = Auction.objects.get(id=pk)
     auction_product = AuctionProduct.objects.filter(Auction=auction)
@@ -163,7 +170,7 @@ def AuctionShowView(request, pk):
     return HttpResponse(template.render(context, request))
 
 
-class DispatchListView(ListView):
+class DispatchListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de despachos"
     model = OrderDispatch
     slug_field = 'User_id'
@@ -182,7 +189,7 @@ class DispatchListView(ListView):
         return result
 
 
-class DispatchDetailView(DetailView):
+class DispatchDetailView(LoginRequired, CarrierRequired, DetailView):
     "Muestra el detalle del despacho."
     model = OrderDispatch
     template_name = 'transportista/despacho/despacho-detalle.html'
@@ -194,8 +201,11 @@ class DispatchDetailView(DetailView):
         return data
 
 
+@login_required(login_url='login')
 def DispatchLoadView(request):
     "Carga la lista de ordenes de despacho desde la base de datos de feria virtual."
+    if request.user.loginsession.ProfileId != 6:
+        return redirect('restrictedaccess')
     data = OrderDispatch.objects.filter(ClientId=request.user.loginsession.ClientId)
     if data.count() != 0:
         data.delete()
@@ -203,7 +213,7 @@ def DispatchLoadView(request):
     return redirect('listarDespachos')
 
 
-class DispatchDeliverUpdateView(UpdateView):
+class DispatchDeliverUpdateView(LoginRequired, CarrierRequired, UpdateView):
     "Finalizar un despacho"
     model = OrderDispatch
     form_class = DispatchForm
@@ -222,7 +232,7 @@ class DispatchDeliverUpdateView(UpdateView):
         return super(DispatchDeliverUpdateView, self).form_valid(form)
 
 
-class DispatchCancelUpdateView(UpdateView):
+class DispatchCancelUpdateView(LoginRequired, CarrierRequired, UpdateView):
     "Cancel un despacho"
     model = OrderDispatch
     form_class = DispatchForm

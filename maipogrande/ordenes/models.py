@@ -94,6 +94,14 @@ class Order(models.Model):
     def get_refuse_products_url(self):
         "Genera la url para rechazar productos."
         return reverse('rechazarProductos', args=[self.id])
+
+    def get_absolute_order_refuse_url(self):
+        "Define la ruta absoluta de las ordenes de compra rechazadas."
+        return reverse('verOrdenRechazada', args=[self.id])
+
+    def get_absolute_order_accept_url(self):
+        "Define la ruta absoluta de las ordenes de compra aceptadas."
+        return reverse('verOrdenAceptada', args=[self.id])        
         
     def __str__(self):
         return self.OrderId

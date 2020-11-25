@@ -31,15 +31,15 @@ urlpatterns = [
     url(r'^subasta/ver/resultados/(?P<pk>\d+)$',
         views.AuctionShowView, name='resultadosSubasta'),            
 
-    url(r'^despachos/listar$', views.DispatchListView.as_view(),
+    url(r'^despachos/listar/$', views.DispatchListView.as_view(),
         name='listarDespachos'),
-    url(r'^despachos/cargar$', views.DispatchLoadView,
+    url(r'^despachos/cargar/$', views.DispatchLoadView,
         name='actualizarListaDespachos'),
-    url(r'^despachos/detalle(?P<pk>\d+)$',
+    url(r'^despachos/detalle/(?P<pk>\d+)$',
         views.DispatchDetailView.as_view(), name='detalleDespacho'),
     url(r'^despachos/finalizar/(?P<pk>\d+)$',
         views.DispatchDeliverUpdateView.as_view(), name='finalizarDespacho'),
-    url(r'^despachos/cancelar(?P<pk>\d+)$',
+    url(r'^despachos/cancelar/(?P<pk>\d+)$',
         views.DispatchCancelUpdateView.as_view(), name='cancelarDespacho'),                                
                     
 

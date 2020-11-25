@@ -59,6 +59,8 @@ class OrderAcceptForm(ModelForm):
             'PaymentId': HiddenInput(),
             'ClientId': HiddenInput(),
             'OrderId': HiddenInput(),
+            'Amount': HiddenInput(),
+            'PaymentDate': TextInput(attrs={'readonly':'readonly'}),
             'PaymentMethod': Select(attrs={'required': '', 'oninvalid': "setCustomValidity('Selecciona un método de pago de la lista')", 'oninput': "setCustomValidity('')"}),
             'Observation': Textarea(attrs={'required': '', 'cols': 30, 'rows': 3}),
         }        

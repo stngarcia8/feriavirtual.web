@@ -5,6 +5,9 @@ from django.shortcuts import redirect
 from django.db import transaction
 from django.shortcuts import render
 from django.conf import settings
+from django.template import loader
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .forms import OrderForm, OrderDetailFormSet, OrderRefuseForm, OrderAcceptForm
 from .models import Order, OrderDetail, OrderRefuse, Payment
@@ -20,6 +23,7 @@ class ClientRequired(object):
         if request.user.loginsession.ProfileId == 3 or request.user.loginsession.ProfileId == 4:
             return super().dispatch(request, *args, **kwargs)
         return redirect('restrictedaccess')
+        
 
 
 class OrderListView(LoginRequired, ClientRequired, ListView):
@@ -230,4 +234,85 @@ class OrderAcceptCreateView(LoginRequired, ClientRequired, CreateView):
 
 
 def ConfirmarOrdenesLoadView(request):
-    return redirect('listarOrdenesEntregadas')        
+    return redirect('listarOrdenesEntregadas')
+
+
+class OrdenRechazadaListView(LoginRequired, ClientRequired, ListView):
+    "Muestra la lista de ordenes de compra con estado rechazada"
+    model = Order
+    template_name = 'rechazadas/orden-rechazada-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(OrdenRechazadaListView, self).get_queryset()
+        result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(Status=8))
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        query2 = query1 if not query2 else query2
+        if query1:
+            result = result.filter(OrderDate__range=(query1, query2))
+        return result
+
+
+class OrdenRechazadaDetailView(LoginRequired, ClientRequired, DetailView):
+    model = Order
+    template_name = 'rechazadas/orden-rechazada-ver.html'
+    
+    def get_context_data(self, **kwargs):
+        data = super(OrdenRechazadaDetailView, self).get_context_data(**kwargs)
+        detalles = OrderDetail.objects.filter(Order_id=self.object.id)
+        data['order_detail'] = detalles
+        return data
+
+
+def OrdenesRechazadasLoadView(request):
+    return redirect('listarOrdenesRechazadas')
+
+
+class OrdenAceptadaListView(LoginRequired, ClientRequired, ListView):
+    "Muestra la lista de ordenes de compra con estado aceptado"
+    model = Order
+    template_name = 'aceptadas/orden-aceptada-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(OrdenAceptadaListView, self).get_queryset()
+        result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(Status=7))
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        query2 = query1 if not query2 else query2
+        if query1:
+            result = result.filter(OrderDate__range=(query1, query2))
+        return result
+
+
+class OrdenAceptadaDetailView(LoginRequired, ClientRequired, DetailView):
+    model = Order
+    template_name = 'aceptadas/orden-aceptada-ver.html'
+    
+    def get_context_data(self, **kwargs):
+        data = super(OrdenAceptadaDetailView, self).get_context_data(**kwargs)
+        detalles = OrderDetail.objects.filter(Order_id=self.object.id)
+        data['order_detail'] = detalles
+        pago = Payment.objects.get(OrderId=self.object.OrderId)
+        data['payment'] = pago
+        return data
+
+
+def OrdenesAceptadasLoadView(request):
+    return redirect('listarOrdenesAceptadas')
+
+
+
+@login_required(login_url='login')
+def HistorialComprasDetailView(request):
+    if request.user.loginsession.ProfileId != 3 or request.user.loginsession.ProfileId !=4:
+        return redirect('restrictedaccess')
+    pagos = Payment.objects.filter(ClientId=request.user.loginsession.ClientId)
+    template = loader.get_template('compras/historial-compras-ver.html')
+    context = {'pagos': pagos}
+    return HttpResponse(template.render(context, request))
+
+ 
+    
+   
