@@ -7,6 +7,16 @@ from django.shortcuts import render
 from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from plotly.offline import plot
+import plotly.graph_objs as go
+from plotly.graph_objs import Scatter
+import plotly.express as px
+import numpy as np
+
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from .forms import OrderForm, OrderDetailFormSet, OrderRefuseForm, OrderAcceptForm
@@ -226,10 +236,9 @@ class OrderAcceptCreateView(LoginRequired, ClientRequired, CreateView):
         self.object.OrderId = orden_compra.OrderId
         self.object.User = self.request.user
         self.object.Amount = orden_compra.Amount
+        self.object.Status = 7
         if PostAcceptToApi(OrderAcceptSerializer(instance=self.object)):
             self.object.save()
-            orden_compra.Status=7
-            orden_compra.save()
         return super(OrderAcceptCreateView, self).form_valid(form)
 
 
@@ -306,12 +315,42 @@ def OrdenesAceptadasLoadView(request):
 
 @login_required(login_url='login')
 def HistorialComprasDetailView(request):
-    if request.user.loginsession.ProfileId != 3 or request.user.loginsession.ProfileId !=4:
-        return redirect('restrictedaccess')
-    pagos = Payment.objects.filter(ClientId=request.user.loginsession.ClientId)
-    template = loader.get_template('compras/historial-compras-ver.html')
-    context = {'pagos': pagos}
-    return HttpResponse(template.render(context, request))
+    if request.user.loginsession.ProfileId == 3 or request.user.loginsession.ProfileId ==4:
+        pagos = Payment.objects.filter(ClientId=request.user.loginsession.ClientId).all().values()
+        template = loader.get_template('compras/historial-compras-ver.html')
+        context = {'pagos': pagos}
+        return HttpResponse(template.render(context, request))
+    return redirect('restrictedaccess')
+
+
+@login_required(login_url='login')
+def EstadisticasDetailView(request):
+    if request.user.loginsession.ProfileId == 3 or request.user.loginsession.ProfileId ==4:
+        pagos = Payment.objects.filter(ClientId=request.user.loginsession.ClientId).all().values()
+        template = loader.get_template('estadisticas/estadistica-ordenes-ver.html')
+        data = pd.DataFrame(pagos)
+        if not pagos:
+            context = {'pagos': pagos, 'data': data.to_html}
+            return HttpResponse(template.render(context, request))
+        data = data.rename(columns={"PaymentDate": "Fecha de pago", "Amount": "Total pagado", "id": "N° de Orden"})
+        data = data.round(decimals=0)
+        valor_total = data["Total pagado"].sum()
+        valor_promedio = data["Total pagado"].mean()
+        valor_maximo = data["Total pagado"].max()
+        valor_minimo = data["Total pagado"].min()
+        # Grafico total ordenes de compra
+        fig = px.bar(data, x="N° de Orden", y="Total pagado", color="Total pagado")
+        plot_div = plot(fig, output_type='div')
+        # Grafico ordenes de compra por día
+        fig = px.bar(data, x="Total pagado", y="Fecha de pago")
+        plots_div = plot(fig, output_type='div')
+        context = {'pagos': pagos, 'data': data.to_html(), 'plot_div': plot_div, 'valor_total': valor_total,
+                'valor_promedio': valor_promedio, 'valor_maximo': valor_maximo, 'valor_minimo': valor_minimo,
+                'plots_div': plots_div}
+        return HttpResponse(template.render(context, request))
+    return redirect('restrictedaccess')         
+
+
 
  
     

@@ -165,7 +165,7 @@ class Payment(models.Model):
         ordering = ('PaymentDate', )
         
     def __str__(self):
-        return self.PaymentId
+        return str(self.PaymentId)
 
 
 class OrderRefuse(models.Model):

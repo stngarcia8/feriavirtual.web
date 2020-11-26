@@ -1,0 +1,89 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Estadísticas de compra
+{% endblock %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% block contenido %}
+{% if pagos %}
+    <br><br>
+    <h4 class="text-justify">Total ordenes de compra</h4>
+    <br>
+    <div class="text-justify col-md-12">
+        <table >
+            <tr>
+                <td>
+                    <table>
+                        <theader>
+                            <th>Nro.</th>
+                            <th class="px-5" >Pago</th>
+                        </theader>
+                        <tbody>
+                            {% for pago in pagos %}
+                            <tr>
+                                <td>{{ pago.id}}</td>
+                                <td class="px-5">${{ pago.Amount|floatformat:0 }}</td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+
+
+                    </table>
+
+
+                </td>
+                <td>
+                    {{plot_div|safe}}
+                </td>
+            </tr>
+        </table>
+        <br>
+        <p>*El término "k" corresponde a la expresión de miles.</p>
+        <br>
+        <h6>Total: ${{ valor_total|floatformat:0 }}</h6>
+        <h6>Promedio de compra: ${{ valor_promedio|floatformat:0 }}</h6>
+        <h6>Valor máximo de compra: ${{ valor_maximo|floatformat:0 }}</h6>
+        <h6>Valor mínimo de compra: ${{ valor_minimo|floatformat:0 }}</h6>
+        <br>
+    </div>
+    <br><br>
+    <h4 class="text-justify">Ordenes de compra por día</h4>
+    <div class="text-justify col-md-12">
+        <table >
+            <tr>
+                <td>
+                    {{plots_div|safe}}
+                </td>
+                <td>
+                    <table>
+                        <theader>
+                            <th>Fecha</th>
+                            <th class="px-5">Pago</th>
+                        </theader>
+                        <tbody>
+                            {% for pago in pagos %}
+                            <tr>
+                                <td>{{ pago.PaymentDate}}</td>
+                                <td class="px-5">${{ pago.Amount|floatformat:0 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br>
+{% else %}
+    <p class="lead text-justify">
+        Por el momento usted no posee ordenes finalizadas.
+        En cuanto realice el pago de una orden,
+        se visualizarán las estadísticas de compra.<br>
+    </p>
+{% endif %}
+    <a class="btn btn-success"
+        href="{% url 'dinamicHome' %}" role="button"> Volver </a>
+
+{% endblock %}

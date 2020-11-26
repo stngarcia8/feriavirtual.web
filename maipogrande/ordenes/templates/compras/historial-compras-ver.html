@@ -3,7 +3,7 @@
 {% block titulo %}
     Visualizar orden de compra
 {% endblock %}
-
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% block contenido %}
     <p class lead text-justify">
         La orden de compra posee la siguiente información, puede visitar periodicamente 
@@ -32,8 +32,10 @@
             </tbody>
         </table>
     </div>
+    {{ data | safe }}
     <br><br>
+    <div class="col-md-12">{{plot_div|safe}}</div>
     <a class="btn btn-success"
-        href="{% url 'listarOrdenes' %}" role="button"> Volver </a>
+        href="{% url 'dinamicHome' %}" role="button"> Volver </a>
 
 {% endblock %}

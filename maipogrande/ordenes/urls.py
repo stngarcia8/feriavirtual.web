@@ -40,7 +40,9 @@ urlpatterns = [
     url(r'^ordenes/aceptar/ver/(?P<pk>\d+)$',
         views.OrdenAceptadaDetailView.as_view(), name='verOrdenAceptada'),
     url(r'^ordenes/historial/ver/$',
-        views.HistorialComprasDetailView, name='verHistorialCompras'),                                             
+        views.HistorialComprasDetailView, name='verHistorialCompras'),
+    url(r'^ordenes/estadisticas/ver/$',
+        views.EstadisticasDetailView, name='verEstadisticas'),                                                 
 
     # Carga de datos al iniciar sesion
     url(r'^ordenes/cargar/sinprocesar/$', views.CargarOrdenesSinProcesar,
