@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block contenido %}
+<div class="container">
     <p class="small">
         Actualice su orden de compra, una vez que este listo, pulse
         el botón "Actualizar orden".<br>
@@ -45,7 +46,7 @@
                 <table class="col-md-7 table-responsive mx-auto" style="width: 500px;">
                     <thead>
                         <th>Producto</th>
-                        <th>Cantidad</th>
+                        <th>Cantidad (kg)</th>
                         <th></th>
                     </thead>
                     {% for detalle in order_detail %}
@@ -72,6 +73,7 @@
         </div>
     </div>
     <br><br>
+</div>
 {% endblock %}
 
 {% block jsBody %}
