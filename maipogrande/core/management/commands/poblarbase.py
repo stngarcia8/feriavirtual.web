@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from dcomercial.models import Profile, Country, City
 from ordenes.models import PaymentCondition, PaymentMethod
-from productor.models import Category
+from productor.models import Category, Producto
 from transportista.models import VehicleType
 from login.models import LoginSession
 from django.contrib.auth.models import User
@@ -13,6 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.CrearCategorias()
         self.CrearUsuarios()
+        self.CrearProductores()
         self.CrearCondicionesDePago()
         self.CrearMetodosDePago()
         self.CrearPaisCiudad()
@@ -37,7 +38,6 @@ class Command(BaseCommand):
         return
 
 
-
     def CrearCategorias(self):
         "Crea las categorías de los productos."
         print('Creando categorías de productos.')
@@ -55,13 +55,51 @@ class Command(BaseCommand):
         users = User.objects.all().delete()
         user = self.CreaUnUsuario('l.garciar', '552668dcde69cd6c10aebb8e5ee4e61dfb54050a', 'Lolita Garcia Roman', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('5f950227-a59a-48ec-a358-a403ede00bca', 'd124fdef-6956-460f-9873-1953fe29f81b', 6, 'Transportista', user)
-        user = self.CreaUnUsuario('f.garciar', '92d52f9c820e4e291318819f2ab5514dd8a389ea', 'Flo Garcia Roman', 'stngarcia8@gmail.com')
-        self.CreaUnaSesion('08daae9c-d977-4234-a054-0b83918ed3e7', 'a3220c48-ddb2-4fe8-8e80-8bc832fb80d5', 5, 'Productor', user)
         user = self.CreaUnUsuario('d.garciar', '6f57196fd9309e992379d3c90fec691531219eea', ' Daniela Garcia Roman', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('aa3ed254-ff6d-4c3c-97b6-048efdedaf69', 'd78ee803-2e99-4c87-a684-d600e6540564', 3, 'Cliente externo', user)
         user = self.CreaUnUsuario('l.romanq', '7a4013826e6cbb73d29cbea95ce32abcba60aa6e', 'Loreto Roman Quiroz', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('729d6773-a60c-4dd5-9e39-9629e44c98b2', 'e7d1d546-84ad-4420-bb05-169aebc376a5',4, 'Cliente interno', user)
         return
+
+    
+    def CrearProductores(self):
+        "Crea los usuarios productores de ejemplo para pruebas."
+        print("Creando productores de pruebas")
+        Productos = Producto.objects.all().delete()
+        user = self.CreaUnUsuario('f.garciar', '92d52f9c820e4e291318819f2ab5514dd8a389ea', 'Flo Garcia Roman', 'stngarcia8@gmail.com')
+        self.CreaUnaSesion('08daae9c-d977-4234-a054-0b83918ed3e7', 'a3220c48-ddb2-4fe8-8e80-8bc832fb80d5', 5, 'Productor', user)
+        categoria = Category.objects.get(CategoryId=1)
+        producto = Producto(ProductId='639c2606-62ba-428d-ac8f-3336f723d92b', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Naranja', Category=categoria, ProductValue=450, ProductQuantity=800,
+                            Observation='Despacho en mallas de 30 kg.', User=user)
+        producto.save()
+        producto = Producto(ProductId='75e09051-b581-4cbb-bd10-97a1cccdcfc9', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Limon', Category=categoria, ProductValue=490, ProductQuantity=950,
+                            Observation='Despacho en mallas de 30 kg.', User=user)
+        producto.save()
+        producto = Producto(ProductId='d297e54b-a395-4b33-93c0-35b77e4b8e75', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Frutilla', Category=categoria, ProductValue=300, ProductQuantity=900,
+                            Observation='Despacho en cajas de 10 kg.', User=user)
+        producto.save()
+        producto = Producto(ProductId='a0eff913-703f-407d-90a8-25f5ff39e78d', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Papaya', Category=categoria, ProductValue=470, ProductQuantity=750,
+                            Observation='DESPACHO EN MALLAS DE 30 KG.', User=user)
+        producto.save()
+        categoria = Category.objects.get(CategoryId=2)
+        producto = Producto(ProductId='42a780aa-e467-4f99-ae8f-e9e24f1811e2', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Almendra', Category=categoria, ProductValue=300, ProductQuantity=500,
+                            Observation='Despacho en cajas de 15 kg.', User=user)
+        producto.save()
+        producto = Producto(ProductId='f5582361-08f3-4cfe-8935-3f8539b26c99', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Kiwi', Category=categoria, ProductValue=300, ProductQuantity=600,
+                            Observation='Despacho en mallas de 25 kg.', User=user)
+        producto.save()
+        producto = Producto(ProductId='c70e5e92-b747-4e35-b0e8-77f82e1d83cc', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
+                            ProductName='Manzana', Category=categoria, ProductValue=450, ProductQuantity=790,
+                            Observation='Despacho en cajas de 20 kg.', User=user)
+        producto.save()                    
+        return
+
 
     def CreaUnUsuario(self, usr, pwd, fname, eml):
         "Crea un usuario en la base de datos temporal."
@@ -83,8 +121,6 @@ class Command(BaseCommand):
         s.User = usr
         s.save()
         return
-
-
 
 
     def CrearCondicionesDePago(self):

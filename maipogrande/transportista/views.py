@@ -233,7 +233,7 @@ class DispatchDeliverUpdateView(LoginRequired, CarrierRequired, UpdateView):
 
 
 class DispatchCancelUpdateView(LoginRequired, CarrierRequired, UpdateView):
-    "Cancel un despacho"
+    "Cancela un despacho"
     model = OrderDispatch
     form_class = DispatchForm
     template_name = 'transportista/despacho/despacho-cancelar.html'
@@ -256,5 +256,43 @@ def CambiarEstadoOrdenCompra(orderId, estado):
     orden_compra.Status = estado
     orden_compra.save()
     return
+
+
+class DespachosEntregadosListView(LoginRequired, CarrierRequired, ListView):
+    "Muestra el historial de los despachos entregados"
+    model = OrderDispatch
+    template_name = 'historial/despachos-entregados-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(DespachosEntregadosListView, self).get_queryset()
+        result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(Status=6))
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        if not query2:
+            query2 = query1
+        if query1:
+            result = result.filter(StartDate__range=(query1, query2))
+        return result
+
+
+class DespachosCanceladosListView(LoginRequired, CarrierRequired, ListView):
+    "Muestra el historial de los despachos Cancelados"
+    model = OrderDispatch
+    template_name = 'historial/despachos-cancelados-listar.html'
+    paginate_by = settings.RECORDS_PER_PAGE
+
+    def get_queryset(self):
+        result = super(DespachosCanceladosListView, self).get_queryset()
+        result = result.filter(Q(ClientId=self.request.user.loginsession.ClientId) & Q(Status=9))
+        query1 = self.request.GET.get('q1')
+        query2 = self.request.GET.get('q2')
+        if not query2:
+            query2 = query1
+        if query1:
+            result = result.filter(StartDate__range=(query1, query2))
+        return result
+
+        
 
 

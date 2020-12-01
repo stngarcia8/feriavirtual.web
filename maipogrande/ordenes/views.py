@@ -9,8 +9,6 @@ from django.template import loader
 from django.http import HttpResponse
 
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from plotly.offline import plot
 import plotly.graph_objs as go
 from plotly.graph_objs import Scatter
@@ -74,7 +72,8 @@ class OrderCreateView(LoginRequired, ClientRequired, CreateView):
     def get_context_data(self, **kwargs):
         data = super(OrderCreateView, self).get_context_data(**kwargs)
         categoria = 1 if self.request.user.loginsession.ProfileId == 3 else 2
-        productos = Producto.objects.filter(Category_id=categoria)
+        filtro_categoria = Category.objects.get(CategoryId=categoria)
+        productos = Producto.objects.filter(Q(Category=filtro_categoria) & Q(ProductQuantity__gt=0)).order_by('ProductName').distinct('ProductName')
         if self.request.POST:
             form_set_detail = OrderDetailFormSet(self.request.POST)
         else:
@@ -110,7 +109,7 @@ class OrderUpdateView(LoginRequired, ClientRequired, UpdateView):
     def get_context_data(self, **kwargs):
         data = super(OrderUpdateView, self).get_context_data(**kwargs)
         categoria = 1 if self.request.user.loginsession.ProfileId == 3 else 2
-        productos = Producto.objects.filter(Category_id=categoria)
+        productos = Producto.objects.filter(Q(Category_id=categoria) & Q(ProductQuantity__gt=1))
         if self.request.POST:
             form_set_detail = OrderDetailFormSet(
                 self.request.POST, instance=self.object)
@@ -236,9 +235,10 @@ class OrderAcceptCreateView(LoginRequired, ClientRequired, CreateView):
         self.object.OrderId = orden_compra.OrderId
         self.object.User = self.request.user
         self.object.Amount = orden_compra.Amount
-        self.object.Status = 7
         if PostAcceptToApi(OrderAcceptSerializer(instance=self.object)):
             self.object.save()
+            orden_compra.Status = 7
+            orden_compra.save()
         return super(OrderAcceptCreateView, self).form_valid(form)
 
 

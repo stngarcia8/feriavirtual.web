@@ -20,8 +20,16 @@
     <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Subastas</b></a>
     <br>
     <a class="enlace" href="{% url 'listarSubastas' %}">Lista de subastas</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Despachos</b></a>
     <br>
     <a class="enlace" href="{% url 'listarDespachos' %}">Ordenes de despacho</a>
+    <br><br>
+    <a class="text-justify text-center font-weight-bold" style="color: white;"><b>Historial de Despachos</b></a>
+    <br>
+    <a class="enlace" href="{% url 'listarDespachosEntregados' %}">Entregados</a>
+    <br>
+    <a class="enlace" href="{% url 'listarDespachosCancelados' %}">Cancelados</a>
     <br>
     {% endblock %}
 

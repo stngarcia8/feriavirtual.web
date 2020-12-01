@@ -16,6 +16,14 @@
     <a class="text-justify text-center font-weight-bold" style="color: white;">Contratos</a>
     <br>
     <a class="enlace" href="{% url 'listarContratos' %}">Lista de contratos</a>
+    <br><br>
+    <a class="text-justify text-center"><b>Ventas</b></a>
+    <br>
+    <a class="enlace" href="{% url 'listarVentas' %}"> Historial de ventas</a>
+    <br><br>
+    <a class="text-justify text-center"><b>Reportes</b></a>
+    <br>
+    <a class="enlace" href="{% url 'verEstadisticasVentas' %}"> Estadísticas</a>
 {% endblock %}
 
 {% block contenido %}

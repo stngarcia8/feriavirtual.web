@@ -1,0 +1,84 @@
+{% extends 'core/base-inicial.html' %}
+
+{% block titulo %}
+    Estadísticas de ventas
+{% endblock %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% block contenido %}
+{% if ventas %}
+    <br><br>
+    <h4 class="text-justify">Ventas Productos</h4>
+    <br>
+    <div class="text-justify col-md-12">
+        <table >
+            <tr>
+                <td>
+                    <table>
+                        <theader>                   
+                            <th class="px-3" >Nombre Producto</th>
+                            <th class="px-3" >Total</th>
+                        </theader>
+                        <tbody>
+                            {% for venta in ventas %}
+                            <tr>
+                                <td class="px-3">{{ venta.ProductName}}</td>
+                                <td class="px-3">${{ venta.ProductPrice|floatformat:0 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+
+                    </table>
+                </td>
+                <td valign="top">
+                    {{plot_div|safe}}
+                </td>
+            </tr>
+        </table>
+        <br>
+        <h6>Total: ${{ valor_total|floatformat:0 }}</h6>
+        <h6>Promedio de venta: ${{ valor_promedio|floatformat:0 }}</h6>
+        <h6>Valor máximo de venta: ${{ valor_maximo|floatformat:0 }}</h6>
+        <h6>Valor mínimo de venta: ${{ valor_minimo|floatformat:0 }}</h6>
+        <br>
+    </div>
+    <br><br>
+    <h4 class="text-justify">Venta de productos por día</h4>
+    <div class="text-justify col-md-12">
+        <table >
+            <tr>
+                <td valign="top">
+                    {{plots_div|safe}}
+                </td>
+                <td>
+                    <table>
+                        <theader>
+                            <th>Fecha</th>
+                            <th class="px-5">Valor Total Producto</th>
+                        </theader>
+                        <tbody>
+                            {% for venta in ventas %}
+                            <tr>
+                                <td>{{ venta.SalesDate}}</td>
+                                <td class="px-5">${{ venta.ProductPrice|floatformat:0 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br>
+{% else %}
+    <p class="lead text-justify">
+        Por el momento usted no posee ventas.
+        En cuanto se realice el pago de una orden,
+        se visualizarán las estadísticas de ventas.<br>
+    </p>
+{% endif %}
+    <a class="btn btn-success"
+        href="{% url 'dinamicHome' %}" role="button"> Volver </a>
+
+{% endblock %}

@@ -44,7 +44,7 @@ class OrderRefuseForm(ModelForm):
         widgets = {
             'ClientId': HiddenInput(),
             'OrderId': HiddenInput(),
-            'CustomerObservation': Textarea(attrs={'cols': 30, 'rows': 3}),
+            'CustomerObservation': Textarea(attrs={'required': '', 'cols': 30, 'rows': 3}),
             'Status': HiddenInput(),
         }
 

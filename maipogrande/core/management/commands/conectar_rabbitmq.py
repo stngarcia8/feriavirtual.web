@@ -5,7 +5,9 @@ from .user_events import UserEvents
 from .order_events import OrderEvents
 from .auction_events import AuctionEvents
 from .contract_events import ContractEvents
-
+from .payment_events import PaymentEvents
+from .product_events import ProductEvents
+from .offer_events import OfferEvents
 
 class Command(BaseCommand):
     help = 'Procesa los mensajes provenientes de RabbitMQ.'
@@ -29,6 +31,12 @@ class Command(BaseCommand):
             AuctionEvents(event, json_data).event_executor()
         elif group == 'CONTRACT':
             ContractEvents(event, json_data).event_executor()
+        elif group == 'PAYMENT':
+            PaymentEvents(event, json_data).event_executor()
+        elif group == 'PRODUCT':
+            ProductEvents(event, json_data).event_executor()
+        elif group == 'OFFER':
+            OfferEvents(event, json_data).event_executor()         
         return
 
     def conectar_rabbitmq(self):

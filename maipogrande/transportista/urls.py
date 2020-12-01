@@ -40,7 +40,10 @@ urlpatterns = [
     url(r'^despachos/finalizar/(?P<pk>\d+)$',
         views.DispatchDeliverUpdateView.as_view(), name='finalizarDespacho'),
     url(r'^despachos/cancelar/(?P<pk>\d+)$',
-        views.DispatchCancelUpdateView.as_view(), name='cancelarDespacho'),                                
-                    
+        views.DispatchCancelUpdateView.as_view(), name='cancelarDespacho'),
 
+    url(r'^despachos/entregados/listar/$', views.DespachosEntregadosListView.as_view(),
+        name='listarDespachosEntregados'),
+    url(r'^despachos/cancelados/listar/$', views.DespachosCanceladosListView.as_view(),
+        name='listarDespachosCancelados'),              
 ]

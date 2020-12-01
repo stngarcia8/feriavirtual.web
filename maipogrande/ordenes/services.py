@@ -75,11 +75,6 @@ def PostOrderRefuseToApi(serializador):
         url=settings.ORDER_SERVICE_URL_REFUSE,
         headers=settings.SERVER_HEADERS,
         data=json.dumps(serializador.data))  
-    print()
-    print(response)
-    print(settings.ORDER_SERVICE_URL_REFUSE)
-    print(json.dumps(serializador.data))
-    print()
     return True if response.status_code == 200 else False    
 
 
@@ -99,9 +94,4 @@ def PostAcceptToApi(serializador):
         url=settings.PAYMENT_SERVICE_URL_POST,
         headers=settings.SERVER_HEADERS,
         data=json.dumps(serializador.data))  
-    print()
-    print(response)
-    print(settings.PAYMENT_SERVICE_URL_POST)
-    print(json.dumps(serializador.data))
-    print()
     return True if response.status_code == 200 else False 

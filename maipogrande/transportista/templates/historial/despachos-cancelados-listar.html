@@ -1,7 +1,7 @@
 {% extends 'core/base-inicial.html' %}
 
 {% block titulo %}
-    Lista de despachos
+    Historial de despachos cancelados
 {% endblock %}
 
 {% block contenido %}
@@ -18,7 +18,7 @@
         <div class="col col-1"></div>
         <div class="col col-2">
             <a class="btn btn-secondary" 
-                href="{% url 'actualizarListaDespachos' %}" role="button"> Actualizar lista</a>
+                href="#" role="button"> Actualizar lista</a>
         </div>
         <div class="col col-1"></div>
         <!-- <div class="col col-2">
@@ -34,11 +34,10 @@
             <thead>
                 <tr>
                     <th>Orden Nro.</th>
-                    <th>Fecha de inicio</th>
-                    <th>Valor propuesto</th>
+                    <th>Fecha de traslado</th>
+                    <th>Valor de traslado</th>
                     <th>Peso de la carga</th>
                     <th>Observación</th>
-                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody class="py-0">
@@ -48,18 +47,7 @@
                     <td class="py-0">{{ dispatch.DispatchDate }}</td>
                     <td class="py-0">{{ dispatch.DispatchValue }}</td>
                     <td class="py-0">{{ dispatch.DispatchWeight }} kg</td>
-                    <td class="py-0">{{ dispatch.Observation }}</td>
-                    {% if dispatch.Status == 5 %}
-                    <td class="py-0">Por entregar</td>
-                    {% elif dispatch.Status == 6 %}
-                    <td class="py-0">Entregado</td>
-                    {% elif dispatch.Status == 9 %}
-                    <td class="py-0">Cancelado</td>
-                    {% endif %}
-                    <td class="py-0">
-                        <a class="btn btn-light" 
-                            href="{{ dispatch.get_cambiar_estado_url }}" role="button"> Ver Detalle </a>
-                    </td>
+                    <td class="py-0">{{ dispatch.CarrierObservation }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

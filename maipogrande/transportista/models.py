@@ -79,7 +79,7 @@ class Auction(models.Model):
     Status = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('AuctionDate', )
+        ordering = ('Status', 'AuctionDate', )
 
     def __str__(self):
         return self.AuctionDate
@@ -147,7 +147,7 @@ class OrderDispatch(models.Model):
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('DispatchDate', )
+        ordering = ('Status', 'DispatchDate', )
 
     def __str__(self):
         return self.ClientId
