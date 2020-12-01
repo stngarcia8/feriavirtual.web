@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from.models import Producto, Category
+from.models import Producto, Category, Venta
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -39,3 +39,11 @@ class ProductoApiSerializer(serializers.ModelSerializer):
         model = Producto
         fields = ('ProductId', 'ClientId', 'ProductName', 'Category', 'ProductValue', 'ProductQuantity', 'Observation')
         depth = 1
+
+
+class VentaSerializer(serializers.ModelSerializer):
+    "Serializador de ventas."
+    class Meta:
+        model = Venta
+        fields = ('PaymentId', 'ClientId', 'SalesDate', 'Quantity', 'ProductName', 'UnitPrice', 'ProductPrice')
+

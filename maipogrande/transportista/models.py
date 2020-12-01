@@ -79,7 +79,7 @@ class Auction(models.Model):
     Status = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('AuctionDate', )
+        ordering = ('Status', 'AuctionDate', )
 
     def __str__(self):
         return self.AuctionDate
@@ -133,6 +133,7 @@ class BidModel(models.Model):
 class OrderDispatch(models.Model):
     "Clase que representa una orden de despacho."
     DispatchId = models.UUIDField(default=uuid.uuid4, unique=True, blank=True)
+    OrderId = models.CharField(max_length=40, blank=True, null=True)
     ClientId = models.CharField(max_length=40, blank=True, null=True)
     DispatchDate = models.DateField(default=datetime.date.today)
     DispatchValue = models.FloatField(default=0)
@@ -146,7 +147,7 @@ class OrderDispatch(models.Model):
     User = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('DispatchDate', )
+        ordering = ('Status', 'DispatchDate', )
 
     def __str__(self):
         return self.ClientId

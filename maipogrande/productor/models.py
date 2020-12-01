@@ -1,4 +1,5 @@
 import uuid
+import datetime
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -54,6 +55,17 @@ class Producto(models.Model):
         "Genera la url para la eliminación de cada instancia del modelo."
         return reverse('eliminarProducto', args=[self.id])
 
-    def __str(self):
-        "Define el metodo __str del modelo mostrando el nombre del producto."
-        return self.ProductName
+    def __str__(self):
+        "Define el metodo __str__ del modelo mostrando el nombre del producto."
+        return self.ProductName.upper()
+
+
+class Venta(models.Model):
+    "Modelo que representa las ventas del productor"
+    PaymentId = models.CharField(max_length=40, blank=True, null=True)
+    ClientId = models.CharField(max_length=40, blank=True, null=True)
+    SalesDate = models.DateField(default=datetime.date.today)
+    Quantity = models.FloatField(default=0)
+    ProductName = models.CharField(max_length=50)
+    UnitPrice = models.FloatField(default=0)
+    ProductPrice = models.FloatField(default=0)

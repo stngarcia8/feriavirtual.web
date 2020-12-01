@@ -1,0 +1,28 @@
+{% extends 'core/base-inicial.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Rechazar productos
+{% endblock %}
+
+{% block contenido %}
+    <form class="text-justify border border-light p-5" method="post" id=contractForm>
+        <p class="lead text-center">
+            El resultado de este contrato fue producto de las conversaciones
+            entre usted y su ejecutivo, si no está de acuerdo, puede rechazar
+            este contrato y volver a conversar con su ejecutivo, por favor
+            ingrese en la caja de observación el motivo porque usted rechaza
+            el contrato.
+        </p>
+        {% csrf_token %}
+        {% if form.non.field.errors %}
+            {{ form.non.field.errors }}
+        {% endif %}
+        <table class="tabla table-responsive">
+            {{ form }}
+        </table>
+        <button type="submit" class="btn btn-success mt-3">Enviar rechazo de productos</button>
+        <a class="btn btn-light" href="#" role="button"> Cancelar </a>
+    </form>
+{% endblock %}

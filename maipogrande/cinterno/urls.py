@@ -9,4 +9,6 @@ urlpatterns = [
         name='homeInterno'),
     url(r'^ordenes/cargar/$', views.CargarProductosInternosExportacion,
         name='cargarProductosInternosExportacion'),    
+    url(r'^ofertas/cargar/$', views.CargarOfertas,
+        name='cargarOfertas'),    
 ]

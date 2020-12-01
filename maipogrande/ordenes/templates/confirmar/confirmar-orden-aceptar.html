@@ -1,0 +1,101 @@
+{% extends 'core/base-inicial.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block titulo %}
+    Aceptar productos 
+{% endblock %}
+
+{% block contenido %}
+        <p class="lead text-center">
+            Si desea aceptar sus productos, por favor seleccione
+            un método de pago y presione el botón enviar.
+        </p>
+        <div class="table-responsive justify-content-center">
+            <h4>Datos de la orden de compra</h4>
+            <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black" style="margin-left: auto; margin-right: auto;">
+                <tbody class="justify-content-center">
+                    <tr>
+                        <td class="px-5">Fecha</td>
+                        <td class="px-5">{{ orden.OrderDate }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5">Condición de pago</td>
+                        <td class="px-5">{{ orden.PaymentCondition.ConditionDescription }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5">Descuento</td>
+                        <td class="px-5">{{ orden.OrderDiscount }} %</td>
+                    </tr>
+                    {% if not payment.Observation %}
+                    {% else %}
+                    <tr>
+                        <td class="px-5">Observación</td> 
+                        <td>{{ payment.Observation }} </td> 
+                        <td class="px-5">{{ orden.Observation }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="px-5">Estado</td>
+                        {% if orden.Status == 6 %}
+                            <td class="px-5">Pedido entregado</td>         
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>       
+            <h4>Detalle de la orden de compra</h4>
+            <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+                <theader>
+                    <th></th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </theader>
+                <tbody>
+                        {% for detail in details %}
+                            <tr>
+                                <td class ="text-right">{{ forloop.counter }}</td>
+                                <td>{{ detail.ProductName}}</td>
+                                <td>{{ detail.Quantity}} KG<br></td>
+                            </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+            <h4>Totales</h4>
+            <table class="table table-striped table-hover col-6 bg-light border border-light p-5 text-justify text-black">
+                <tbody class="justify-content-center">
+                    <tr>
+                        <td class="px-5">Valor Neto</td>
+                        <td class="px-5">(+) ${{ orden.NetValue|floatformat:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5">IVA (Impuesto 19%)</td>
+                        <td class="px-5">(+) ${{ orden.Iva|floatformat:0 }}</td>
+                    </tr>
+                    {% if orden.OrderDiscount == 0 %}
+                    {% else %}
+                    <tr>
+                        <td class="px-5">Descuento ({{ orden.OrderDiscount }}%)</td>
+                        <td class="px-5">(-) ${{ orden.DiscountValue|floatformat:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-5">Total a pagar</td>
+                        <td class="px-5"><strong>(=) ${{ orden.Amount|floatformat:0 }}</strong></td>         
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>         
+    <div class="container col-md-4 pt-4">
+        <form class="text-center border border-light p-5" method="post" id=OrderAcceptForm>           
+            {% csrf_token %}
+            {% if form.non.field.errors %}
+                {{ form.non.field.errors }}
+            {% endif %}
+            <table class="text-justify tabla table-responsive" style="margin-left:auto; margin-right:auto;">
+                {{ form }}
+            </table>
+            <button type="submit" class="btn btn-success mt-3">Enviar</button>
+            <a class="btn btn-light" href="{{ order.get_absolute_order_received_url }}" role="button"> Cancelar </a>
+        </form>
+    </div>     
+{% endblock %}

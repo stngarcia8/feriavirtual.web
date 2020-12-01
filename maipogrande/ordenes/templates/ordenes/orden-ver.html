@@ -36,6 +36,20 @@
                     <td>Observación</td>
                     <td>{{ order.Observation }}</td>
                 </tr>
+                <tr>
+                    <td>Estado</td>
+                    {% if order.Status == 1 %}
+                        <td>Orden recepcionada</td>
+                    {% elif order.Status == 2 %}
+                        <td>Propuesta generada</td>
+                    {% elif order.Status == 3 %}
+                        <td>Subasta publicada</td>
+                    {% elif order.Status == 4 %}
+                        <td>Transporte asignado</td>
+                    {% elif order.Status == 5 %}
+                        <td>Pedido despachado</td>          
+                    {% endif %}
+                </tr>
             </tbody>
         </table>
         <h4>Detalle de la orden de compra</h4>

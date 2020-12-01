@@ -2,7 +2,7 @@ import json
 import requests
 from django.conf import settings
 from .models import Order
-from .serializers import OrderSerializer
+from .serializers import OrderSerializer, OrderRefuseSerializer
 
 
 def PostToApi(orderId):
@@ -57,3 +57,41 @@ def DeleteToApi(order_id):
         url=settings.ORDER_SERVICE_URL_DELETE,
         params={'orderId': order_id})
     return True if response.status_code == 200 else False
+
+
+def PostOrderRefuseToApi(serializador):
+    """ Rechaza los productos
+
+        Rechaza los productos por parte del cliente,
+        permitiendo ingresar una observación a la cancelación.
+
+        parametros:
+            - serializador: objeto serializer que contiene los datos de rechazo.
+        retorna:
+            - True, en caso de realizar el rechazo correctamente.
+            - false, en caso de problemas de envío o conectividad.
+    """
+    response = requests.patch(
+        url=settings.ORDER_SERVICE_URL_REFUSE,
+        headers=settings.SERVER_HEADERS,
+        data=json.dumps(serializador.data))  
+    return True if response.status_code == 200 else False    
+
+
+def PostAcceptToApi(serializador):
+    """ Acepta los productos
+
+        Acepta los productos por parte del cliente,
+        permitiendo ingresar una observación a la aceptación.
+
+        parametros:
+            - serializador: objeto serializer que contiene los datos de rechazo.
+        retorna:
+            - True, en caso de realizar el rechazo correctamente.
+            - false, en caso de problemas de envío o conectividad.
+    """
+    response = requests.post(
+        url=settings.PAYMENT_SERVICE_URL_POST,
+        headers=settings.SERVER_HEADERS,
+        data=json.dumps(serializador.data))  
+    return True if response.status_code == 200 else False 

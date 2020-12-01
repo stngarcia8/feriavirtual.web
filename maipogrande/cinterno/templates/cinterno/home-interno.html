@@ -13,8 +13,21 @@
     <br>
     <a class="enlace" href="{% url 'registrarOrden' %}"> Nueva orden </a>
     <br>
-    <a class="enlace" href="#"> Confirmar orden </a>
-
+    <a class="enlace" href="{% url 'listarOrdenesEntregadas' %}"> Confirmar orden </a>
+    <br>
+    <a class="enlace" href="{% url 'listarOrdenesRechazadas' %}"> Ordenes rechazadas </a>
+    <br><br>
+    <a class="text-justify text-center"><b>Pagos</b></a>
+    <br>
+    <a class="enlace" href="{% url 'listarOrdenesAceptadas' %}"> Historial de pagos</a>
+    <br><br>
+    <a class="text-justify text-center"><b>Compras</b></a>
+    <br>
+    <a class="enlace" href="{% url 'verHistorialCompras' %}"> Historial de compras</a>
+    <br><br>
+    <a class="text-justify text-center"><b>Reportes</b></a>
+    <br>
+    <a class="enlace" href="{% url 'verEstadisticas' %}"> Estadísticas</a>
 {% endblock %}
 
 {% block contenido %}
@@ -62,16 +75,34 @@
             </p>
         </div>
     </div>
+    <div id="publicacion_ofertas">
+    </div>
 {% endblock %}
 
 {% block jsBody %}
-    <script>
-        $( document ).ready(function() {
-            // cargar productos de exportacion
-            $.ajax({url: "{% url 'cargarProductosInternosExportacion' %}",
-                success: function () { 
-                console.log('productos de exportación cargados...!!');}
+<script>
+    const url = "{% url 'cargarOfertas' %}";
+    var myInterval; 
+    $( document ).ready(function() {
+        temporizador(true);
+    });
+
+    function temporizador(activate_interval){
+    if(activate_interval){
+        myInterval = setInterval(function() {
+            $.ajax({url: url,data: {},
+                success: function (data) { 
+                $("#publicacion_ofertas").html(data);}
             });
-        });
-    </script>
+        }, 60000);
+    } else {
+        clearTimeout(myInterval);
+    }
+}
+
+
+
+
+</script>
+
 {% endblock %}

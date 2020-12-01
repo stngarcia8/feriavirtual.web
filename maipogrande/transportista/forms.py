@@ -75,6 +75,6 @@ class DispatchForm(ModelForm):
         widgets = {
             'DispatchId': HiddenInput(),
             'ClientId': HiddenInput,
-            'CarrierDescription': Textarea(attrs={'cols': 30, 'rows': 3}),
+            'CarrierObservation': Textarea(attrs={'required': '', 'cols': 30, 'rows': 3}),
         }
                    

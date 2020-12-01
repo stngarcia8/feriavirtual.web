@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Contract
 from login.models import LoginSession
+from django.db.models import Q
 
 
 class ContratoSerializer(serializers.ModelSerializer):
@@ -17,7 +18,8 @@ class ContratoSerializer(serializers.ModelSerializer):
     def create(self, data):
         "Permite recibir parámetros en el evento save()"
         try:
-            con = Contract.objects.get(ContractId=data['ContractId'])
+            con = Contract.objects.get(Q(ContractId=data['ContractId']) & Q(ClientId=data['ClientId']))
+            return con
         except Exception:
             sesion = LoginSession.objects.get(ClientId=data['ClientId'])
             con = Contract.objects.create(

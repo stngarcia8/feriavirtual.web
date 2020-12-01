@@ -37,6 +37,7 @@
                 <th>Categoría</th>
                 <th>Valor por KG.</th>
                 <th>Cantidad total (KG)</th>
+                <th>Disponibilidad</th>
                 <th></th>
             </tr>
             </thead>
@@ -45,8 +46,13 @@
                 <tr>
                     <td class="py-0">{{ producto.ProductName }}</td>
                     <td class="py-0">{{ producto.Category.CategoryName }}</td>
-                    <td class="text-right py-0">${{ producto.ProductValue }}</td>
-                    <td class="text-right py-0">{{ producto.ProductQuantity }} (KG)</td>
+                    <td class="py-0">${{ producto.ProductValue }}</td>
+                    <td class="py-0">{{ producto.ProductQuantity }} (KG)</td>
+                    {% if producto.ProductQuantity == 0 %}
+                        <td class="py-0">Agotado</td>
+                    {% else %}
+                        <td class="py-0">Disponible</td>
+                    {% endif %}            
                     <td class="py-0">
                         <a class="btn btn-light"
                            href="{{ producto.get_absolute_url }}" role="button"> Ver detalles </a>

@@ -19,4 +19,10 @@ urlpatterns = [
         views.ProductoUpdateView.as_view(), name='editarProducto'),
     url(r'^productos/eliminar/(?P<pk>\d+)$',
         views.ProductoDeleteView.as_view(), name='eliminarProducto'),
+    url(r'^historial/ventas/listar$',
+        views.HistorialVentasListView.as_view(), name='listarVentas'),
+    url(r'^historial/ventas/cargar$', views.VentasLoadView,
+        name='actualizarListaVentas'),
+    url(r'^ventas/estadisticas/ver/$',
+        views.EstadisticasVentasDetailView, name='verEstadisticasVentas'),                 
 ]
