@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block titulo %}
     Transportista
@@ -98,7 +99,7 @@
     <div class="row">
       <div class="col-md-4 mb-5">
         <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <img class="card-img-top" src="{% static 'transportista/img/comercial-data.jpg' %}" alt="">
           <div class="card-body">
             <h4 class="card-title">Datos comerciales</h4>
             <p class="card-text">
@@ -113,7 +114,7 @@
       </div>
       <div class="col-md-4 mb-5">
         <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <img class="card-img-top" src="{% static 'transportista/img/vehicle.jpg' %}" alt="">
           <div class="card-body">
             <h4 class="card-title">Transportes</h4>
             <p class="card-text">
@@ -128,7 +129,7 @@
       </div>
       <div class="col-md-4 mb-5">
         <div class="card h-100">
-          <img class="card-img-top" src="https://placehold.it/300x200" alt="">
+          <img class="card-img-top" src="{% static 'transportista/img/transactions.png' %}" alt="">
           <div class="card-body">
             <h4 class="card-title">Transacciones</h4>
             <p class="card-text">
@@ -138,9 +139,6 @@
                 <li>Postular a subastas de transportes de pedidos.</li>
             </ul>
             </p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Ver mas...</a>
           </div>
         </div>
       </div>
