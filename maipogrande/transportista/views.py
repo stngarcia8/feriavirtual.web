@@ -12,6 +12,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.views.generic.base import TemplateView
 
+import pandas as pd
+from plotly.offline import plot
+import plotly.graph_objs as go
+from plotly.graph_objs import Scatter
+import plotly.express as px
+import numpy as np
+
 from core.permission import LoginRequired
 from dcomercial.models import Comercial
 from dcomercial.views import CargarDatoComercial
@@ -276,6 +283,10 @@ class DespachosEntregadosListView(LoginRequired, CarrierRequired, ListView):
         return result
 
 
+def DespachosEntregadosLoadView(request):
+    return redirect('listarDespachosEntregados')
+
+
 class DespachosCanceladosListView(LoginRequired, CarrierRequired, ListView):
     "Muestra el historial de los despachos Cancelados"
     model = OrderDispatch
@@ -293,6 +304,37 @@ class DespachosCanceladosListView(LoginRequired, CarrierRequired, ListView):
             result = result.filter(StartDate__range=(query1, query2))
         return result
 
-        
+
+def DespachosCanceladosLoadView(request):
+    return redirect('listarDespachosCancelados')
+
+
+@login_required(login_url='login')
+def EstadisticasDespachosDetailView(request):
+    if request.user.loginsession.ProfileId == 6:
+        template = loader.get_template('transportista/estadisticas/estadisticas-despachos-ver.html')
+        despachos = OrderDispatch.objects.filter(ClientId=request.user.loginsession.ClientId).all().values()
+        data = pd.DataFrame(despachos)
+        if not despachos:
+            context = {'despachos': despachos, 'data': data.to_html}
+            return HttpResponse(template.render(context, request))    
+        data = data.rename(columns={"DispatchDate": "Fecha de despacho", "id": "N° de Despacho",
+                                "DispatchValue": "Valor Del Despacho"})
+        data = data.round(decimals=0)
+        valor_total = data["Valor Del Despacho"].sum()
+        valor_promedio = data["Valor Del Despacho"].mean()
+        valor_maximo = data["Valor Del Despacho"].max()
+        valor_minimo = data["Valor Del Despacho"].min()
+        # Grafico total ordenes de compra
+        fig = px.bar(data, x="N° de Despacho", y="Valor Del Despacho", color="Valor Del Despacho")
+        plot_div = plot(fig, output_type='div')
+        # Grafico ordenes de compra por día
+        fig = px.bar(data, x="Valor Del Despacho", y="Fecha de despacho")
+        plots_div = plot(fig, output_type='div')
+        context = {'despachos': despachos, 'data': data.to_html(), 'valor_total': valor_total,
+                'valor_promedio': valor_promedio, 'valor_maximo': valor_maximo, 
+                'valor_minimo': valor_minimo, "plot_div": plot_div, "plots_div": plots_div}
+        return HttpResponse(template.render(context, request))
+    return redirect('restrictedaccess')        
 
 

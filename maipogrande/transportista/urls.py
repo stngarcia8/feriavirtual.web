@@ -45,5 +45,11 @@ urlpatterns = [
     url(r'^despachos/entregados/listar/$', views.DespachosEntregadosListView.as_view(),
         name='listarDespachosEntregados'),
     url(r'^despachos/cancelados/listar/$', views.DespachosCanceladosListView.as_view(),
-        name='listarDespachosCancelados'),              
+        name='listarDespachosCancelados'),
+    url(r'^despachos/entregados/cargar$', views.DespachosEntregadosLoadView,
+        name='actualizarListaEntregados'),
+    url(r'^despachos/cancelados/cargar$', views.DespachosCanceladosLoadView,
+        name='actualizarListaCancelados'),
+    url(r'^despachos/estadisticas/ver/$',
+        views.EstadisticasDespachosDetailView, name='verEstadisticasDespachos'),                          
 ]

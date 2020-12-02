@@ -1,14 +1,13 @@
 {% if lista_ofertas %}
     <h3>Ofertas</h3>
     {% for o in lista_ofertas %}
-        <b></b>{{ o.1.ProductName}}</b><br>
         <b></b>{{ o.0.Description}}</b><br>
         {% if o.0.Discount %}
             <p class = "lead">
                 Todos los productos en esta oferta están en un 
                 {{ o.0.Discount|floatformat:0 }}% de descuento, 
                 aproveche esta oportunidad. 
-            </p></p>
+            </p>
         {% endif %}
         <ul>
             {% for d in o.1 %}
