@@ -14,7 +14,7 @@ class ProductoForm(ModelForm):
         widgets = {
             'ProductId': HiddenInput(),
             'ClientId': HiddenInput(),
-            'ProductName': TextInput(attrs={'size': '32', 'autofocus': '', 'minlength':3, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ]+$",
+            'ProductName': TextInput(attrs={'size': '32', 'autofocus': '', 'minlength':3, 'pattern': "[ña-zÑA-ZáéíóúÁÉÍÓÚ\s]+$",
             'oninvalid':"setCustomValidity('Ingrese un nombre válido')", 'oninput':"setCustomValidity('')"}),
             'Category': Select(),
             'ProductValue': NumberInput(attrs={'min': 0.1, 'max': 999999999, 'onkeypress':"return event.charCode >= 46", 

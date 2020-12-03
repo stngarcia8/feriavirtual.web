@@ -31,14 +31,14 @@
                     {% else %}
                     <tr>
                         <td class="px-5">Observación</td> 
-                        <td>{{ payment.Observation }} </td> 
+                        <td style="text-transform: uppercase">{{ payment.Observation }} </td> 
                         <td class="px-5">{{ orden.Observation }}</td>
                     </tr>
                     {% endif %}
                     <tr>
                         <td class="px-5">Estado</td>
                         {% if orden.Status == 6 %}
-                            <td class="px-5">Pedido entregado</td>         
+                            <td class="px-5" style="text-transform: uppercase">Pedido entregado</td>         
                         {% endif %}
                     </tr>
                 </tbody>
@@ -54,7 +54,7 @@
                         {% for detail in details %}
                             <tr>
                                 <td class ="text-right">{{ forloop.counter }}</td>
-                                <td>{{ detail.ProductName}}</td>
+                                <td style="text-transform: uppercase">{{ detail.ProductName}}</td>
                                 <td>{{ detail.Quantity}} KG<br></td>
                             </tr>
                         {% endfor %}

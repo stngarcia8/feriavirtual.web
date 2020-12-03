@@ -44,14 +44,14 @@
             <tbody class="py-0">
             {% for producto in producto_list %}
                 <tr>
-                    <td class="py-0">{{ producto.ProductName }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ producto.ProductName }}</td>
                     <td class="py-0">{{ producto.Category.CategoryName }}</td>
                     <td class="py-0">${{ producto.ProductValue }}</td>
                     <td class="py-0">{{ producto.ProductQuantity }} (KG)</td>
                     {% if producto.ProductQuantity == 0 %}
-                        <td class="py-0">Agotado</td>
+                        <td class="py-0" style="text-transform: uppercase">Agotado</td>
                     {% else %}
-                        <td class="py-0">Disponible</td>
+                        <td class="py-0" style="text-transform: uppercase">Disponible</td>
                     {% endif %}            
                     <td class="py-0">
                         <a class="btn btn-light"

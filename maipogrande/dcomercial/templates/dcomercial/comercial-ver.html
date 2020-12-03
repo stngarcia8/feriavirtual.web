@@ -15,7 +15,7 @@
             <tbody>
                 <tr>
                     <td>Identificación de la empresa</td>
-                    <td>
+                    <td style="text-transform: uppercase">
                         {{ comercial.CompanyName }}<br>
                         "{{ comercial.FantasyName }}"<br>
                         Rut/Dni: {{ comercial.ComercialDni }}<br>
@@ -24,14 +24,14 @@
                 </tr>
                 <tr>
                     <td>Dirección comercial</td>
-                    <td>
+                    <td style="text-transform: uppercase">
                         {{ comercial.Address }}<br>
                         {{ comercial.City.CityName }}, {{ comercial.Country.CountryName }}
                     </td>
                 </tr>
                 <tr>
-                    <td>Metodos de contacto</td>
-                    <td>
+                    <td>Métodos de contacto</td>
+                    <td style="text-transform: uppercase">
                         Teléfono: {{ comercial.Country.CountryPrefix }} {{ comercial.PhoneNumber }}<br>
                         Email: {{ comercial.Email }}
 

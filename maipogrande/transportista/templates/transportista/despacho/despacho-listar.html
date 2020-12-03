@@ -48,13 +48,13 @@
                     <td class="py-0">{{ dispatch.DispatchDate }}</td>
                     <td class="py-0">{{ dispatch.DispatchValue }}</td>
                     <td class="py-0">{{ dispatch.DispatchWeight }} kg</td>
-                    <td class="py-0">{{ dispatch.Observation }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ dispatch.Observation }}</td>
                     {% if dispatch.Status == 5 %}
-                    <td class="py-0">Por entregar</td>
+                    <td class="py-0" style="text-transform: uppercase">Por entregar</td>
                     {% elif dispatch.Status == 6 %}
-                    <td class="py-0">Entregado</td>
+                    <td class="py-0" style="text-transform: uppercase">Entregado</td>
                     {% elif dispatch.Status == 9 %}
-                    <td class="py-0">Cancelado</td>
+                    <td class="py-0" style="text-transform: uppercase">Cancelado</td>
                     {% endif %}
                     <td class="py-0">
                         <a class="btn btn-light" 

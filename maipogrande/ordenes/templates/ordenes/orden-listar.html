@@ -49,15 +49,15 @@
                     <td class="py-0">{{ order.PaymentCondition.ConditionDescription }}</td>
                     <td class="text-right py-0">${{ order.OrderDiscount }}%</td>
                     {% if order.Status == 1 %}
-                    <td class="py-0">Orden recepcionada</td>
+                    <td class="py-0" style="text-transform: uppercase">Orden recepcionada</td>
                     {% elif order.Status == 2 %}
-                    <td class="py-0">Propuesta generada</td>
+                    <td class="py-0" style="text-transform: uppercase">Propuesta generada</td>
                     {% elif order.Status == 3 %}
-                    <td class="py-0">Subasta publicada</td>
+                    <td class="py-0" style="text-transform: uppercase">Subasta publicada</td>
                     {% elif order.Status == 4 %}
-                    <td class="py-0">Transporte asignado</td>
+                    <td class="py-0" style="text-transform: uppercase">Transporte asignado</td>
                     {% elif order.Status == 5 %}
-                    <td class="py-0">Pedido despachado</td>
+                    <td class="py-0" style="text-transform: uppercase">Pedido despachado</td>
                     {% endif %}
                     <td class="py-0">
                         <a class="btn btn-light" 

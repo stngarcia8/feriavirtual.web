@@ -28,25 +28,25 @@
                 </tr>
                 <tr>
                     <td class="py-0">Observación</td>
-                    <td class="py-0">{{ orderdispatch.Observation }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ orderdispatch.Observation }}</td>
                 </tr>
                 <tr>
                     <td class="py-0">Nombre de la compañia</td>
-                    <td class="py-0">{{ orderdispatch.CompanyName }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ orderdispatch.CompanyName }}</td>
                 </tr>
                 <tr>
                     <td class="py-0">Destino y método de contacto</td>
-                    <td class="py-0">{{ orderdispatch.Destination }}<br>
+                    <td class="py-0" style="text-transform: uppercase">{{ orderdispatch.Destination }}<br>
                         {{ orderdispatch.PhoneNumber }}</td>
                 </tr>
                 <tr>
                     <td class="py-0">Estado de despacho</td>
                     {% if orderdispatch.Status == 5 %}
-                        <td class="py-0">Despachado<br>
+                        <td class="py-0" style="text-transform: uppercase">Despachado<br>
                     {% elif orderdispatch.Status == 6 %}
-                        <td class="py-0">Entregado<br>
+                        <td class="py-0" style="text-transform: uppercase">Entregado<br>
                     {% elif orderdispatch.Status == 9 %}
-                        <td class="py-0">Cancelado<br>        
+                        <td class="py-0" style="text-transform: uppercase">Cancelado<br>        
                     {% endif %}            
                 </tr>
             </tbody>
@@ -64,10 +64,10 @@
                     {% for producto in dispatch_products %}
                         <tr>
                             <td class ="text-right py-0">{{ forloop.counter }}</td>
-                            <td class="py-0">{{ producto.Product }}</td>
-                            <td class="py-0">{{ producto.UnitValue }}<br></td>
+                            <td class="py-0" style="text-transform: uppercase">{{ producto.Product }}</td>
+                            <td class="py-0">${{ producto.UnitValue }}<br></td>
                             <td class="py-0">{{ producto.Quantity }}<br></td>
-                            <td class="py-0">{{ producto.TotalValue }}<br></td>
+                            <td class="py-0">${{ producto.TotalValue }}<br></td>
                         </tr>
                     {% endfor %}
             </tbody>

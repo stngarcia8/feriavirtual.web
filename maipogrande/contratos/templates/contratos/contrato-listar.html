@@ -37,11 +37,11 @@
             <tbody class="py-0">
             {% for contrato in contract_list %}
                 <tr>
-                    <td>{{ contrato.ContractDescription }}</td>
+                    <td style="text-transform: uppercase">{{ contrato.ContractDescription }}</td>
                     <td>{{ contrato.StartDate }}</td>
                     <td>{{ contrato.EndDate }}</td>
-                    <td>{{ contrato.ValidDescription }}</td>
-                    <td>{{ contrato.StatusDescription }}</td>
+                    <td style="text-transform: uppercase">{{ contrato.ValidDescription }}</td>
+                    <td style="text-transform: uppercase">{{ contrato.StatusDescription }}</td>
                     <td class="py-0">
                         <a class="btn btn-light"
                            href="{{ contrato.get_absolute_url }}" role="button"> Ver detalles </a>

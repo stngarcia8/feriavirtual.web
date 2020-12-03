@@ -49,7 +49,7 @@
                     <td class="py-0">{{ order.PaymentCondition.ConditionDescription }}</td>
                     <td class="text-right py-0">${{ order.OrderDiscount }}%</td>
                     {% if order.Status == 8 %}
-                    <td class="py-0">Orden rechazada</td>
+                    <td class="py-0" style="text-transform: uppercase">Orden rechazada</td>
                     {% endif %}
                     <td class="py-0">
                         <a class="btn btn-light" 

@@ -52,15 +52,15 @@
                         <td class="py-0 text-center">{{ auction.Value }}</td>
                         <td class="py-0 text-center">{{ auction.Weight }} kg</td>
                         <td class="py-0 text-center">{{ auction.LimitDate }}</td>
-                        <td class="py-0 text-center">{{ auction.Observation }}</td>
+                        <td class="py-0 text-center" style="text-transform: uppercase">{{ auction.Observation }}</td>
                         {% if auction.Status == 1 %}
-                            <td class="py-0 text-center">Disponible</td>
+                            <td class="py-0 text-center" style="text-transform: uppercase">Disponible</td>
                             <td class="py-0">
                                 <a class="btn btn-light" 
                                     href="{{ auction.get_participar_url }}" role="button"> Participar </a>
                             </td>
                         {% else %}
-                            <td class="py-0 text-center">Cerrada</td>
+                            <td class="py-0 text-center" style="text-transform: uppercase">Cerrada</td>
                             <td class="py-0">
                                 <a class="btn btn-light" 
                                     href="{{ auction.get_mostrar_resultado_pujas_url }}" role="button"> Ver resultados </a>

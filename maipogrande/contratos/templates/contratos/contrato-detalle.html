@@ -20,7 +20,7 @@
             <tr>
                 <td class="py-0">Contrato extendido a</td>
                 <td class="py-0">
-                    <b>
+                    <b style="text-transform: uppercase">
                         {{ contract.Customername }}<br>
                         Rut número : {{ contract.CustomerDni }}
                     </b>
@@ -32,11 +32,11 @@
             </tr>
             <tr>
                 <td class="py-0">Descripción del contrato</td>
-                <td class="py-0">{{ contract.ContractDescription }}</td>
+                <td class="py-0" style="text-transform: uppercase">{{ contract.ContractDescription }}</td>
             </tr>
             <tr>
                 <td class="py-0">Vigencia</td>
-                <td class="py-0"><b>
+                <td class="py-0" style="text-transform: uppercase"><b>
                     {{ contract.ValidDescription }}<br>
                     Inicio: {{ contract.StartDate }}<br>
                     Término : {{ contract.EndDate }}
@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td class="py-0">Porcentajes asignados<br>al total de la venta</td>
-                <td class="py-0">
+                <td class="py-0" style="text-transform: uppercase">
                     Comisión Maipo Grande : {{ contract.CommisionValue }}%<br>
                     Porcentaje adicional : {{ contract.AdditionalValue }}%<br>
                     Porcentaje multa : {{ contract.FineValue }}%<br>
@@ -58,13 +58,13 @@
             {% if contract.ContractObservation %}
                 <tr>
                     <td class="py-0">Observación del contrato</td>
-                    <td class="py-0">{{ contract.ContractObservation }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ contract.ContractObservation }}</td>
                 </tr>
             {% endif %}
             {% if contract.CustomerObservation %}
                 <tr>
                     <td class="py-0">Observaciones de {{ contract.Customername }}</td>
-                    <td class="py-0">{{ contract.CustomerObservation }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ contract.CustomerObservation }}</td>
                 </tr>
             {% endif %}
             </tbody>

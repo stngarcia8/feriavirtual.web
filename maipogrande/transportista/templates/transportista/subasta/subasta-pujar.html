@@ -32,15 +32,15 @@
                 </tr>
                 <tr>
                     <td class="px-5">Observación</td>
-                    <td class="px-5">{{ subasta.Observation }}</td>
+                    <td class="px-5" style="text-transform: uppercase">{{ subasta.Observation }}</td>
                 </tr>
                 <tr>
                     <td class="px-5">Nombre de la compañia</td>
-                    <td class="px-5">{{ subasta.CompanyName }}</td>
+                    <td class="px-5" style="text-transform: uppercase">{{ subasta.CompanyName }}</td>
                 </tr>
                 <tr>
                     <td class="px-5">Destino y método de contacto</td>
-                    <td class="px-5">{{ subasta.Destination }}<br>
+                    <td class="px-5" style="text-transform: uppercase">{{ subasta.Destination }}<br>
                         {{ subasta.PhoneNumber }}</td>
                 </tr>
             </tbody>
@@ -58,7 +58,7 @@
                     {% for producto in productos %}
                         <tr>
                             <td class ="text-right py-0">{{ forloop.counter }}</td>
-                            <td class="py-0">{{ producto.Product }}</td>
+                            <td class="py-0" style="text-transform: uppercase">{{ producto.Product }}</td>
                             <td class="py-0">{{ producto.UnitValue }}<br></td>
                             <td class="py-0">{{ producto.Quantity }}<br></td>
                             <td class="py-0">{{ producto.TotalValue }}<br></td>

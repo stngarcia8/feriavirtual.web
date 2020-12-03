@@ -34,20 +34,20 @@
                 </tr>
                 <tr>
                     <td>Observación</td>
-                    <td>{{ order.Observation }}</td>
+                    <td style="text-transform: uppercase">{{ order.Observation }}</td>
                 </tr>
                 <tr>
                     <td>Estado</td>
                     {% if order.Status == 1 %}
-                        <td>Orden recepcionada</td>
+                        <td style="text-transform: uppercase">Orden recepcionada</td>
                     {% elif order.Status == 2 %}
-                        <td>Propuesta generada</td>
+                        <td style="text-transform: uppercase">Propuesta generada</td>
                     {% elif order.Status == 3 %}
-                        <td>Subasta publicada</td>
+                        <td style="text-transform: uppercase">Subasta publicada</td>
                     {% elif order.Status == 4 %}
-                        <td>Transporte asignado</td>
+                        <td style="text-transform: uppercase">Transporte asignado</td>
                     {% elif order.Status == 5 %}
-                        <td>Pedido despachado</td>          
+                        <td style="text-transform: uppercase">Pedido despachado</td>          
                     {% endif %}
                 </tr>
             </tbody>
@@ -63,7 +63,7 @@
                     {% for detail in order_detail %}
                         <tr>
                             <td class ="text-right">{{ forloop.counter }}</td>
-                            <td>{{ detail.ProductName}}</td>
+                            <td style="text-transform: uppercase">{{ detail.ProductName}}</td>
                             <td>{{ detail.Quantity}} KG<br></td>
                         </tr>
                     {% endfor %}

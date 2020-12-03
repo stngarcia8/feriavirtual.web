@@ -41,14 +41,14 @@
             <tbody class="py-0">
                 {% for vehiculo in vehicle_list %}
                     <tr>
-                        <td class="py-0">{{ vehiculo.VehiclePatent }}</td>
-                        <td class="py-0">{{ vehiculo.VehicleModel }}</td>
-                        <td class="py-0">{{ vehiculo.VehicleType.VehicleTypeDescription }}</td>
+                        <td class="py-0" style="text-transform: uppercase">{{ vehiculo.VehiclePatent }}</td>
+                        <td class="py-0" style="text-transform: uppercase">{{ vehiculo.VehicleModel }}</td>
+                        <td class="py-0" style="text-transform: uppercase">{{ vehiculo.VehicleType.VehicleTypeDescription }}</td>
                         <td class="text-right py-0">{{ vehiculo.VehicleCapacity }} (KG)</td>
                         {% if vehiculo.VehicleAvailable %}
-                            <td class="text-center py-0">Disponible</td>
+                            <td class="text-center py-0" style="text-transform: uppercase">Disponible</td>
                         {% else %}
-                            <td class="text-center py-0">Inhabilitado</td>
+                            <td class="text-center py-0" style="text-transform: uppercase">Inhabilitado</td>
                         {% endif %}
                         <td class="py-0">
                             <a class="btn btn-light"

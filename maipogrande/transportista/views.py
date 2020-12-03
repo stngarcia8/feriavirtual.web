@@ -112,7 +112,6 @@ class VehiculoDeleteView(LoginRequired, CarrierRequired, DeleteView):
 
 def VehiculosLoadView(request):
     "Carga la lista de vehiculos desde la base de datos de feria virtual."
-    # GetFromApi(request.user)
     return redirect('listarVehiculos')
 
 
@@ -128,8 +127,6 @@ class AuctionListView(LoginRequired, CarrierRequired, ListView):
 
 def AuctionsLoadView(request):
     "Carga la lista de subastas desde la base de datos de feria virtual."
-    # auction = Auction.objects.all().delete()
-    # GetAuctionsFromApi(request.user)
     return redirect('listarSubastas')
 
 @login_required(login_url='login') 
@@ -147,6 +144,8 @@ def AuctionParticipateView(request, pk):
 @login_required(login_url='login')
 def ActualizarPujasView(request, pk):
     "Actualiza la vista de las pujas automaticamente."
+    if request.user.loginsession.ProfileId != 6:
+        return redirect('restrictedaccess')
     auction = Auction.objects.get(id=pk)
     bid_value = BidModel.objects.filter(AuctionId=auction.AuctionId)[:10]
     return render(request, 'transportista/subasta/pujas.html', {'pujas': bid_value})
@@ -180,13 +179,12 @@ def AuctionShowView(request, pk):
 class DispatchListView(LoginRequired, CarrierRequired, ListView):
     "Muestra la lista de despachos"
     model = OrderDispatch
-    slug_field = 'User_id'
-    slug_url_kwarg = 'User_id'
     template_name = 'transportista/despacho/despacho-listar.html'
     paginate_by = settings.RECORDS_PER_PAGE
 
     def get_queryset(self):
         result = super(DispatchListView, self).get_queryset()
+        result = result.filter(ClientId=self.request.user.loginsession.ClientId)    
         query1 = self.request.GET.get('q1')
         query2 = self.request.GET.get('q2')
         if not query2:
@@ -313,7 +311,7 @@ def DespachosCanceladosLoadView(request):
 def EstadisticasDespachosDetailView(request):
     if request.user.loginsession.ProfileId == 6:
         template = loader.get_template('transportista/estadisticas/estadisticas-despachos-ver.html')
-        despachos = OrderDispatch.objects.filter(ClientId=request.user.loginsession.ClientId).all().values()
+        despachos = OrderDispatch.objects.filter(Q(ClientId=request.user.loginsession.ClientId) & Q(Status=6)).all().values()
         data = pd.DataFrame(despachos)
         if not despachos:
             context = {'despachos': despachos, 'data': data.to_html}

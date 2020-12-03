@@ -16,11 +16,11 @@
             <tbody>
                 <tr>
                     <td class="py-0">Patente</td>
-                    <td class="py-0">{{ vehicle.VehiclePatent }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ vehicle.VehiclePatent }}</td>
                 </tr>
                 <tr>
                     <td class="py-0">Modelo</td>
-                    <td class="py-0">{{ vehicle.VehicleModel }}</td>
+                    <td class="py-0" style="text-transform: uppercase">{{ vehicle.VehicleModel }}</td>
                 </tr>
                 <tr>
                     <td class="py-0">Tipo de transporte</td>
@@ -33,13 +33,13 @@
                 <tr>
                     <td class="py-0">Disponibilidad</td>
                     {% if vehicle.VehicleAvailable %}
-                        <td class="py-0">Disponible</td>
+                        <td class="py-0" style="text-transform: uppercase">Disponible</td>
                     {% else %}
-                        <td class="py-0">No disponible</td>
+                        <td class="py-0" style="text-transform: uppercase">No disponible</td>
                     {% endif %}
                     <tr>
                         <td class="py-0">Observación</td>
-                        <td class="py-0">{{ vehicle.Observation }}</td>
+                        <td class="py-0" style="text-transform: uppercase">{{ vehicle.Observation }}</td>
                     </tr>
                 </tr>
             </tbody>

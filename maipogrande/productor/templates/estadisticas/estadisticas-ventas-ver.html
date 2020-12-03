@@ -16,13 +16,13 @@
                 <td>
                     <table>
                         <theader>                   
-                            <th class="px-3" >Nombre Producto</th>
+                            <th class="px-3" style="text-transform: uppercase">Nombre Producto</th>
                             <th class="px-3" >Total</th>
                         </theader>
                         <tbody>
                             {% for venta in ventas %}
                             <tr>
-                                <td class="px-3">{{ venta.ProductName}}</td>
+                                <td class="px-3" style="text-transform: uppercase">{{ venta.ProductName}}</td>
                                 <td class="px-3">${{ venta.ProductPrice|floatformat:0 }}</td>
                             </tr>
                             {% endfor %}

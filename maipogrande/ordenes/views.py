@@ -33,7 +33,6 @@ class ClientRequired(object):
         return redirect('restrictedaccess')
         
 
-
 class OrderListView(LoginRequired, ClientRequired, ListView):
     "Muestra la lista de ordenes de compra"
     model = Order
@@ -147,13 +146,14 @@ class OrderDeleteView(LoginRequired, ClientRequired, DeleteView):
 
 def CargarOrdenesSinProcesar(request):
     "Carga las ordenes de compras no procesadas desde la base de feria virtual."
-    criterio_user = Q(User_id=request.user.id)
-    criterio_status = Q(Status=1)
-    ordenes = Order.objects.filter(criterio_user & criterio_status)
-    if ordenes.count() > 0:
-        ordenes.delete()
-    # aqui voy, cargando las ordenes desde la bdd.
-    return render(request, 'cexterno/home-externo.html')
+    if request.user.loginsession.ProfileId == 3 or request.user.loginsession.ProfileId == 4:
+        criterio_user = Q(User_id=request.user.id)
+        criterio_status = Q(Status=1)
+        ordenes = Order.objects.filter(criterio_user & criterio_status)
+        if ordenes.count() > 0:
+            ordenes.delete()
+        return render(request, 'cexterno/home-externo.html')
+    return redirect('restrictedaccess')    
 
 def OrdenesLoadView(request):
     return redirect('listarOrdenes')
@@ -310,7 +310,6 @@ class OrdenAceptadaDetailView(LoginRequired, ClientRequired, DetailView):
 
 def OrdenesAceptadasLoadView(request):
     return redirect('listarOrdenesAceptadas')
-
 
 
 @login_required(login_url='login')

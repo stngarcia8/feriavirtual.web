@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from dcomercial.models import Profile, Country, City
+from dcomercial.models import Profile, Country, City, Comercial
 from ordenes.models import PaymentCondition, PaymentMethod
 from productor.models import Category, Producto
 from transportista.models import VehicleType
@@ -12,13 +12,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.CrearCategorias()
-        self.CrearUsuarios()
-        self.CrearProductores()
         self.CrearCondicionesDePago()
         self.CrearMetodosDePago()
         self.CrearPaisCiudad()
         self.CrearPerfil()
         self.CrearTiposDeTransportes()
+        self.CrearUsuarios()
+        self.CrearProductores()
         print('Base de datos poblada para pruebas!')
 
     def CrearMetodosDePago(self):
@@ -43,9 +43,9 @@ class Command(BaseCommand):
         print('Creando categorías de productos.')
         categories = Category.objects.all()
         categories.delete()
-        category = Category(CategoryId=1, CategoryName='Exportación')
+        category = Category(CategoryId=1, CategoryName='VENTA INTERNACIONAL')
         category.save()
-        category = Category(CategoryId=2, CategoryName='Venta nacional')
+        category = Category(CategoryId=2, CategoryName='VENTA NACIONAL')
         category.save()
         return
 
@@ -53,21 +53,49 @@ class Command(BaseCommand):
         "Crea los usuarios de ejemplo para pruebas."
         print("Creando usuarios conocidos de pruebas")
         users = User.objects.all().delete()
+        comerciales = Comercial.objects.all().delete()
         user = self.CreaUnUsuario('l.garciar', '552668dcde69cd6c10aebb8e5ee4e61dfb54050a', 'Lolita Garcia Roman', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('5f950227-a59a-48ec-a358-a403ede00bca', 'd124fdef-6956-460f-9873-1953fe29f81b', 6, 'Transportista', user)
+        ciudad = City.objects.get(CityId=19)
+        pais = Country.objects.get(CountryId=9)
+        comercial = Comercial(ComercialId='ea5713da-7421-467c-b5b4-b39cf219a844', ClientId='5f950227-a59a-48ec-a358-a403ede00bca',
+                                            City=ciudad, Country=pais, CompanyName='Ferrisur S.A', FantasyName='TRANSPORTES FERRISUR',
+                                            ComercialBusiness='SERVICIO DE TRANSPORTE', Email='cl.arenasc@alumnos.duoc.cl', 
+                                            ComercialDni='17374955-0', Address='AV JOSE PEDRO ALESSANDRI 2784', PhoneNumber='6678332', User=user)
+        comercial.save()                                    
         user = self.CreaUnUsuario('d.garciar', '6f57196fd9309e992379d3c90fec691531219eea', ' Daniela Garcia Roman', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('aa3ed254-ff6d-4c3c-97b6-048efdedaf69', 'd78ee803-2e99-4c87-a684-d600e6540564', 3, 'Cliente externo', user)
+        ciudad = City.objects.get(CityId=60)
+        pais = Country.objects.get(CountryId=35)
+        comercial = Comercial(ComercialId='f3a97648-7fe8-40a7-afce-007aed69dcb8', ClientId='aa3ed254-ff6d-4c3c-97b6-048efdedaf69', City=ciudad, 
+                                            CompanyName='Frutos de Exportacion Ltda.', FantasyName='Frutas El Torero',
+                                            Country=pais, ComercialBusiness='Venta de Frutas', Email='cl.arenasc@alumnos.duoc.cl', ComercialDni='9477546-4',
+                                            Address='Calle Betis 8900', PhoneNumber='720761221', User=user)
+        comercial.save()
         user = self.CreaUnUsuario('l.romanq', '7a4013826e6cbb73d29cbea95ce32abcba60aa6e', 'Loreto Roman Quiroz', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('729d6773-a60c-4dd5-9e39-9629e44c98b2', 'e7d1d546-84ad-4420-bb05-169aebc376a5',4, 'Cliente interno', user)
+        ciudad = City.objects.get(CityId=20)
+        pais = Country.objects.get(CountryId=9)
+        comercial = Comercial(ComercialId='6a0f6a1e-f661-4400-b039-13a5a59c3446', ClientId='729d6773-a60c-4dd5-9e39-9629e44c98b2', City=ciudad, 
+                                            CompanyName='La Canastita S.A', FantasyName='La Canastita Economica',
+                                            Country=pais, ComercialBusiness='Venta de frutas', Email='cl.arenasc@alumnos.duoc.cl', ComercialDni='17846733-5',
+                                            Address='Los Aromos 987', PhoneNumber='8872993', User=user)
+        comercial.save()
         return
 
-    
     def CrearProductores(self):
         "Crea los usuarios productores de ejemplo para pruebas."
         print("Creando productores de pruebas")
         Productos = Producto.objects.all().delete()
         user = self.CreaUnUsuario('f.garciar', '92d52f9c820e4e291318819f2ab5514dd8a389ea', 'Flo Garcia Roman', 'stngarcia8@gmail.com')
         self.CreaUnaSesion('08daae9c-d977-4234-a054-0b83918ed3e7', 'a3220c48-ddb2-4fe8-8e80-8bc832fb80d5', 5, 'Productor', user)
+        ciudad = City.objects.get(CityId=18)
+        pais = Country.objects.get(CountryId=9)
+        comercial = Comercial(ComercialId='39b073b1-0022-42ed-84df-9996056a22f3', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7', City=ciudad, Country=pais,
+                                            CompanyName='VerdeSur S.A', FantasyName='FRUTAS VERDESUR', ComercialBusiness='VENTA DE FRUTAS',
+                                            Email='cl.arenasc@alumnos.duoc.cl', ComercialDni='18634788-5', Address='AV LAS PALMAS 2342',
+                                            PhoneNumber='8873664', User=user)
+        comercial.save()
         categoria = Category.objects.get(CategoryId=1)
         producto = Producto(ProductId='639c2606-62ba-428d-ac8f-3336f723d92b', ClientId='08daae9c-d977-4234-a054-0b83918ed3e7',
                             ProductName='Naranja', Category=categoria, ProductValue=450, ProductQuantity=800,
@@ -99,7 +127,6 @@ class Command(BaseCommand):
                             Observation='Despacho en cajas de 20 kg.', User=user)
         producto.save()                    
         return
-
 
     def CreaUnUsuario(self, usr, pwd, fname, eml):
         "Crea un usuario en la base de datos temporal."
@@ -161,11 +188,11 @@ class Command(BaseCommand):
         "Crea los tipos de medios de transportes para los vehículos."
         print('Creando tipos de medios de transportes')
         vehicleTypes = VehicleType.objects.all().delete()
-        vehicleType = VehicleType(VehicleTypeId=1, VehicleTypeDescription='Aereo')
+        vehicleType = VehicleType(VehicleTypeId=1, VehicleTypeDescription='AEREO')
         vehicleType.save()
-        vehicleType = VehicleType(VehicleTypeId=2, VehicleTypeDescription='Terrestre')
+        vehicleType = VehicleType(VehicleTypeId=2, VehicleTypeDescription='TERRESTRE')
         vehicleType.save()
-        vehicleType = VehicleType(VehicleTypeId=3, VehicleTypeDescription='Maritimo')
+        vehicleType = VehicleType(VehicleTypeId=3, VehicleTypeDescription='MARITIMO')
         vehicleType.save()
         return
 

@@ -41,7 +41,7 @@
             {% for venta in venta_list %}
                 <tr>
                     <td class ="text-right">{{ forloop.counter }}</td>
-                    <td >{{ venta.ProductName }}</td>
+                    <td style="text-transform: uppercase">{{ venta.ProductName }}</td>
                     <td >{{ venta.SalesDate }}</td>
                     <td >{{ venta.Quantity|floatformat:0 }}</td>
                     <td >${{ venta.UnitPrice|floatformat:0 }}</td>
