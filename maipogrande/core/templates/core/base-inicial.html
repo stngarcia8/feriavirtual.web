@@ -70,6 +70,7 @@
       </div>
     </nav>
 
+
     <header class="text-center text-black p-2" style="background-color: darkslategray;">
       <h1 style="color: white;">
         {% block titulo %}
@@ -79,10 +80,73 @@
 
     <!-- contenido principal -->
     <main role="main">
+      <div class="jumbotron text-center">
+        <h1 class="display-4">¡Bienvenido!</h1>
+        <p class="lead">Maipo Grande busca facilitar la comercialización de los productos
+        frutales de sus diferentes clientes en el mercado extranjero y local.</p>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col-md-4">
+            <h3>¿Como registrarse en Feria virtual?</h3>
+            <p class="text-justify small">
+              Visita nuestra página web en www.feriavirtual.maipogrande.cl y solicita tu ingreso,
+              debes llenar el formulario de solicitud con los datos que son requeridos para generar
+              su cuenta y nosotros realizaremos tu registro.
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h3>Registra tus productos en nuestra plataforma</h3>
+            <p class="text-justify small">
+              Como productor puedes registrar tus productos para que los podamos ofrecer a nuestros clientes externos,
+              tan solo debes ingresar estos en tu pagina de perfil y nuestros ejecutivos te informarán del proceso
+              que tus productos sean seleccionados por nuestros clientes externos o locales.
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h3>Solicita tus productos</h3>
+            <p class="text-justify small">
+              Como cliente interno o externo, puedes solicitar productos que necesite,
+              solamente requiere que ingrese su solicitud de productos y nuestro sistema
+              buscará los productos idoneos que se ajusten a su necesidad.
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="container-fluid  text-justify">
-        <div class="col col-sm-12 py-4 px-5 text-center" style="list-style-position: inside;">
-          {% block contenido %}
-          {% endblock %}
+        <div class="row">
+          <div class="col-md-4 mb-5">
+            <div class="card h-100">
+              <img class="card-img-top" src="{% static 'core/img/fruit.jpg' %}" alt="">
+              <div class="card-body">
+                <h4 class="card-title">Productos</h4>
+                <p class="card-text">
+                  En Feria Virtual puedes gestionar compras y ventas de producto nacional e internacional con tan sólo unos clicks
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-5">
+            <div class="card h-100">
+              <img class="card-img-top" src="{% static 'core/img/vehicle.jpg' %}" alt="">
+              <div class="card-body">
+                <h4 class="card-title">Despachos</h4>
+                <p class="card-text">
+                  Puedes contratar u ofrecer servicios de transporte para tus procesos de venta sin importar las fronteras
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-5">
+            <div class="card h-100">
+              <img class="card-img-top" src="{% static 'core/img/statistics.jpg' %}" alt="">
+              <div class="card-body">
+                <h4 class="card-title">Estadísticas</h4>
+                <p class="card-text">
+                Entiende tu negocio de una manera más profunda gracias a nuestro avanzado sistema de reportes
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>

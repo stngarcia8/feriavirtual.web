@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block titulo %}
     Cliente interno
@@ -31,51 +32,109 @@
 {% endblock %}
 
 {% block contenido %}
-    <p class="lead">
-        Bienvenido a la zona de clientes internos de la plataforma, 
-        en esta podrá realizar todas sus actividades
-        de forma exclusiva, esperamos que sea de su satisfacción, en el 
-        apartado izquierdo, podrá realizar las acciones que usted 
-        requiera para cubrir sus necesidades.
-    </p>
-    {% if product_list %}
-        <p class="lead">
-            Tenemos mas de {{ product_list.count }} para ofrecer a usted.
-        </p>
-    {% endif %}
-    <div class="row">
-        <div class="col-md-4">
-            <h3>Datos comerciales</h3>
-            <p class="text-justify small" >
-                Usted podrá:
-                <ul>
-                    <li>Ingresar sus datos comerciales.</li>
-                    <li>Actualizar datos comerciales.</li>
-                </ul>
-            </p>
+<!-- Header -->
+    <header class="bg-light mb-5">
+        <div class="container-fluid h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-10">
+                    <h1 class="display-4 text-black mt-5 mb-2">Zona de Cliente Interno</h1>
+                    <p class="lead mb-5 text-black">
+                        Bienvenido a la zona de clientes internos de la plataforma,
+                        en esta podrá realizar todas sus actividades
+                        de forma exclusiva, esperamos que sea de su satisfacción, en el
+                        apartado izquierdo, podrá realizar las acciones que usted
+                        requiera para cubrir sus necesidades.
+                    </p>
+                    {% if product_list %}
+                    <p class="lead">
+                        Tenemos mas de {{ product_list.count }} para ofrecer a usted.
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <h3>Ordenes de compra</h3>
-            <p class="text-justify small">
-                <ul>
-                    <li>Generar nuevas ordenes de compra.</li>
-                    <li>Visualizar el estado de sus ordenes.</li>
-                    <li>Dar seguimiento a sus ordenes.</li>
-                    <li>Aceptar/finalizar las propuestas de productos.</li>
-                </ul>
-            </p>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mb-5">
+                <h2>Participe activamente</h2>
+                <hr>
+                <p class="text-justify text-black">
+                    Cree nuevas ordenes de compra, modifice y valide las órdenes en transcurso, consulte el
+                    historial de estas y también el de pagos para tener respaldo y claridad de sus procesos.
+                    Analice cómo han sido sus procesos de compra a través de reportes y estadísticas que te
+                    permitirán obtener información de primera mano.
+                </p>
+            </div>
+            <div class="col-md-4 mb-5">
+                <h2>Contactenos</h2>
+                <hr>
+                <address>
+                    <strong>Maipo Grande</strong>
+                    <br>Hernest Bugenhagen 666
+                    <br>Valdivia, Chile.
+                    <br>
+                </address>
+                <address>
+                    <abbr title="Phone">P:</abbr>
+                    (563) 68 23 15144
+                    <br>
+                    <abbr title="Email">E:</abbr>
+                    <a href="mailto:#">maipogrande-fv@gmail.com</a>
+                </address>
+            </div>
         </div>
-        <div class="col-md-4">
-            <h3>Transacciones</h3>
-            <p class="text-justify small">
-                <ul>
-                    <li>Visualizar su estado de pagos.</li>
-                    <li>Ver su historial de compras.</li>
-                </ul>
-            </p>
+        <div id="publicacion_ofertas">
         </div>
-    </div>
-    <div id="publicacion_ofertas">
+        <div class="row">
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'cinterno/img/comercial-data.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Datos comerciales</h4>
+                        <p class="card-text">
+                            Usted podrá:
+                        <ul>
+                            <li>Ingresar sus datos comerciales</li>
+                            <li>Actualizar datos comerciales</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'cinterno/img/fruit.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Ordenes de compra</h4>
+                        <p class="card-text">
+                        <ul>
+                            <li>Generar nuevas ordenes de compra</li>
+                            <li>Visualizar el estado de sus ordenes</li>
+                            <li>Dar seguimiento a sus ordenes</li>
+                            <li>Aceptar/finalizar las propuestas de productos.</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'cinterno/img/statistics.jpg' %}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Estadísticas</h4>
+                        <p class="card-text">
+                        <ul>
+                            <li>Visualizar información relevante de sus compras</li>
+                            <li>Analizar reportes</li>
+                            <li>Entender información de primera mano</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
