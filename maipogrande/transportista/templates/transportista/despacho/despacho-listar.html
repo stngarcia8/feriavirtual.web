@@ -53,6 +53,8 @@
                     <td class="py-0" style="text-transform: uppercase">Por entregar</td>
                     {% elif dispatch.Status == 6 %}
                     <td class="py-0" style="text-transform: uppercase">Entregado</td>
+                    {% elif dispatch.Status == 7 %}
+                    <td class="py-0" style="text-transform: uppercase">Aceptado por cliente</td>
                     {% elif dispatch.Status == 9 %}
                     <td class="py-0" style="text-transform: uppercase">Cancelado</td>
                     {% endif %}

@@ -45,6 +45,8 @@
                         <td class="py-0" style="text-transform: uppercase">Despachado<br>
                     {% elif orderdispatch.Status == 6 %}
                         <td class="py-0" style="text-transform: uppercase">Entregado<br>
+                    {% elif orderdispatch.Status == 7 %}
+                        <td class="py-0" style="text-transform: uppercase">Aceptado por cliente<br>        
                     {% elif orderdispatch.Status == 9 %}
                         <td class="py-0" style="text-transform: uppercase">Cancelado<br>        
                     {% endif %}            

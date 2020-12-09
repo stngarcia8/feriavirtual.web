@@ -15,8 +15,11 @@ class ProductEvents(object):
 
     def __actualizar_stock(self, json_data):
         "Actualiza el stock de los productos en la base de datos."
-        producto = Producto.objects.get(ProductId=json_data['ProductId'])
-        producto.ProductQuantity= json_data['Stock']
-        producto.save()
-        print("El stock del producto {0} fue actualizado.".format(json_data['ProductId']))
+        try:
+            producto = Producto.objects.get(ProductId=json_data['ProductId'])
+            producto.ProductQuantity= json_data['Stock']
+            producto.save()
+            print("El stock del producto {0} fue actualizado.".format(json_data['ProductId']))
+        except Exception:
+            print("El stock del producto {0} no fue posible actualizarlo.".format(json_data['ProductId']))
         return

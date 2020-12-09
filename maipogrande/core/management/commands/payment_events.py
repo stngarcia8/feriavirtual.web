@@ -16,8 +16,11 @@ class PaymentEvents(object):
 
     def __crear_pago(self, json_data):
         "Registra un pago en la base de datos."
-        serializador = VentaSerializer(data=json_data, many=False)
-        serializador.is_valid()
-        serializador.save()
-        print("La venta del producto {0} fue registrado.".format(json_data['ProductName']))
+        try:
+            serializador = VentaSerializer(data=json_data, many=False)
+            serializador.is_valid()
+            serializador.save()
+            print("La venta del producto {0} fue registrado.".format(json_data['ProductName']))
+        except Exception:
+            print("La venta del producto {0} no fue posible registrarla.".format(json_data['ProductName']))
         return

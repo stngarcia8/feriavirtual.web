@@ -38,16 +38,19 @@ class UserEvents(object):
 
     def __editar_usuario(self, json_data):
         "Edita la información de un usuario."
-        user = User.objects.get(username=json_data['Username'])
-        user.first_name = json_data['FullName']
-        user.email = json_data['Email']
-        user.save()
-        session = LoginSession.objects.get(UserId=json_data['UserId'])
-        session.Username = json_data['Username']
-        session.FullName = json_data['FullName']
-        session.Email = json_data['Email']
-        session.save()
-        print("El usuario {0} {1} ha sido modificado.".format(json_data['ProfileName'], json_data['FullName']))
+        try:
+            user = User.objects.get(username=json_data['Username'])
+            user.first_name = json_data['FullName']
+            user.email = json_data['Email']
+            user.save()
+            session = LoginSession.objects.get(UserId=json_data['UserId'])
+            session.Username = json_data['Username']
+            session.FullName = json_data['FullName']
+            session.Email = json_data['Email']
+            session.save()
+            print("El usuario {0} {1} ha sido modificado.".format(json_data['ProfileName'], json_data['FullName']))
+        except Exception:
+            print("El usuario {0} {1} no existe, por lo tanto no fue posible actualizarlo.".format(json_data['ProfileName'], json_data['FullName']))
         return
 
     def __habilitar_usuario(self, json_data):
